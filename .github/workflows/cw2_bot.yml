@@ -33,6 +33,7 @@ jobs:
           KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD }}
           SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
           ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
+          ADMIN_ROLE_ID: ${{ vars.ADMIN_ROLE_ID }}
         run: python bot.py
 
       - name: Commit updated state
