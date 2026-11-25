@@ -73,8 +73,8 @@
     "login_count": 0,
     "decks_today": 0,
     "decks_used": 0,
-    "status": "Red",
-    "last_war_score": 0
+    "status": "Orange",
+    "last_war_score": 900
   },
   "#QLRCJC0U9": {
     "name": "Super Drago",
