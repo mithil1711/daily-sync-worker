@@ -15,10 +15,6 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: repo-write
-  cancel-in-progress: false
-
 jobs:
   record-score:
     runs-on: ubuntu-latest
@@ -39,4 +35,14 @@ jobs:
           CLAN_TAG: ${{ vars.CLAN_TAG }}
           KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD }}
           SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
-          ELDER_SAFE_THRESHOLD: ${{
+          ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
+          ADMIN_ROLE_ID: ${{ vars.ADMIN_ROLE_ID }}
+        run: python bot.py --manual-tag "${{ inputs.player_tag }}" --manual-score "${{ inputs.last_war_score }}"
+
+      - name: Commit updated roster
+        run: |
+          git config user.name "CW2 Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/roster.json
+          git diff --staged --quiet || git commit -m "Manual score for ${{ inputs.player_tag }}"
+          git push
