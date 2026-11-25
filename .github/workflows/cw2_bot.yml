@@ -6,6 +6,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: repo-write
+  cancel-in-progress: false
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
