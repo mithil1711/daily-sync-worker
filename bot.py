@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 import requests
@@ -29,6 +30,7 @@ DATA_DIR = "data"
 ROSTER_FILE = os.path.join(DATA_DIR, "roster.json")
 WAR_STATE_FILE = os.path.join(DATA_DIR, "war_state.json")
 SOCIALS_FILE = os.path.join(DATA_DIR, "socials.json")
+DEPARTED_FILE = os.path.join(DATA_DIR, "departed.json")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -81,34 +83,71 @@ def fmt_ist(dt):
     return dt.astimezone(IST).strftime("%I:%M %p IST")
 
 
+def split_description(description, max_len=3800):
+    if len(description) <= max_len:
+        return [description]
+    chunks = []
+    current = []
+    curr_len = 0
+    for line in description.split("\n"):
+        line_len = len(line) + 1
+        if current and curr_len + line_len > max_len:
+            chunks.append("\n".join(current))
+            current = [line]
+            curr_len = line_len
+        else:
+            current.append(line)
+            curr_len += line_len
+    if current:
+        chunks.append("\n".join(current))
+    return chunks
+
+
 def send_discord_embed(title, description, color, fields=None, url=None, ping=True):
-    embed = {
-        "title": title,
-        "description": description[:4096],
-        "color": color,
-        "timestamp": datetime.now(IST).isoformat(timespec="seconds"),
-    }
-    if url:
-        embed["url"] = url
-    if fields:
-        embed["fields"] = fields[:25]
+    chunks = split_description(description, max_len=3800)
+    total = len(chunks)
 
-    # Always include top-level content for reliable mobile push previews
-    if ping and ADMIN_ROLE_ID:
-        content = f"<@&{ADMIN_ROLE_ID}> **{title}**"
-        allowed_mentions = {"parse": ["roles"]}
-    else:
-        content = f"**{title}**"
-        allowed_mentions = {"parse": []}
+    for idx, chunk in enumerate(chunks, start=1):
+        part_title = f"{title} ({idx}/{total})" if total > 1 else title
+        embed = {
+            "title": part_title,
+            "description": chunk[:4096],
+            "color": color,
+            "timestamp": datetime.now(IST).isoformat(timespec="seconds"),
+        }
+        if url and idx == 1:
+            embed["url"] = url
+        if fields and idx == 1:
+            embed["fields"] = fields[:25]
 
-    payload = {
-        "content": content,
-        "embeds": [embed],
-        "allowed_mentions": allowed_mentions,
-    }
-    resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
-    if resp.status_code not in (200, 204):
-        print(f"[DISCORD ERROR] {resp.status_code}: {resp.text}")
+        # Ping admins only on the first chunk to avoid duplicate notifications
+        if ping and idx == 1 and ADMIN_ROLE_ID:
+            content = f"<@&{ADMIN_ROLE_ID}> **{part_title}**"
+            allowed_mentions = {"parse": ["roles"]}
+        else:
+            content = f"**{part_title}**"
+            allowed_mentions = {"parse": []}
+
+        payload = {
+            "content": content,
+            "embeds": [embed],
+            "allowed_mentions": allowed_mentions,
+        }
+
+        resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
+        if resp.status_code == 429:
+            retry_after = 2.0
+            try:
+                retry_after = float(resp.json().get("retry_after", 2.0))
+            except Exception:
+                pass
+            time.sleep(retry_after + 0.5)
+            resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
+
+        if resp.status_code not in (200, 204):
+            print(f"[DISCORD ERROR] {resp.status_code}: {resp.text}")
+
+        time.sleep(1)
 
 
 def get_social_badge(tag, socials):
@@ -608,6 +647,7 @@ def main():
     roster = load_json(ROSTER_FILE, {})
     war_state = load_json(WAR_STATE_FILE, {})
     socials = load_json(SOCIALS_FILE, {})
+    departed = load_json(DEPARTED_FILE, {})
 
     members_resp = api_get(f"/clans/{encode_tag(CLAN_TAG)}/members")
     race_resp = api_get(f"/clans/{encode_tag(CLAN_TAG)}/currentriverrace")
@@ -640,28 +680,32 @@ def main():
             post_daily_eod_report(war_day_num, roster, war_state, socials)
             if curr_period_type == "training":
                 post_end_of_war_verdict(roster, socials)
-                for tag in roster:
-                    roster[tag]["decks_prev_days"] = 0
-                    roster[tag]["prev_day_decks"] = 0
-                    roster[tag]["prev_day_logins"] = 0
+                for store in (roster, departed):
+                    for tag in store:
+                        store[tag]["decks_prev_days"] = 0
+                        store[tag]["prev_day_decks"] = 0
+                        store[tag]["prev_day_logins"] = 0
             else:
-                for tag in roster:
-                    roster[tag]["prev_day_decks"] = roster[tag].get("decks_today", 0)
-                    roster[tag]["prev_day_logins"] = roster[tag].get("login_count", 0)
-                    roster[tag]["decks_prev_days"] = (
-                        roster[tag].get("decks_prev_days", 0)
-                        + roster[tag].get("decks_today", 0)
-                    )
+                for store in (roster, departed):
+                    for tag in store:
+                        store[tag]["prev_day_decks"] = store[tag].get("decks_today", 0)
+                        store[tag]["prev_day_logins"] = store[tag].get("login_count", 0)
+                        store[tag]["decks_prev_days"] = (
+                            store[tag].get("decks_prev_days", 0)
+                            + store[tag].get("decks_today", 0)
+                        )
         elif curr_period_type in WAR_PERIOD_TYPES:
             # Transition from Training -> Battle Day 1
             war_state["war_week_start_ist"] = now_ist_str
-            for tag in roster:
-                roster[tag]["decks_prev_days"] = 0
-                roster[tag]["prev_day_decks"] = 0
-                roster[tag]["prev_day_logins"] = 0
+            for store in (roster, departed):
+                for tag in store:
+                    store[tag]["decks_prev_days"] = 0
+                    store[tag]["prev_day_decks"] = 0
+                    store[tag]["prev_day_logins"] = 0
 
-        for tag in roster:
-            roster[tag]["login_count"] = 0
+        for store in (roster, departed):
+            for tag in store:
+                store[tag]["login_count"] = 0
         war_state["day_start_ist"] = now_ist_str
 
     war_state["period_index"] = curr_period_idx
@@ -681,12 +725,19 @@ def main():
             fame_map[p["tag"]] = p.get("fame", 0)
             boat_attacks_map[p["tag"]] = p.get("boatAttacks", 0)
 
-    # 3. Remove players who left first (so roster count is accurate for 50/50 check)
+    # 3. Archive players who left (7-day grace period) and remove from active roster
     for tag in list(roster.keys()):
         if tag not in current_members:
-            del roster[tag]
+            archived = roster.pop(tag)
+            archived["left_at"] = now_ist_str
+            departed[tag] = archived
 
-    # 4. Detect New Joiners & Update Roster / Login Counts
+    for tag in list(departed.keys()):
+        left_dt = parse_cr_time(departed[tag].get("left_at"))
+        if not left_dt or (now_ist - left_dt) > timedelta(days=7):
+            del departed[tag]
+
+    # 4. Detect New Joiners / Re-joiners & Update Roster / Login Counts
     war_start, war_end, target_season, target_section = (None, None, None, None)
     qualifying_joiners = []
 
@@ -694,41 +745,60 @@ def main():
         curr_last_seen_ist = to_ist_iso(m.get("lastSeen"))
 
         if tag not in roster:
-            init_score = last_war_scores.get(tag) if first_run else None
-            if first_run:
-                if m["role"] in ("leader", "coLeader") or init_score is None:
-                    init_status = "Green"
-                else:
-                    init_status = classify_score(init_score)[0]
+            if tag in departed:
+                # Re-joiner within 7 days: restore original joined_at, status, and war stats
+                restored = departed.pop(tag)
+                restored.pop("left_at", None)
+                restored["name"] = m["name"]
+                restored["role"] = m["role"]
+                if curr_last_seen_ist:
+                    restored["last_seen"] = curr_last_seen_ist
+                today_decks = decks_today_map.get(tag, 0)
+                prev_decks = restored.get("decks_prev_days", 0) if curr_period_type in WAR_PERIOD_TYPES else 0
+                restored["decks_prev_days"] = prev_decks
+                restored["decks_today"] = today_decks
+                restored["decks_used"] = prev_decks + today_decks
+                restored["fame"] = fame_map.get(tag, 0)
+                restored["boat_attacks"] = boat_attacks_map.get(tag, 0)
+                roster[tag] = restored
+                if restored.get("status") in ("Orange", "Green"):
+                    qualifying_joiners.append(m["name"])
             else:
-                init_status = "Pending"
+                init_score = last_war_scores.get(tag) if first_run else None
+                if first_run:
+                    if m["role"] in ("leader", "coLeader") or init_score is None:
+                        init_status = "Green"
+                    else:
+                        init_status = classify_score(init_score)[0]
+                else:
+                    init_status = "Pending"
 
-            today_decks = decks_today_map.get(tag, 0)
-            roster[tag] = {
-                "name": m["name"],
-                "role": m["role"],
-                "joined_at": now_ist_str,
-                "last_seen": curr_last_seen_ist,
-                "login_count": 0,
-                "decks_prev_days": 0,
-                "prev_day_decks": 0,
-                "prev_day_logins": 0,
-                "decks_today": today_decks,
-                "decks_used": today_decks,
-                "fame": fame_map.get(tag, 0),
-                "boat_attacks": boat_attacks_map.get(tag, 0),
-                "status": init_status,
-                "last_war_score": init_score,
-            }
-            if not first_run:
-                if war_start is None:
-                    war_start, war_end, target_season, target_section = get_last_completed_war_window()
-                if war_start:
-                    status, score = vet_new_joiner(m, war_start, war_end, target_season, target_section)
-                    roster[tag]["status"] = status
-                    roster[tag]["last_war_score"] = score
-                    if status in ("Orange", "Green"):
-                        qualifying_joiners.append(m["name"])
+                today_decks = decks_today_map.get(tag, 0)
+                roster[tag] = {
+                    "name": m["name"],
+                    "role": m["role"],
+                    "joined_at": now_ist_str,
+                    "last_seen": curr_last_seen_ist,
+                    "login_count": 0,
+                    "decks_prev_days": 0,
+                    "prev_day_decks": 0,
+                    "prev_day_logins": 0,
+                    "decks_today": today_decks,
+                    "decks_used": today_decks,
+                    "fame": fame_map.get(tag, 0),
+                    "boat_attacks": boat_attacks_map.get(tag, 0),
+                    "status": init_status,
+                    "last_war_score": init_score,
+                }
+                if not first_run:
+                    if war_start is None:
+                        war_start, war_end, target_season, target_section = get_last_completed_war_window()
+                    if war_start:
+                        status, score = vet_new_joiner(m, war_start, war_end, target_season, target_section)
+                        roster[tag]["status"] = status
+                        roster[tag]["last_war_score"] = score
+                        if status in ("Orange", "Green"):
+                            qualifying_joiners.append(m["name"])
         else:
             prev_last_seen = roster[tag].get("last_seen")
             if curr_last_seen_ist and curr_last_seen_ist != prev_last_seen:
@@ -750,6 +820,7 @@ def main():
 
     save_json(ROSTER_FILE, roster)
     save_json(WAR_STATE_FILE, war_state)
+    save_json(DEPARTED_FILE, departed)
     print(f"Run complete at {now_ist_str}. Tracked {len(roster)} members.")
 
 
