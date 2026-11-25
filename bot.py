@@ -198,6 +198,24 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         if info.get("status") == "Red"
     ]
 
+    pending_members = [
+        {
+            "tag": tag,
+            "name": info["name"],
+            "badge": get_social_badge(tag, socials)[0],
+            "url": f"https://royaleapi.com/player/{tag.replace('#', '')}",
+        }
+        for tag, info in roster.items()
+        if info.get("status") == "Pending"
+    ]
+    pending_section = ""
+    if pending_members:
+        pending_lines = [
+            f"• **{m['name']}** {m['badge']} (`{m['tag']}`) — [RoyaleAPI]({m['url']})"
+            for m in pending_members
+        ]
+        pending_section = "**⚪ Pending Review (Unvetted):**\n" + "\n".join(pending_lines)
+
     # Battle Day 1: skip Hold-list kicks, only flag unkicked Red members if any
     if is_battle_day and war_day_num == 1:
         if red_members:
@@ -206,6 +224,8 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
                 f"Clan reached **50/50** after **{trigger_name}** joined (Battle Day 1 — Hold kicks skipped).\n\n"
                 f"**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines)
             )
+            if pending_section:
+                desc += "\n\n" + pending_section
             send_discord_embed(
                 title="⚖️ 50/50 Roster Optimization — Unkicked Red Members",
                 description=desc,
@@ -256,9 +276,12 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         })
 
     if not red_members and not hold_members:
+        desc = f"Triggered by **{trigger_name}**. No Red or eligible Orange (Hold) members to kick."
+        if pending_section:
+            desc += "\n\n" + pending_section
         send_discord_embed(
             title="✅ Clan at 50/50 — Hold List Empty",
-            description=f"Triggered by **{trigger_name}**. No Red or eligible Orange (Hold) members to kick.",
+            description=desc,
             color=0x2ECC71,
         )
         return
@@ -306,6 +329,9 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
     else:
         mode_label = "Red Members Only"
 
+    if pending_section:
+        sections.append(pending_section)
+
     top_pick = red_members[0] if red_members else hold_members[0]
     desc = (
         f"Clan reached **50/50** after **{trigger_name}** joined.\n"
@@ -318,7 +344,6 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         description=desc,
         color=0xE74C3C if red_members else 0xE67E22,
     )
-
 
 # ==========================================
 # MODULE A: NEW JOINER VETTING
