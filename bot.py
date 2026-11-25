@@ -117,6 +117,18 @@ def get_social_badge(tag, socials):
     return mapping.get(status, "[None]"), status != "None"
 
 
+def get_social_priority(tag, socials):
+    """Return (score_bonus, protection_tier): None=(0,0), IG=(50,1), DC=(100,2), Both=(100,3)."""
+    status = socials.get(tag, "None")
+    if status == "Both":
+        return 100, 3
+    if status == "Discord":
+        return 100, 2
+    if status == "Instagram":
+        return 50, 1
+    return 0, 0
+
+
 def classify_score(score):
     if score < KICK_THRESHOLD:
         return "Red", "🔴 KICK", 0xE74C3C
@@ -132,56 +144,140 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
     if len(roster) < 50:
         return
 
+    is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES
+    curr_period_idx = war_state.get("period_index")
+    war_day_num = max(1, min(4, (curr_period_idx % 7) - 2)) if (is_battle_day and curr_period_idx is not None) else 0
+
+    day_start = parse_cr_time(war_state.get("day_start_ist"))
+    war_week_start = parse_cr_time(war_state.get("war_week_start_ist"))
+    if not war_week_start and is_battle_day and day_start:
+        war_week_start = day_start - timedelta(days=war_day_num - 1)
+
+    red_members = [
+        {"tag": tag, "name": info["name"], "badge": get_social_badge(tag, socials)[0]}
+        for tag, info in roster.items()
+        if info.get("status") == "Red"
+    ]
+
+    # Battle Day 1: skip Hold-list kicks, only flag unkicked Red members if any
+    if is_battle_day and war_day_num == 1:
+        if red_members:
+            red_lines = [f"{i}. **{m['name']}** {m['badge']} (`{m['tag']}`)" for i, m in enumerate(red_members, start=1)]
+            desc = (
+                f"Clan reached **50/50** after **{trigger_name}** joined (Battle Day 1 — Hold kicks skipped).\n\n"
+                f"**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines)
+            )
+            send_discord_embed(
+                title="⚖️ 50/50 Roster Optimization — Unkicked Red Members",
+                description=desc,
+                color=0xE74C3C,
+            )
+        return
+
     hold_members = []
     for tag, info in roster.items():
-        if info.get("status") == "Orange":
-            hold_members.append({
-                "tag": tag,
-                "name": info["name"],
-                "score": info.get("last_war_score") or 0,
-                "decks_used": info.get("decks_used", 0),
-                "logins": info.get("login_count", 0),
-                "badge": get_social_badge(tag, socials)[0],
-            })
+        if info.get("status") != "Orange":
+            continue
 
-    if not hold_members:
+        joined_dt = parse_cr_time(info.get("joined_at"))
+        # Battle Days 2-4: exclude new joiners for that day alone
+        if is_battle_day and day_start and joined_dt and joined_dt >= day_start:
+            continue
+
+        bonus, social_tier = get_social_priority(tag, socials)
+        last_score = info.get("last_war_score") or 0
+        eff_score = last_score + bonus
+        joined_ts = joined_dt.timestamp() if joined_dt else 0
+
+        fame = info.get("fame", 0)
+        avail_days = war_day_num
+        if is_battle_day and war_week_start and joined_dt:
+            avail_days = 0
+            for d in range(1, war_day_num + 1):
+                cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
+                if joined_dt <= cutoff:
+                    avail_days += 1
+            avail_days = max(1, avail_days)
+        elongated_till_date = round(fame * (war_day_num / avail_days)) if (is_battle_day and war_day_num > 0) else 0
+
+        hold_members.append({
+            "tag": tag,
+            "name": info["name"],
+            "score": last_score,
+            "eff_score": eff_score,
+            "social_tier": social_tier,
+            "prev_day_decks": info.get("prev_day_decks", 0),
+            "prev_day_logins": info.get("prev_day_logins", 0),
+            "fame": fame,
+            "elongated_till_date": elongated_till_date,
+            "avail_days": avail_days,
+            "boat_attacks": info.get("boat_attacks", 0),
+            "joined_ts": joined_ts,
+            "badge": get_social_badge(tag, socials)[0],
+        })
+
+    if not red_members and not hold_members:
         send_discord_embed(
             title="✅ Clan at 50/50 — Hold List Empty",
-            description=f"Triggered by **{trigger_name}**. No members are currently on the Orange (Hold) list—all 50 members are Green/Safe.",
+            description=f"Triggered by **{trigger_name}**. No Red or eligible Orange (Hold) members to kick.",
             color=0x2ECC71,
         )
         return
 
-    is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES
+    sections = []
+    if red_members:
+        red_lines = [f"{i}. **{m['name']}** {m['badge']} (`{m['tag']}`)" for i, m in enumerate(red_members, start=1)]
+        sections.append("**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines))
 
-    if is_battle_day:
-        # Battle Days: least decksUsed ASC, most logins DESC, lowest score ASC
-        hold_members.sort(key=lambda x: (x["decks_used"], -x["logins"], x["score"]))
-        mode_label = "Battle Days (Least Decks Used → Most Logins)"
-        lines = [
-            f"{i}. **{m['name']}** {m['badge']} — **{m['decks_used']} decks used** | **{m['logins']} logins** | Last war: {m['score']}"
-            for i, m in enumerate(hold_members, start=1)
-        ]
+    if hold_members:
+        if is_battle_day:
+            # Battle Days 2-4: prev_day_decks ASC, prev_day_logins DESC, elongated_till_date ASC,
+            # last_war_score+bonus ASC, social_tier ASC, boat_attacks DESC, newest joiner first
+            hold_members.sort(key=lambda x: (
+                x["prev_day_decks"],
+                -x["prev_day_logins"],
+                x["elongated_till_date"],
+                x["eff_score"],
+                x["social_tier"],
+                -x["boat_attacks"],
+                -x["joined_ts"],
+            ))
+            mode_label = f"Battle Day {war_day_num} (Prev Decks → Prev Logins → Elongated Medals → Last War+Social → Boat Attacks → Newest)"
+            lines = []
+            for i, m in enumerate(hold_members, start=1):
+                el_str = f"{m['fame']}→{m['elongated_till_date']}" if m["avail_days"] < war_day_num else f"{m['elongated_till_date']}"
+                boat_str = f" | ⛵ {m['boat_attacks']} boat" if m["boat_attacks"] > 0 else ""
+                lines.append(
+                    f"{i}. **{m['name']}** {m['badge']} — Prev: **{m['prev_day_decks']}/4** ({m['prev_day_logins']} logins) | "
+                    f"Medals: **{el_str}** | Last: {m['score']}{boat_str}"
+                )
+        else:
+            # Training Days: last_war_score+bonus ASC, social_tier ASC, newest joiner first
+            hold_members.sort(key=lambda x: (
+                x["eff_score"],
+                x["social_tier"],
+                -x["joined_ts"],
+            ))
+            mode_label = "Training Days (Lowest Medals + Social Priority → Newest)"
+            lines = [
+                f"{i}. **{m['name']}** {m['badge']} — **{m['score']} medals**"
+                for i, m in enumerate(hold_members, start=1)
+            ]
+        sections.append("**🟠 Hold List Priority:**\n" + "\n".join(lines))
     else:
-        # Training Days: lowest last_war_score ASC
-        hold_members.sort(key=lambda x: x["score"])
-        mode_label = "Training Days (Lowest Medals)"
-        lines = [
-            f"{i}. **{m['name']}** {m['badge']} — **{m['score']} medals**"
-            for i, m in enumerate(hold_members, start=1)
-        ]
+        mode_label = "Red Members Only"
 
-    top_pick = hold_members[0]
+    top_pick = red_members[0] if red_members else hold_members[0]
     desc = (
         f"Clan reached **50/50** after **{trigger_name}** joined.\n"
         f"**Sorting Rule:** {mode_label}\n"
         f"**Recommended Kick (to maintain 49/50):** 👉 **{top_pick['name']}** (`{top_pick['tag']}`)\n\n"
-        f"**Full Hold List Priority:**\n" + "\n".join(lines)
+        + "\n\n".join(sections)
     )
     send_discord_embed(
-        title="⚖️ 50/50 Roster Optimization — Suggested Kick from Hold List",
+        title="⚖️ 50/50 Roster Optimization — Suggested Kick",
         description=desc,
-        color=0xE67E22,
+        color=0xE74C3C if red_members else 0xE67E22,
     )
 
 
@@ -546,12 +642,23 @@ def main():
                 post_end_of_war_verdict(roster, socials)
                 for tag in roster:
                     roster[tag]["decks_prev_days"] = 0
+                    roster[tag]["prev_day_decks"] = 0
+                    roster[tag]["prev_day_logins"] = 0
             else:
                 for tag in roster:
+                    roster[tag]["prev_day_decks"] = roster[tag].get("decks_today", 0)
+                    roster[tag]["prev_day_logins"] = roster[tag].get("login_count", 0)
                     roster[tag]["decks_prev_days"] = (
                         roster[tag].get("decks_prev_days", 0)
                         + roster[tag].get("decks_today", 0)
                     )
+        elif curr_period_type in WAR_PERIOD_TYPES:
+            # Transition from Training -> Battle Day 1
+            war_state["war_week_start_ist"] = now_ist_str
+            for tag in roster:
+                roster[tag]["decks_prev_days"] = 0
+                roster[tag]["prev_day_decks"] = 0
+                roster[tag]["prev_day_logins"] = 0
 
         for tag in roster:
             roster[tag]["login_count"] = 0
@@ -564,11 +671,15 @@ def main():
     else:
         war_state.pop("day_start_utc", None)
 
-    # 2. Map live decksUsedToday (War Days / Colosseum only)
+    # 2. Map live war stats (War Days / Colosseum only)
     decks_today_map = {}
+    fame_map = {}
+    boat_attacks_map = {}
     if curr_period_type in WAR_PERIOD_TYPES:
         for p in race_resp.get("clan", {}).get("participants", []):
             decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
+            fame_map[p["tag"]] = p.get("fame", 0)
+            boat_attacks_map[p["tag"]] = p.get("boatAttacks", 0)
 
     # 3. Remove players who left first (so roster count is accurate for 50/50 check)
     for tag in list(roster.keys()):
@@ -600,8 +711,12 @@ def main():
                 "last_seen": curr_last_seen_ist,
                 "login_count": 0,
                 "decks_prev_days": 0,
+                "prev_day_decks": 0,
+                "prev_day_logins": 0,
                 "decks_today": today_decks,
                 "decks_used": today_decks,
+                "fame": fame_map.get(tag, 0),
+                "boat_attacks": boat_attacks_map.get(tag, 0),
                 "status": init_status,
                 "last_war_score": init_score,
             }
@@ -626,6 +741,8 @@ def main():
             roster[tag]["decks_prev_days"] = prev_decks
             roster[tag]["decks_today"] = today_decks
             roster[tag]["decks_used"] = prev_decks + today_decks
+            roster[tag]["fame"] = fame_map.get(tag, 0)
+            roster[tag]["boat_attacks"] = boat_attacks_map.get(tag, 0)
 
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
