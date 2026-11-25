@@ -19,6 +19,7 @@ KICK_THRESHOLD = int(os.environ.get("KICK_THRESHOLD", 900))
 SAFE_THRESHOLD = int(os.environ.get("SAFE_THRESHOLD", 1800))
 ELDER_SAFE_THRESHOLD = int(os.environ.get("ELDER_SAFE_THRESHOLD", 2400))
 BUFFER_MINUTES = 45
+WAR_PERIOD_TYPES = ("warDay", "colosseum")
 
 BASE_URL = "https://proxy.royaleapi.dev/v1"
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}", "Accept": "application/json"}
@@ -61,16 +62,19 @@ def encode_tag(tag):
 
 
 def parse_cr_time(ts_str):
+    """Parse Supercell UTC timestamp or saved ISO string and return an IST datetime."""
     if not ts_str:
         return None
-    if "-" in ts_str:  # Already saved in IST/ISO format
-        return datetime.fromisoformat(ts_str)
-    return datetime.strptime(ts_str[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+    if "-" in ts_str:  # Already saved in ISO format
+        return datetime.fromisoformat(ts_str).astimezone(IST)
+    # Supercell API always returns UTC; convert immediately to IST
+    dt_utc = datetime.strptime(ts_str[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+    return dt_utc.astimezone(IST)
 
 
 def to_ist_iso(ts_str):
     dt = parse_cr_time(ts_str)
-    return dt.astimezone(IST).isoformat(timespec="seconds") if dt else None
+    return dt.isoformat(timespec="seconds") if dt else None
 
 
 def fmt_ist(dt):
@@ -82,7 +86,7 @@ def send_discord_embed(title, description, color, fields=None, url=None, ping=Tr
         "title": title,
         "description": description[:4096],
         "color": color,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(IST).isoformat(timespec="seconds"),
     }
     if url:
         embed["url"] = url
@@ -105,6 +109,7 @@ def send_discord_embed(title, description, color, fields=None, url=None, ping=Tr
     resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
     if resp.status_code not in (200, 204):
         print(f"[DISCORD ERROR] {resp.status_code}: {resp.text}")
+
 
 def get_social_badge(tag, socials):
     status = socials.get(tag, "None")
@@ -147,7 +152,7 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         )
         return
 
-    is_battle_day = war_state.get("period_type") == "warDay"
+    is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES
 
     if is_battle_day:
         # Battle Days: least decksUsed ASC, most logins DESC, lowest score ASC
@@ -208,6 +213,9 @@ def build_4day_breakdown(battles, war_start, war_end):
         return "No battles available in Battle Log."
 
     battle_times = [parse_cr_time(b["battleTime"]) for b in battles if b.get("battleTime")]
+    if not battle_times:
+        return "No battles available in Battle Log."
+
     oldest_battle = min(battle_times)
     lines = []
 
@@ -219,7 +227,7 @@ def build_4day_breakdown(battles, war_start, war_end):
             lines.append(f"• **Day {day_num}:** Pushed off battle log")
             continue
 
-        day_battles = [b for b in battles if d_start <= parse_cr_time(b["battleTime"]) < d_end]
+        day_battles = [b for b in battles if b.get("battleTime") and d_start <= parse_cr_time(b["battleTime"]) < d_end]
         war_decks = sum(count_war_decks_in_battle(b) for b in day_battles)
         non_war = sum(1 for b in day_battles if count_war_decks_in_battle(b) == 0)
 
@@ -321,14 +329,15 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
 # MODULE B: DAILY EOD & END-OF-WAR REPORTS
 # ==========================================
 def post_daily_eod_report(war_day_num, roster, war_state, socials):
-    day_start = datetime.fromisoformat(war_state["day_start_utc"])
+    day_start_str = war_state.get("day_start_ist") or war_state.get("day_start_utc")
+    day_start = parse_cr_time(day_start_str)
     offenders = []
 
     for tag, info in roster.items():
         decks = info.get("decks_today", 0)
         logins = info.get("login_count", 0)
         last_seen = parse_cr_time(info.get("last_seen"))
-        logged_in_today = logins > 0 or (last_seen and last_seen >= day_start)
+        logged_in_today = logins > 0 or (last_seen and day_start and last_seen >= day_start)
 
         if logged_in_today and decks < 4:
             offenders.append({
@@ -361,6 +370,9 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials):
 
 def post_end_of_war_verdict(roster, socials):
     war_start, war_end, season_id, section_idx = get_last_completed_war_window()
+    if not war_start:
+        return
+
     rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
     if not rlog or not rlog.get("items"):
         return
@@ -377,13 +389,13 @@ def post_end_of_war_verdict(roster, socials):
         p_data = participants.get(tag, {"fame": 0, "decksUsed": 0})
         actual_medals = p_data.get("fame", 0)
         decks_used = p_data.get("decksUsed", 0)
-        joined_at = datetime.fromisoformat(info["joined_at"])
+        joined_at = parse_cr_time(info["joined_at"])
 
         avail_days = 0
         for d in range(1, 5):
             day_end = war_start + timedelta(days=d)
             cutoff = day_end - timedelta(minutes=BUFFER_MINUTES)
-            if joined_at <= cutoff:
+            if joined_at and joined_at <= cutoff:
                 avail_days += 1
 
         avail_days = max(1, avail_days)
@@ -495,6 +507,7 @@ def handle_manual_score(player_tag, score):
     if status in ("Orange", "Green") and len(roster) >= 50:
         post_hold_kick_suggestion(roster, war_state, socials, name)
 
+
 # ==========================================
 # ON-DEMAND APPLICANT VETTING (PRE-JOIN)
 # ==========================================
@@ -526,6 +539,7 @@ def handle_vet_applicant(player_tag):
         target_section,
     )
 
+
 # ==========================================
 # MAIN EXECUTION LOOP
 # ==========================================
@@ -545,6 +559,7 @@ def main():
         return
 
     now_ist = datetime.now(IST)
+    now_ist_str = now_ist.isoformat(timespec="seconds")
     roster = load_json(ROSTER_FILE, {})
     war_state = load_json(WAR_STATE_FILE, {})
     socials = load_json(SOCIALS_FILE, {})
@@ -575,7 +590,7 @@ def main():
     prev_period_type = war_state.get("period_type")
 
     if prev_period_idx is not None and curr_period_idx != prev_period_idx:
-        if prev_period_type == "warDay":
+        if prev_period_type in WAR_PERIOD_TYPES:
             war_day_num = max(1, min(4, (prev_period_idx % 7) - 2))
             post_daily_eod_report(war_day_num, roster, war_state, socials)
             if curr_period_type == "training":
@@ -583,19 +598,22 @@ def main():
 
         for tag in roster:
             roster[tag]["login_count"] = 0
-        war_state["day_start_utc"] = now_ist.isoformat()
+        war_state["day_start_ist"] = now_ist_str
 
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
-    if "day_start_utc" not in war_state:
-        war_state["day_start_utc"] = now_ist.isoformat()
+    if "day_start_ist" not in war_state:
+        war_state["day_start_ist"] = war_state.pop("day_start_utc", now_ist_str)
+    else:
+        war_state.pop("day_start_utc", None)
 
-    # 2. Map live decksUsedToday & weekly decksUsed
+    # 2. Map live decksUsedToday & weekly decksUsed (War Days / Colosseum only)
     decks_today_map = {}
     decks_used_map = {}
-    for p in race_resp.get("clan", {}).get("participants", []):
-        decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
-        decks_used_map[p["tag"]] = p.get("decksUsed", 0)
+    if curr_period_type in WAR_PERIOD_TYPES:
+        for p in race_resp.get("clan", {}).get("participants", []):
+            decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
+            decks_used_map[p["tag"]] = p.get("decksUsed", 0)
 
     # 3. Remove players who left first (so roster count is accurate for 50/50 check)
     for tag in list(roster.keys()):
@@ -622,7 +640,7 @@ def main():
             roster[tag] = {
                 "name": m["name"],
                 "role": m["role"],
-                "joined_at": now_ist.isoformat(timespec="seconds"),
+                "joined_at": now_ist_str,
                 "last_seen": curr_last_seen_ist,
                 "login_count": 0,
                 "decks_today": decks_today_map.get(tag, 0),
@@ -648,13 +666,14 @@ def main():
             roster[tag]["role"] = m["role"]
             roster[tag]["decks_today"] = decks_today_map.get(tag, 0)
             roster[tag]["decks_used"] = decks_used_map.get(tag, 0)
+
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
         post_hold_kick_suggestion(roster, war_state, socials, ", ".join(qualifying_joiners))
 
     save_json(ROSTER_FILE, roster)
     save_json(WAR_STATE_FILE, war_state)
-    print(f"Run complete at {now_ist.isoformat()}. Tracked {len(roster)} members.")
+    print(f"Run complete at {now_ist_str}. Tracked {len(roster)} members.")
 
 
 if __name__ == "__main__":
