@@ -9,7 +9,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2400,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9Y808V9Q": {
     "name": "pekka warrior",
@@ -21,19 +23,23 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2000,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#Y80JP9JLV": {
     "name": "Wini",
     "role": "coLeader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-25T17:36:35+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-26T01:38:08+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 1900,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#YQ09C8U": {
     "name": "Paper KEY",
@@ -45,7 +51,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 900,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -57,7 +65,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1700,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#8GCYJUVV9": {
     "name": "ROHIT",
@@ -69,7 +79,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#28VCP8GLJ": {
     "name": "mystical mystry",
@@ -81,7 +93,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 900,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#QLRCJC0U9": {
     "name": "Super Drago",
@@ -93,7 +107,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2250,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#Q8VQQY9YC": {
     "name": "king of cr",
@@ -105,7 +121,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#QYYPCCVPL": {
     "name": "SCALIBER_guy",
@@ -117,7 +135,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2400,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9UUJVUR0R": {
     "name": "<c4>mithil",
@@ -129,7 +149,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#Q22R0VV9L": {
     "name": "Bezalel10",
@@ -141,7 +163,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2750,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#UC808YU9G": {
     "name": "\uc2e4\ubc84\ubc1c\ub80c\ud0c0\uc778",
@@ -153,7 +177,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 900,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9CQGY809P": {
     "name": "John Wick",
@@ -165,7 +191,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2450,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#PRVRU8V8": {
     "name": "Power_house",
@@ -177,7 +205,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VJCJQLGV9": {
     "name": "abhijeet empire",
@@ -189,7 +219,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2800,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#QPRG99PJ8": {
     "name": "Ash",
@@ -201,7 +233,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2950,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#8PYP2J2YV": {
     "name": "Param2646",
@@ -213,7 +247,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2650,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#LCYVGYRY": {
     "name": "Undead",
@@ -225,7 +261,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2100,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#CV8LQY20G": {
     "name": "DAHIWADA",
@@ -237,7 +275,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2400,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#QPUGV0PPY": {
     "name": "Lara croft",
@@ -249,7 +289,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9LCR9QRGP": {
     "name": "\u0906\u0928\u0902\u0926 \u0915\u0941\u092e\u093e\u0930",
@@ -261,7 +303,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#2VGCUJLR0": {
     "name": "Jeet",
@@ -273,7 +317,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2100,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#PYQ0YV2C": {
     "name": "LUCARIO",
@@ -285,7 +331,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2700,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#YLRP8JU": {
     "name": "LEO",
@@ -297,7 +345,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#9QRUC0JRP": {
     "name": "sujal",
@@ -309,7 +359,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
@@ -321,7 +373,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#2GJ2G2UL8": {
     "name": "Mohit",
@@ -333,7 +387,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VL2CLU8U0": {
     "name": "ALPHA",
@@ -345,7 +401,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 3000,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
@@ -357,7 +415,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2000,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
@@ -369,7 +429,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#8GJUU98JC": {
     "name": "Striker",
@@ -381,7 +443,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 1850,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#CP8U9P088": {
     "name": "Forca Rohan",
@@ -393,7 +457,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VC22U2Y8C": {
     "name": "mr bean",
@@ -405,7 +471,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2550,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#GP8JUG": {
     "name": "Abhijeet",
@@ -417,7 +485,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 950,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#20UGJC2Y9P": {
     "name": "Arpudham",
@@ -429,7 +499,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#URULYPP0C": {
     "name": "ITACHI",
@@ -441,7 +513,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 1800,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#200CQJ8V": {
     "name": "ash",
@@ -453,7 +527,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VYQQR9R8J": {
     "name": "John F rubun",
@@ -465,7 +541,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#20CUP0YQPQ": {
     "name": "midladdarmaniac",
@@ -477,7 +555,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 1867,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VLQCCPYPP": {
     "name": "Pappu",
@@ -489,7 +569,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VC9VQUGY0": {
     "name": "Asta",
@@ -501,7 +583,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2550,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#2UQR8LV9Y": {
     "name": "raz",
@@ -513,7 +597,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#U8020YGGC": {
     "name": "scarlet",
@@ -525,7 +611,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2300,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#CRPUL809L": {
     "name": "Sotica",
@@ -537,7 +625,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1400,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VJYPYJ288": {
     "name": "DexTer15",
@@ -549,7 +639,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1560,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#VRC8LUV2G": {
     "name": "khushal",
@@ -561,7 +653,9 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2000,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#V8CPJJV8C": {
     "name": "Wavyroast",
@@ -573,7 +667,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1350,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#PQPGR2P8": {
     "name": "Omkar",
@@ -585,7 +681,9 @@
     "decks_used": 0,
     "status": "Orange",
     "last_war_score": 1600,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   },
   "#CCQJ2L888": {
     "name": "devansh",
@@ -597,6 +695,8 @@
     "decks_used": 0,
     "status": "Green",
     "last_war_score": 2500,
-    "decks_prev_days": 0
+    "decks_prev_days": 0,
+    "fame": 0,
+    "boat_attacks": 0
   }
 }
