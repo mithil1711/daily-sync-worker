@@ -502,8 +502,8 @@
     "login_count": 2,
     "decks_today": 0,
     "decks_used": 0,
-    "status": "Green",
-    "last_war_score": null
+    "status": "Orange",
+    "last_war_score": 1560
   },
   "#VRC8LUV2G": {
     "name": "khushal",
