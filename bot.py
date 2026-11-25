@@ -595,6 +595,14 @@ def main():
             post_daily_eod_report(war_day_num, roster, war_state, socials)
             if curr_period_type == "training":
                 post_end_of_war_verdict(roster, socials)
+                for tag in roster:
+                    roster[tag]["decks_prev_days"] = 0
+            else:
+                for tag in roster:
+                    roster[tag]["decks_prev_days"] = (
+                        roster[tag].get("decks_prev_days", 0)
+                        + roster[tag].get("decks_today", 0)
+                    )
 
         for tag in roster:
             roster[tag]["login_count"] = 0
@@ -607,13 +615,11 @@ def main():
     else:
         war_state.pop("day_start_utc", None)
 
-    # 2. Map live decksUsedToday & weekly decksUsed (War Days / Colosseum only)
+    # 2. Map live decksUsedToday (War Days / Colosseum only)
     decks_today_map = {}
-    decks_used_map = {}
     if curr_period_type in WAR_PERIOD_TYPES:
         for p in race_resp.get("clan", {}).get("participants", []):
             decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
-            decks_used_map[p["tag"]] = p.get("decksUsed", 0)
 
     # 3. Remove players who left first (so roster count is accurate for 50/50 check)
     for tag in list(roster.keys()):
@@ -637,14 +643,16 @@ def main():
             else:
                 init_status = "Pending"
 
+            today_decks = decks_today_map.get(tag, 0)
             roster[tag] = {
                 "name": m["name"],
                 "role": m["role"],
                 "joined_at": now_ist_str,
                 "last_seen": curr_last_seen_ist,
                 "login_count": 0,
-                "decks_today": decks_today_map.get(tag, 0),
-                "decks_used": decks_used_map.get(tag, 0),
+                "decks_prev_days": 0,
+                "decks_today": today_decks,
+                "decks_used": today_decks,
                 "status": init_status,
                 "last_war_score": init_score,
             }
@@ -664,8 +672,11 @@ def main():
                 roster[tag]["last_seen"] = curr_last_seen_ist
             roster[tag]["name"] = m["name"]
             roster[tag]["role"] = m["role"]
-            roster[tag]["decks_today"] = decks_today_map.get(tag, 0)
-            roster[tag]["decks_used"] = decks_used_map.get(tag, 0)
+            today_decks = decks_today_map.get(tag, 0)
+            prev_decks = roster[tag].get("decks_prev_days", 0) if curr_period_type in WAR_PERIOD_TYPES else 0
+            roster[tag]["decks_prev_days"] = prev_decks
+            roster[tag]["decks_today"] = today_decks
+            roster[tag]["decks_used"] = prev_decks + today_decks
 
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
