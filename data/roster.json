@@ -326,8 +326,8 @@
     "login_count": 0,
     "decks_today": 0,
     "decks_used": 0,
-    "status": "Red",
-    "last_war_score": 500
+    "status": "Green",
+    "last_war_score": 2000
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
