@@ -198,53 +198,6 @@ def get_last_completed_war_window():
     return war_start, war_end, latest["seasonId"], latest["sectionIndex"]
 
 
-def count_war_decks_in_battle(battle):
-    btype = battle.get("type", "")
-    if "riverRace" not in btype and "boatBattle" not in btype:
-        return 0
-    if "Duel" in btype:
-        rounds = battle.get("team", [{}])[0].get("rounds", [])
-        return len(rounds) if rounds else 2
-    return 1
-
-
-def build_4day_breakdown(battles, war_start, war_end):
-    if not battles:
-        return "No battles available in Battle Log."
-
-    battle_times = [parse_cr_time(b["battleTime"]) for b in battles if b.get("battleTime")]
-    if not battle_times:
-        return "No battles available in Battle Log."
-
-    oldest_battle = min(battle_times)
-    lines = []
-
-    for day_num in range(4, 0, -1):
-        d_start = war_start + timedelta(days=day_num - 1)
-        d_end = war_start + timedelta(days=day_num)
-
-        if oldest_battle >= d_end:
-            lines.append(f"• **Day {day_num}:** Pushed off battle log")
-            continue
-
-        day_battles = [b for b in battles if b.get("battleTime") and d_start <= parse_cr_time(b["battleTime"]) < d_end]
-        war_decks = sum(count_war_decks_in_battle(b) for b in day_battles)
-        non_war = sum(1 for b in day_battles if count_war_decks_in_battle(b) == 0)
-
-        if oldest_battle > d_start:
-            lines.append(f"• **Day {day_num}:** Partial log ({war_decks}/4 war visible, earlier hours cut off)")
-        elif war_decks >= 4:
-            lines.append(f"• **Day {day_num}:** Completed ({war_decks}/4 war)")
-        else:
-            skipped = 4 - war_decks
-            if non_war > 0:
-                lines.append(f"• **Day {day_num}:** Active ({non_war} non-war) — skipped {skipped} war battles")
-            else:
-                lines.append(f"• **Day {day_num}:** Not active — skipped {skipped} war battles")
-
-    return "\n".join(lines)
-
-
 def vet_new_joiner(member, war_start, war_end, target_season, target_section):
     tag = member["tag"]
     name = member["name"]
@@ -261,15 +214,12 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
             if clan_info and clan_info.get("tag"):
                 war_window_clans.add(clan_info["tag"])
 
-    breakdown = build_4day_breakdown(battles, war_start, war_end)
-
     if not war_window_clans:
         desc = (
             f"**Player:** {name} (`{tag}`)\n"
             f"**Status:** No clan battles found in last war window.\n"
             f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})**\n"
-            f"*(If you keep them, enter their score via GitHub Actions → **Manual Player Score**.)*\n\n"
-            f"**War Day Breakdown (Last War):**\n{breakdown}"
+            f"*(If you keep them, enter their score via GitHub Actions → **Manual Player Score**.)*"
         )
         send_discord_embed(
             title=f"🔎 New Joiner: {name} (Check RoyaleAPI)",
@@ -314,8 +264,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
     desc = (
         f"**Player:** {name} (`{tag}`) | **Verdict:** {verdict}\n"
         f"**Last War Cumulative Score:** **{total_fame} medals** ({total_decks} decks)\n"
-        f"**Clans Checked:**\n• " + "\n• ".join(clan_notes) + "\n\n"
-        f"**War Day Breakdown (Last War):**\n{breakdown}"
+        f"**Clans Checked:**\n• " + "\n• ".join(clan_notes)
     )
     send_discord_embed(
         title=f"New Joiner Vetting: {name} — {verdict}",
