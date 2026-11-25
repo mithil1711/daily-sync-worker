@@ -63,7 +63,14 @@ def encode_tag(tag):
 def parse_cr_time(ts_str):
     if not ts_str:
         return None
+    if "-" in ts_str:  # Already saved in IST/ISO format
+        return datetime.fromisoformat(ts_str)
     return datetime.strptime(ts_str[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+
+
+def to_ist_iso(ts_str):
+    dt = parse_cr_time(ts_str)
+    return dt.astimezone(IST).isoformat(timespec="seconds") if dt else None
 
 
 def fmt_ist(dt):
@@ -537,7 +544,7 @@ def main():
         handle_manual_score(args.manual_tag, args.manual_score)
         return
 
-    now_utc = datetime.now(timezone.utc)
+    now_ist = datetime.now(IST)
     roster = load_json(ROSTER_FILE, {})
     war_state = load_json(WAR_STATE_FILE, {})
     socials = load_json(SOCIALS_FILE, {})
@@ -550,6 +557,16 @@ def main():
 
     current_members = {m["tag"]: m for m in members_resp.get("items", [])}
     first_run = len(roster) == 0
+
+    last_war_scores = {}
+    if first_run:
+        rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
+        if rlog and rlog.get("items"):
+            for standing in rlog["items"][0].get("standings", []):
+                if standing["clan"]["tag"] == CLAN_TAG:
+                    for p in standing["clan"].get("participants", []):
+                        last_war_scores[p["tag"]] = p.get("fame", 0)
+                    break
 
     # 1. Check for War Day / War End Transition
     curr_period_idx = race_resp.get("periodIndex")
@@ -566,12 +583,12 @@ def main():
 
         for tag in roster:
             roster[tag]["login_count"] = 0
-        war_state["day_start_utc"] = now_utc.isoformat()
+        war_state["day_start_utc"] = now_ist.isoformat()
 
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
     if "day_start_utc" not in war_state:
-        war_state["day_start_utc"] = now_utc.isoformat()
+        war_state["day_start_utc"] = now_ist.isoformat()
 
     # 2. Map live decksUsedToday & weekly decksUsed
     decks_today_map = {}
@@ -590,17 +607,28 @@ def main():
     qualifying_joiners = []
 
     for tag, m in current_members.items():
+        curr_last_seen_ist = to_ist_iso(m.get("lastSeen"))
+
         if tag not in roster:
+            init_score = last_war_scores.get(tag) if first_run else None
+            if first_run:
+                if m["role"] in ("leader", "coLeader") or init_score is None:
+                    init_status = "Green"
+                else:
+                    init_status = classify_score(init_score)[0]
+            else:
+                init_status = "Pending"
+
             roster[tag] = {
                 "name": m["name"],
                 "role": m["role"],
-                "joined_at": now_utc.isoformat(),
-                "last_seen": m.get("lastSeen"),
+                "joined_at": now_ist.isoformat(timespec="seconds"),
+                "last_seen": curr_last_seen_ist,
                 "login_count": 0,
                 "decks_today": decks_today_map.get(tag, 0),
                 "decks_used": decks_used_map.get(tag, 0),
-                "status": "Green" if first_run else "Pending",
-                "last_war_score": None,
+                "status": init_status,
+                "last_war_score": init_score,
             }
             if not first_run:
                 if war_start is None:
@@ -613,22 +641,20 @@ def main():
                         qualifying_joiners.append(m["name"])
         else:
             prev_last_seen = roster[tag].get("last_seen")
-            curr_last_seen = m.get("lastSeen")
-            if curr_last_seen and curr_last_seen != prev_last_seen:
+            if curr_last_seen_ist and curr_last_seen_ist != prev_last_seen:
                 roster[tag]["login_count"] = roster[tag].get("login_count", 0) + 1
-                roster[tag]["last_seen"] = curr_last_seen
+                roster[tag]["last_seen"] = curr_last_seen_ist
             roster[tag]["name"] = m["name"]
             roster[tag]["role"] = m["role"]
             roster[tag]["decks_today"] = decks_today_map.get(tag, 0)
             roster[tag]["decks_used"] = decks_used_map.get(tag, 0)
-
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
         post_hold_kick_suggestion(roster, war_state, socials, ", ".join(qualifying_joiners))
 
     save_json(ROSTER_FILE, roster)
     save_json(WAR_STATE_FILE, war_state)
-    print(f"Run complete at {now_utc.isoformat()}. Tracked {len(roster)} members.")
+    print(f"Run complete at {now_ist.isoformat()}. Tracked {len(roster)} members.")
 
 
 if __name__ == "__main__":
