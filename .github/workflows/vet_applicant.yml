@@ -1,0 +1,32 @@
+name: Vet Applicant
+
+on:
+  workflow_dispatch:
+    inputs:
+      player_tag:
+        description: 'Applicant Player Tag (e.g. #2PP)'
+        required: true
+        type: string
+
+jobs:
+  vet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Applicant Vetting
+        env:
+          CR_API_TOKEN: ${{ secrets.CR_API_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CLAN_TAG: ${{ vars.CLAN_TAG }}
+          KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD }}
+          SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
+          ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
+        run: python bot.py --vet-tag "${{ inputs.player_tag }}"
