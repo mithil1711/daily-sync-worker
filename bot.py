@@ -473,7 +473,7 @@ def post_end_of_war_verdict(roster, socials):
         p_data = participants.get(tag, {"fame": 0, "decksUsed": 0})
         actual_medals = p_data.get("fame", 0)
         decks_used = p_data.get("decksUsed", 0)
-        joined_at = parse_cr_time(info["joined_at"])
+        joined_at = parse_cr_time(info.get("joined_at"))
 
         avail_days = 0
         for d in range(1, 5):
