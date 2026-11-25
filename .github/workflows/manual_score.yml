@@ -1,0 +1,47 @@
+name: Manual Player Score
+
+on:
+  workflow_dispatch:
+    inputs:
+      player_tag:
+        description: 'Player Tag (e.g. #2PP)'
+        required: true
+        type: string
+      last_war_score:
+        description: 'Last War Medals from RoyaleAPI (e.g. 1400)'
+        required: true
+        type: number
+
+permissions:
+  contents: write
+
+jobs:
+  record-score:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Record manual score & check 50/50
+        env:
+          CR_API_TOKEN: ${{ secrets.CR_API_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CLAN_TAG: ${{ vars.CLAN_TAG }}
+          KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD }}
+          SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
+          ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
+        run: python bot.py --manual-tag "${{ inputs.player_tag }}" --manual-score "${{ inputs.last_war_score }}"
+
+      - name: Commit updated roster
+        run: |
+          git config user.name "CW2 Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/roster.json
+          git diff --staged --quiet || git commit -m "Manual score for ${{ inputs.player_tag }}"
+          git push
