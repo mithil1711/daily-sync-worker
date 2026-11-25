@@ -249,7 +249,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
     tag = member["tag"]
     name = member["name"]
     clean_tag = tag.replace("#", "")
-    rapi_url = f"https://royaleapi.com/player/{clean_tag}/cw2"
+    rapi_url = f"https://royaleapi.com/player/{clean_tag}"
 
     battles = api_get(f"/players/{encode_tag(tag)}/battlelog") or []
 
