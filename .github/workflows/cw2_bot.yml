@@ -1,0 +1,44 @@
+name: Clash Royale CW2 Bot
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+    - cron: '25,30,35,40,45,50,55 9 * * *'
+    - cron: '0,5,10 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run CW2 Bot
+        env:
+          CR_API_TOKEN: ${{ secrets.CR_API_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CLAN_TAG: ${{ vars.CLAN_TAG }}
+          KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD }}
+          SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
+          ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
+        run: python bot.py
+
+      - name: Commit updated state
+        run: |
+          git config user.name "CW2 Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Update CW2 state"
+          git push
