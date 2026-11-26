@@ -83,6 +83,10 @@ def fmt_ist(dt):
     return dt.astimezone(IST).strftime("%I:%M %p IST")
 
 
+def fmt_ist_date(dt):
+    return dt.astimezone(IST).strftime("%b %d, %I:%M %p IST")
+
+
 def split_description(description, max_len=3800):
     if len(description) <= max_len:
         return [description]
@@ -405,71 +409,98 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
     if not war_week_start and day_start:
         war_week_start = day_start - timedelta(days=war_day_num - 1)
 
-    offenders = []
+    logged_in_offenders = []
+    inactive_offenders = []
 
     for tag, info in roster.items():
         decks = info.get("decks_today", 0)
+        if decks >= 4:
+            continue
+
         logins = info.get("login_count", 0)
         last_seen = parse_cr_time(info.get("last_seen"))
         logged_in_today = logins > 0 or (last_seen and day_start and last_seen >= day_start)
 
-        if logged_in_today and decks < 4:
-            current_medals = info.get("fame", 0)
-            joined_dt = parse_cr_time(info.get("joined_at"))
-            avail_days = war_day_num
-            if war_week_start and joined_dt:
-                avail_days = 0
-                for d in range(1, war_day_num + 1):
-                    cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
-                    if joined_dt <= cutoff:
-                        avail_days += 1
-                avail_days = max(1, avail_days)
+        current_medals = info.get("fame", 0)
+        joined_dt = parse_cr_time(info.get("joined_at"))
+        avail_days = war_day_num
+        if war_week_start and joined_dt:
+            avail_days = 0
+            for d in range(1, war_day_num + 1):
+                cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
+                if joined_dt <= cutoff:
+                    avail_days += 1
+            avail_days = max(1, avail_days)
 
-            elongated_medals = round(current_medals * (war_day_num / avail_days))
-            if avail_days < war_day_num:
-                now_str = f"{current_medals}→**{elongated_medals}** [{avail_days}/{war_day_num}d]"
-            else:
-                now_str = f"**{current_medals}**"
+        elongated_medals = round(current_medals * (war_day_num / avail_days))
+        if avail_days < war_day_num:
+            now_str = f"{current_medals}→**{elongated_medals}** [{avail_days}/{war_day_num}d]"
+        else:
+            now_str = f"**{current_medals}**"
 
-            raw_prev = info.get("last_war_score")
-            prev_medals_sort = raw_prev if raw_prev is not None else 0
-            prev_medals_str = str(raw_prev) if raw_prev is not None else "N/A"
+        raw_prev = info.get("last_war_score")
+        prev_medals_sort = raw_prev if raw_prev is not None else 0
+        prev_medals_str = str(raw_prev) if raw_prev is not None else "N/A"
 
-            offenders.append({
-                "name": info["name"],
-                "tag": tag,
-                "decks": decks,
-                "skipped": 4 - decks,
-                "logins": logins,
-                "elongated_medals": elongated_medals,
-                "now_str": now_str,
-                "prev_medals_sort": prev_medals_sort,
-                "prev_medals_str": prev_medals_str,
-                "last_seen_str": fmt_ist(last_seen) if last_seen else "Unknown",
-                "badge": get_social_badge(tag, socials)[0],
-            })
+        entry = {
+            "name": info["name"],
+            "tag": tag,
+            "decks": decks,
+            "skipped": 4 - decks,
+            "logins": logins,
+            "elongated_medals": elongated_medals,
+            "now_str": now_str,
+            "prev_medals_sort": prev_medals_sort,
+            "prev_medals_str": prev_medals_str,
+            "last_seen_str": fmt_ist(last_seen) if last_seen else "Unknown",
+            "last_seen_date_str": fmt_ist_date(last_seen) if last_seen else "Unknown",
+            "badge": get_social_badge(tag, socials)[0],
+        }
 
-    offenders.sort(key=lambda x: (
+        if logged_in_today:
+            logged_in_offenders.append(entry)
+        else:
+            inactive_offenders.append(entry)
+
+    logged_in_offenders.sort(key=lambda x: (
         x["decks"],
         -x["logins"],
         x["elongated_medals"],
         x["prev_medals_sort"],
     ))
+    inactive_offenders.sort(key=lambda x: (
+        x["decks"],
+        x["elongated_medals"],
+        x["prev_medals_sort"],
+    ))
 
-    if not offenders:
-        desc = "Everyone who logged in has completed all 4/4 war battles! 🎉"
+    if not logged_in_offenders and not inactive_offenders:
+        desc = "Everyone has completed all 4/4 war battles! 🎉"
     else:
-        legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`, projected for late joiners) ↑ → Last War Medals (`Prev`) ↑*\n\n"
-        lines = [
-            f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
-            f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
-            for o in offenders
-        ]
-        desc = legend + "\n".join(lines)
+        legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`, projected for late joiners) ↑ → Last War Medals (`Prev`) ↑*"
+        sections = [legend]
+
+        if logged_in_offenders:
+            active_lines = [
+                f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
+                f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
+                for o in logged_in_offenders
+            ]
+            sections.append(f"**👀 Logged In & Skipped ({len(logged_in_offenders)}):**\n" + "\n".join(active_lines))
+
+        if inactive_offenders:
+            inactive_lines = [
+                f"• **{o['name']}** {o['badge']} — Last seen: {o['last_seen_date_str']} | "
+                f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
+                for o in inactive_offenders
+            ]
+            sections.append(f"**💤 Did Not Log In Today ({len(inactive_offenders)}):**\n" + "\n".join(inactive_lines))
+
+        desc = "\n\n".join(sections)
 
     title_prefix = "⚡ Live Mid-Day" if is_live else "📊"
     send_discord_embed(
-        title=f"{title_prefix} War Day {war_day_num} — Logged In & Skipped War",
+        title=f"{title_prefix} War Day {war_day_num} — Skipped War Battles",
         description=desc,
         color=0x3498DB,
     )
