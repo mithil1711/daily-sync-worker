@@ -3,8 +3,8 @@
     "name": "sanika",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T21:12:30+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T00:50:24+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -14,7 +14,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T21:12:30+05:30"
+    "last_login_counted_at": "2026-11-27T00:50:24+05:30"
   },
   "#9Y808V9Q": {
     "name": "pekka warrior",
@@ -52,8 +52,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T00:04:56+05:30",
-    "login_count": 13,
+    "last_seen": "2026-11-27T00:47:48+05:30",
+    "login_count": 14,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -63,7 +63,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T00:04:56+05:30"
+    "last_login_counted_at": "2026-11-27T00:47:48+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -152,8 +152,8 @@
     "name": "SCALIBER_guy",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T00:35:36+05:30",
-    "login_count": 9,
+    "last_seen": "2026-11-27T00:50:24+05:30",
+    "login_count": 10,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -163,7 +163,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T00:35:36+05:30"
+    "last_login_counted_at": "2026-11-27T00:50:24+05:30"
   },
   "#9UUJVUR0R": {
     "name": "<c4>mithil",
@@ -270,8 +270,8 @@
     "name": "Ash",
     "role": "coLeader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T00:08:39+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T00:51:37+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -280,7 +280,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T00:51:37+05:30"
   },
   "#8PYP2J2YV": {
     "name": "Param2646",
