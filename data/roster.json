@@ -355,8 +355,8 @@
     "name": "\u0906\u0928\u0902\u0926 \u0915\u0941\u092e\u093e\u0930",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-23T18:46:58+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T03:59:37+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Orange",
@@ -365,7 +365,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T03:59:37+05:30"
   },
   "#2VGCUJLR0": {
     "name": "Jeet",
