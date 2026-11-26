@@ -2,6 +2,11 @@ name: Clash Royale CW2 Bot
 
 on:
   workflow_dispatch:
+    inputs:
+      force_report:
+        description: "Send a live mid-day war report"
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -37,7 +42,12 @@ jobs:
           SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD }}
           ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD }}
           ADMIN_ROLE_ID: ${{ vars.ADMIN_ROLE_ID }}
-        run: python bot.py
+        run: |
+          if [ "${{ github.event.inputs.force_report }}" = "true" ]; then
+            python bot.py --report
+          else
+            python bot.py
+          fi
 
       - name: Commit updated state
         run: |
