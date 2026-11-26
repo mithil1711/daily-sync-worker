@@ -336,7 +336,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
             f"**Player:** {name} (`{tag}`)\n"
             f"**Status:** No clan battles found in last war window.\n"
             f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})**\n"
-            f"*(If you keep them, enter their score via GitHub Actions → **Manual Player Score**.)*"
+            f"*(If you keep them, run `/score tag:{tag} medals:<score>` in Discord.)*"
         )
         send_discord_embed(
             title=f"🔎 New Joiner: {name} (Check RoyaleAPI)",
