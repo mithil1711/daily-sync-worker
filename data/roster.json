@@ -119,12 +119,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-26T20:26:09+05:30",
     "login_count": 2,
-    "decks_today": 3,
-    "decks_used": 3,
+    "decks_today": 4,
+    "decks_used": 4,
     "status": "Green",
     "last_war_score": 2250,
     "decks_prev_days": 0,
-    "fame": 300,
+    "fame": 400,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
@@ -167,8 +167,8 @@
     "name": "<c4>mithil",
     "role": "leader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T20:25:47+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-26T20:44:31+05:30",
+    "login_count": 5,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -178,7 +178,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T20:25:47+05:30"
+    "last_login_counted_at": "2026-11-26T20:44:31+05:30"
   },
   "#Q22R0VV9L": {
     "name": "Bezalel10",
@@ -428,17 +428,18 @@
     "name": "gxp",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T10:39:45+05:30",
-    "login_count": 0,
-    "decks_today": 0,
-    "decks_used": 0,
+    "last_seen": "2026-11-26T20:34:53+05:30",
+    "login_count": 1,
+    "decks_today": 1,
+    "decks_used": 1,
     "status": "Green",
     "last_war_score": 2600,
     "decks_prev_days": 0,
-    "fame": 0,
+    "fame": 100,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T20:34:53+05:30"
   },
   "#2GJ2G2UL8": {
     "name": "Mohit",
@@ -460,8 +461,8 @@
     "name": "ALPHA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T08:33:34+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-26T20:34:20+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -470,7 +471,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T20:34:20+05:30"
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
@@ -783,8 +785,8 @@
     "name": "Omkar",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T15:08:42+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-26T20:42:54+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Orange",
@@ -793,7 +795,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T20:42:54+05:30"
   },
   "#CCQJ2L888": {
     "name": "devansh",
