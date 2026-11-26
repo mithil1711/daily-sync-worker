@@ -3,8 +3,8 @@
     "name": "sanika",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T15:45:24+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-26T21:12:30+05:30",
+    "login_count": 2,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -13,7 +13,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T21:12:30+05:30"
   },
   "#9Y808V9Q": {
     "name": "pekka warrior",
@@ -51,8 +52,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T20:53:18+05:30",
-    "login_count": 9,
+    "last_seen": "2026-11-26T21:13:39+05:30",
+    "login_count": 10,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -62,7 +63,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T20:53:18+05:30"
+    "last_login_counted_at": "2026-11-26T21:13:39+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -150,7 +151,7 @@
     "name": "SCALIBER_guy",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T20:58:29+05:30",
+    "last_seen": "2026-11-26T21:02:41+05:30",
     "login_count": 5,
     "decks_today": 4,
     "decks_used": 4,
@@ -234,8 +235,8 @@
     "name": "Power_house",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T18:57:24+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-26T21:01:57+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -244,7 +245,8 @@
     "fame": 600,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T21:01:57+05:30"
   },
   "#VJCJQLGV9": {
     "name": "abhijeet empire",
@@ -478,8 +480,8 @@
     "name": "StealthBlack",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T18:11:46+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-26T21:07:41+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -488,7 +490,8 @@
     "fame": 600,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T21:07:41+05:30"
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
