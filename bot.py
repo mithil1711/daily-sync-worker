@@ -20,6 +20,7 @@ KICK_THRESHOLD = int(os.environ.get("KICK_THRESHOLD", 900))
 SAFE_THRESHOLD = int(os.environ.get("SAFE_THRESHOLD", 1800))
 ELDER_SAFE_THRESHOLD = int(os.environ.get("ELDER_SAFE_THRESHOLD", 2400))
 BUFFER_MINUTES = 45
+LOGIN_COOLDOWN_MINUTES = 14
 WAR_PERIOD_TYPES = ("warDay", "colosseum")
 
 BASE_URL = "https://proxy.royaleapi.dev/v1"
@@ -555,7 +556,7 @@ def post_end_of_war_verdict(roster, socials):
     evaluated.sort(key=lambda x: x["elongated"])
     bottom_5_tags = {e["tag"] for e in evaluated[:5]}
 
-    kicks, demotes, holds, safes = [], [], [], []
+    kicks, demotes, holds, promotes, safes = [], [], [], [], []
 
     for e in evaluated:
         tag = e["tag"]
@@ -602,7 +603,10 @@ def post_end_of_war_verdict(roster, socials):
                 holds.append(line)
             else:
                 roster[tag]["status"] = "Green"
-                safes.append(line)
+                if e["in_social"] and e["actual"] >= ELDER_SAFE_THRESHOLD:
+                    promotes.append(line)
+                else:
+                    safes.append(line)
 
     eow_note = "*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
     if kicks:
@@ -611,6 +615,8 @@ def post_end_of_war_verdict(roster, socials):
         send_discord_embed(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", eow_note + "\n".join(demotes), 0xF1C40F)
     if holds:
         send_discord_embed(f"🟠 End of War — HOLD ({len(holds)})", eow_note + "\n".join(holds), 0xE67E22)
+    if promotes:
+        send_discord_embed(f"⬆️ End of War — PROMOTE TO ELDER ({len(promotes)})", eow_note + "\n".join(promotes), 0x3498DB)
     if safes:
         send_discord_embed(f"🟢 End of War — SAFE ({len(safes)})", eow_note + "\n".join(safes), 0x2ECC71)
 
@@ -762,6 +768,7 @@ def main():
         for store in (roster, departed):
             for tag in store:
                 store[tag]["login_count"] = 0
+                store[tag]["last_login_counted_at"] = None
         war_state["day_start_ist"] = now_ist_str
 
     war_state["period_index"] = curr_period_idx
@@ -836,6 +843,7 @@ def main():
                     "joined_at": now_ist_str,
                     "last_seen": curr_last_seen_ist,
                     "login_count": 0,
+                    "last_login_counted_at": None,
                     "decks_prev_days": 0,
                     "prev_day_decks": 0,
                     "prev_day_logins": 0,
@@ -856,9 +864,17 @@ def main():
                         if status in ("Orange", "Green"):
                             qualifying_joiners.append(m["name"])
         else:
-            prev_last_seen = roster[tag].get("last_seen")
-            if curr_last_seen_ist and curr_last_seen_ist != prev_last_seen:
-                roster[tag]["login_count"] = roster[tag].get("login_count", 0) + 1
+            curr_dt = parse_cr_time(curr_last_seen_ist)
+            prev_dt = parse_cr_time(roster[tag].get("last_seen"))
+            if curr_dt and (prev_dt is None or curr_dt > prev_dt):
+                is_first_login_today = roster[tag].get("login_count", 0) == 0
+                counted_dt = parse_cr_time(roster[tag].get("last_login_counted_at")) or prev_dt
+                cooldown_elapsed = counted_dt is None or (curr_dt - counted_dt) >= timedelta(minutes=LOGIN_COOLDOWN_MINUTES)
+                if is_first_login_today or cooldown_elapsed:
+                    roster[tag]["login_count"] = roster[tag].get("login_count", 0) + 1
+                    roster[tag]["last_login_counted_at"] = curr_last_seen_ist
+                elif not roster[tag].get("last_login_counted_at") and roster[tag].get("last_seen"):
+                    roster[tag]["last_login_counted_at"] = roster[tag]["last_seen"]
                 roster[tag]["last_seen"] = curr_last_seen_ist
             roster[tag]["name"] = m["name"]
             roster[tag]["role"] = m["role"]
