@@ -187,11 +187,6 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
     curr_period_idx = war_state.get("period_index")
     war_day_num = max(1, min(4, (curr_period_idx % 7) - 2)) if (is_battle_day and curr_period_idx is not None) else 0
 
-    day_start = parse_cr_time(war_state.get("day_start_ist"))
-    war_week_start = parse_cr_time(war_state.get("war_week_start_ist"))
-    if not war_week_start and is_battle_day and day_start:
-        war_week_start = day_start - timedelta(days=war_day_num - 1)
-
     red_members = [
         {"tag": tag, "name": info["name"], "badge": get_social_badge(tag, socials)[0]}
         for tag, info in roster.items()
@@ -216,48 +211,38 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         ]
         pending_section = "**⚪ Pending Review (Unvetted):**\n" + "\n".join(pending_lines)
 
-    # Battle Day 1: skip Hold-list kicks, only flag unkicked Red members if any
-    if is_battle_day and war_day_num == 1:
+    # Battle Days (1-4): skip Hold/Orange kicks completely; only flag Red or Pending Review
+    if is_battle_day:
+        if not red_members and not pending_members:
+            return
+        sections = []
         if red_members:
             red_lines = [f"{i}. **{m['name']}** {m['badge']} (`{m['tag']}`)" for i, m in enumerate(red_members, start=1)]
-            desc = (
-                f"Clan reached **50/50** after **{trigger_name}** joined (Battle Day 1 — Hold kicks skipped).\n\n"
-                f"**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines)
-            )
-            if pending_section:
-                desc += "\n\n" + pending_section
-            send_discord_embed(
-                title="⚖️ 50/50 Roster Optimization — Unkicked Red Members",
-                description=desc,
-                color=0xE74C3C,
-            )
+            sections.append("**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines))
+        if pending_section:
+            sections.append(pending_section)
+        desc = (
+            f"Clan reached **50/50** after **{trigger_name}** joined (Battle Day {war_day_num} — Hold kicks skipped).\n\n"
+            + "\n\n".join(sections)
+        )
+        send_discord_embed(
+            title=f"⚖️ 50/50 Battle Day {war_day_num} — Red / Pending Review",
+            description=desc,
+            color=0xE74C3C if red_members else 0x95A5A6,
+        )
         return
 
+    # Training Days: Red + Hold/Orange + Pending Review
     hold_members = []
     for tag, info in roster.items():
         if info.get("status") != "Orange":
             continue
 
         joined_dt = parse_cr_time(info.get("joined_at"))
-        # Battle Days 2-4: exclude new joiners for that day alone
-        if is_battle_day and day_start and joined_dt and joined_dt >= day_start:
-            continue
-
         bonus, social_tier = get_social_priority(tag, socials)
         last_score = info.get("last_war_score") or 0
         eff_score = last_score + bonus
         joined_ts = joined_dt.timestamp() if joined_dt else 0
-
-        fame = info.get("fame", 0)
-        avail_days = war_day_num
-        if is_battle_day and war_week_start and joined_dt:
-            avail_days = 0
-            for d in range(1, war_day_num + 1):
-                cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
-                if joined_dt <= cutoff:
-                    avail_days += 1
-            avail_days = max(1, avail_days)
-        elongated_till_date = round(fame * (war_day_num / avail_days)) if (is_battle_day and war_day_num > 0) else 0
 
         hold_members.append({
             "tag": tag,
@@ -265,12 +250,6 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
             "score": last_score,
             "eff_score": eff_score,
             "social_tier": social_tier,
-            "prev_day_decks": info.get("prev_day_decks", 0),
-            "prev_day_logins": info.get("prev_day_logins", 0),
-            "fame": fame,
-            "elongated_till_date": elongated_till_date,
-            "avail_days": avail_days,
-            "boat_attacks": info.get("boat_attacks", 0),
             "joined_ts": joined_ts,
             "badge": get_social_badge(tag, socials)[0],
         })
@@ -292,39 +271,16 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         sections.append("**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines))
 
     if hold_members:
-        if is_battle_day:
-            # Battle Days 2-4: prev_day_decks ASC, prev_day_logins DESC, elongated_till_date ASC,
-            # last_war_score+bonus ASC, social_tier ASC, boat_attacks DESC, newest joiner first
-            hold_members.sort(key=lambda x: (
-                x["prev_day_decks"],
-                -x["prev_day_logins"],
-                x["elongated_till_date"],
-                x["eff_score"],
-                x["social_tier"],
-                -x["boat_attacks"],
-                -x["joined_ts"],
-            ))
-            mode_label = f"Battle Day {war_day_num} (Prev Decks → Prev Logins → Elongated Medals → Last War+Social → Boat Attacks → Newest)"
-            lines = []
-            for i, m in enumerate(hold_members, start=1):
-                el_str = f"{m['fame']}→{m['elongated_till_date']}" if m["avail_days"] < war_day_num else f"{m['elongated_till_date']}"
-                boat_str = f" | ⛵ {m['boat_attacks']} boat" if m["boat_attacks"] > 0 else ""
-                lines.append(
-                    f"{i}. **{m['name']}** {m['badge']} — Prev: **{m['prev_day_decks']}/4** ({m['prev_day_logins']} logins) | "
-                    f"Medals: **{el_str}** | Last: {m['score']}{boat_str}"
-                )
-        else:
-            # Training Days: last_war_score+bonus ASC, social_tier ASC, newest joiner first
-            hold_members.sort(key=lambda x: (
-                x["eff_score"],
-                x["social_tier"],
-                -x["joined_ts"],
-            ))
-            mode_label = "Training Days (Lowest Medals + Social Priority → Newest)"
-            lines = [
-                f"{i}. **{m['name']}** {m['badge']} — **{m['score']} medals**"
-                for i, m in enumerate(hold_members, start=1)
-            ]
+        hold_members.sort(key=lambda x: (
+            x["eff_score"],
+            x["social_tier"],
+            -x["joined_ts"],
+        ))
+        mode_label = "Training Days (Lowest Medals + Social Priority → Newest)"
+        lines = [
+            f"{i}. **{m['name']}** {m['badge']} — **{m['score']} medals**"
+            for i, m in enumerate(hold_members, start=1)
+        ]
         sections.append("**🟠 Hold List Priority:**\n" + "\n".join(lines))
     else:
         mode_label = "Red Members Only"
@@ -344,6 +300,7 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
         description=desc,
         color=0xE74C3C if red_members else 0xE67E22,
     )
+
 
 # ==========================================
 # MODULE A: NEW JOINER VETTING
@@ -437,7 +394,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
 # ==========================================
 # MODULE B: DAILY EOD & END-OF-WAR REPORTS
 # ==========================================
-def post_daily_eod_report(war_day_num, roster, war_state, socials):
+def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False):
     day_start_str = war_state.get("day_start_ist") or war_state.get("day_start_utc")
     day_start = parse_cr_time(day_start_str)
     offenders = []
@@ -449,29 +406,44 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials):
         logged_in_today = logins > 0 or (last_seen and day_start and last_seen >= day_start)
 
         if logged_in_today and decks < 4:
+            current_medals = info.get("fame", 0)
+            raw_prev = info.get("last_war_score")
+            prev_medals_sort = raw_prev if raw_prev is not None else 0
+            prev_medals_str = str(raw_prev) if raw_prev is not None else "N/A"
+
             offenders.append({
                 "name": info["name"],
                 "tag": tag,
                 "decks": decks,
                 "skipped": 4 - decks,
                 "logins": logins,
+                "current_medals": current_medals,
+                "prev_medals_sort": prev_medals_sort,
+                "prev_medals_str": prev_medals_str,
                 "last_seen_str": fmt_ist(last_seen) if last_seen else "Unknown",
                 "badge": get_social_badge(tag, socials)[0],
             })
 
-    offenders.sort(key=lambda x: (x["decks"], -x["logins"]))
+    offenders.sort(key=lambda x: (
+        x["decks"],
+        -x["logins"],
+        x["current_medals"],
+        x["prev_medals_sort"],
+    ))
 
     if not offenders:
-        desc = "Everyone who logged in completed all 4/4 war battles! 🎉"
+        desc = "Everyone who logged in has completed all 4/4 war battles! 🎉"
     else:
         lines = [
-            f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | Skipped **{o['skipped']}** ({o['decks']}/4)"
+            f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
+            f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: **{o['current_medals']}** | Prev: **{o['prev_medals_str']}**"
             for o in offenders
         ]
         desc = "\n".join(lines)
 
+    title_prefix = "⚡ Live Mid-Day" if is_live else "📊"
     send_discord_embed(
-        title=f"📊 War Day {war_day_num} — Logged In & Skipped War",
+        title=f"{title_prefix} War Day {war_day_num} — Logged In & Skipped War",
         description=desc,
         color=0x3498DB,
     )
@@ -657,6 +629,7 @@ def main():
     parser.add_argument("--manual-tag", type=str, help="Player tag for manual RoyaleAPI score")
     parser.add_argument("--manual-score", type=int, help="Last war medals for manual entry")
     parser.add_argument("--vet-tag", type=str, help="Vet a Discord applicant before they join")
+    parser.add_argument("--report", action="store_true", help="Send a live mid-day war report")
     args = parser.parse_args()
 
     if args.vet_tag is not None:
@@ -842,6 +815,19 @@ def main():
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
         post_hold_kick_suggestion(roster, war_state, socials, ", ".join(qualifying_joiners))
+
+    # 6. On-demand live mid-day war report (/report)
+    if args.report:
+        if curr_period_type in WAR_PERIOD_TYPES:
+            war_day_num = max(1, min(4, (curr_period_idx % 7) - 2))
+            post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=True)
+        else:
+            send_discord_embed(
+                title="ℹ️ Live War Report Unavailable",
+                description="The clan is currently in **Training Days**. Live war reports are only available during Battle Days.",
+                color=0x95A5A6,
+                ping=False,
+            )
 
     save_json(ROSTER_FILE, roster)
     save_json(WAR_STATE_FILE, war_state)
