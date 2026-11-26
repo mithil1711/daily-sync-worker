@@ -401,6 +401,10 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
 def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False):
     day_start_str = war_state.get("day_start_ist") or war_state.get("day_start_utc")
     day_start = parse_cr_time(day_start_str)
+    war_week_start = parse_cr_time(war_state.get("war_week_start_ist"))
+    if not war_week_start and day_start:
+        war_week_start = day_start - timedelta(days=war_day_num - 1)
+
     offenders = []
 
     for tag, info in roster.items():
@@ -411,6 +415,22 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
 
         if logged_in_today and decks < 4:
             current_medals = info.get("fame", 0)
+            joined_dt = parse_cr_time(info.get("joined_at"))
+            avail_days = war_day_num
+            if war_week_start and joined_dt:
+                avail_days = 0
+                for d in range(1, war_day_num + 1):
+                    cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
+                    if joined_dt <= cutoff:
+                        avail_days += 1
+                avail_days = max(1, avail_days)
+
+            elongated_medals = round(current_medals * (war_day_num / avail_days))
+            if avail_days < war_day_num:
+                now_str = f"{current_medals}→**{elongated_medals}** [{avail_days}/{war_day_num}d]"
+            else:
+                now_str = f"**{current_medals}**"
+
             raw_prev = info.get("last_war_score")
             prev_medals_sort = raw_prev if raw_prev is not None else 0
             prev_medals_str = str(raw_prev) if raw_prev is not None else "N/A"
@@ -421,7 +441,8 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
                 "decks": decks,
                 "skipped": 4 - decks,
                 "logins": logins,
-                "current_medals": current_medals,
+                "elongated_medals": elongated_medals,
+                "now_str": now_str,
                 "prev_medals_sort": prev_medals_sort,
                 "prev_medals_str": prev_medals_str,
                 "last_seen_str": fmt_ist(last_seen) if last_seen else "Unknown",
@@ -431,17 +452,17 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
     offenders.sort(key=lambda x: (
         x["decks"],
         -x["logins"],
-        x["current_medals"],
+        x["elongated_medals"],
         x["prev_medals_sort"],
     ))
 
     if not offenders:
         desc = "Everyone who logged in has completed all 4/4 war battles! 🎉"
     else:
-        legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`) ↑ → Last War Medals (`Prev`) ↑*\n\n"
+        legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`, projected for late joiners) ↑ → Last War Medals (`Prev`) ↑*\n\n"
         lines = [
             f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
-            f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: **{o['current_medals']}** | Prev: **{o['prev_medals_str']}**"
+            f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
             for o in offenders
         ]
         desc = legend + "\n".join(lines)
