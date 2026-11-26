@@ -209,7 +209,11 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
             f"• **{m['name']}** {m['badge']} (`{m['tag']}`) — [RoyaleAPI]({m['url']})"
             for m in pending_members
         ]
-        pending_section = "**⚪ Pending Review (Unvetted):**\n" + "\n".join(pending_lines)
+        pending_section = (
+            "**⚪ Pending Review (Unvetted):**\n"
+            + "\n".join(pending_lines)
+            + "\n*(Check RoyaleAPI and run `/score` in Discord to classify these players.)*"
+        )
 
     # Battle Days (1-4): skip Hold/Orange kicks completely; only flag Red or Pending Review
     if is_battle_day:
@@ -434,12 +438,13 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
     if not offenders:
         desc = "Everyone who logged in has completed all 4/4 war battles! 🎉"
     else:
+        legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`) ↑ → Last War Medals (`Prev`) ↑*\n\n"
         lines = [
             f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
             f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: **{o['current_medals']}** | Prev: **{o['prev_medals_str']}**"
             for o in offenders
         ]
-        desc = "\n".join(lines)
+        desc = legend + "\n".join(lines)
 
     title_prefix = "⚡ Live Mid-Day" if is_live else "📊"
     send_discord_embed(
@@ -547,14 +552,15 @@ def post_end_of_war_verdict(roster, socials):
                 roster[tag]["status"] = "Green"
                 safes.append(line)
 
+    eow_note = "*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
     if kicks:
-        send_discord_embed(f"🔴 End of War — KICK ({len(kicks)})", "\n".join(kicks), 0xE74C3C)
+        send_discord_embed(f"🔴 End of War — KICK ({len(kicks)})", eow_note + "\n".join(kicks), 0xE74C3C)
     if demotes:
-        send_discord_embed(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", "\n".join(demotes), 0xF1C40F)
+        send_discord_embed(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", eow_note + "\n".join(demotes), 0xF1C40F)
     if holds:
-        send_discord_embed(f"🟠 End of War — HOLD ({len(holds)})", "\n".join(holds), 0xE67E22)
+        send_discord_embed(f"🟠 End of War — HOLD ({len(holds)})", eow_note + "\n".join(holds), 0xE67E22)
     if safes:
-        send_discord_embed(f"🟢 End of War — SAFE ({len(safes)})", "\n".join(safes), 0x2ECC71)
+        send_discord_embed(f"🟢 End of War — SAFE ({len(safes)})", eow_note + "\n".join(safes), 0x2ECC71)
 
 
 # ==========================================
