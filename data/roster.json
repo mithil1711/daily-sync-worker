@@ -52,8 +52,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T21:13:39+05:30",
-    "login_count": 10,
+    "last_seen": "2026-11-26T22:18:44+05:30",
+    "login_count": 11,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -63,7 +63,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T21:13:39+05:30"
+    "last_login_counted_at": "2026-11-26T22:18:44+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -152,8 +152,8 @@
     "name": "SCALIBER_guy",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T21:38:43+05:30",
-    "login_count": 6,
+    "last_seen": "2026-11-26T22:28:59+05:30",
+    "login_count": 7,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -163,7 +163,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T21:38:43+05:30"
+    "last_login_counted_at": "2026-11-26T22:28:59+05:30"
   },
   "#9UUJVUR0R": {
     "name": "<c4>mithil",
@@ -761,12 +761,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-26T22:07:23+05:30",
     "login_count": 2,
-    "decks_today": 0,
-    "decks_used": 0,
+    "decks_today": 2,
+    "decks_used": 2,
     "status": "Green",
     "last_war_score": 2000,
     "decks_prev_days": 0,
-    "fame": 0,
+    "fame": 400,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
