@@ -165,8 +165,8 @@
     "name": "<c4>mithil",
     "role": "leader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T19:28:00+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-26T20:00:18+05:30",
+    "login_count": 3,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -176,7 +176,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T19:28:00+05:30"
+    "last_login_counted_at": "2026-11-26T20:00:18+05:30"
   },
   "#Q22R0VV9L": {
     "name": "Bezalel10",
@@ -215,8 +215,8 @@
     "name": "John Wick",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T03:45:23+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-26T19:56:43+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -225,7 +225,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T19:56:43+05:30"
   },
   "#PRVRU8V8": {
     "name": "Power_house",
