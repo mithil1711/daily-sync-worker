@@ -52,8 +52,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T23:34:18+05:30",
-    "login_count": 12,
+    "last_seen": "2026-11-27T00:04:56+05:30",
+    "login_count": 13,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -63,7 +63,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T23:34:18+05:30"
+    "last_login_counted_at": "2026-11-27T00:04:56+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -483,8 +483,8 @@
     "name": "StealthBlack",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T22:55:09+05:30",
-    "login_count": 6,
+    "last_seen": "2026-11-27T00:08:46+05:30",
+    "login_count": 7,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -494,7 +494,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T22:55:09+05:30"
+    "last_login_counted_at": "2026-11-27T00:08:46+05:30"
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
@@ -813,16 +813,17 @@
     "name": "devansh",
     "role": "member",
     "joined_at": "2026-11-26T00:15:20+05:30",
-    "last_seen": "2026-11-26T16:16:35+05:30",
-    "login_count": 2,
-    "decks_today": 0,
-    "decks_used": 0,
+    "last_seen": "2026-11-27T00:03:24+05:30",
+    "login_count": 3,
+    "decks_today": 3,
+    "decks_used": 3,
     "status": "Green",
     "last_war_score": 2500,
     "decks_prev_days": 0,
-    "fame": 0,
+    "fame": 600,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T00:03:24+05:30"
   }
 }
