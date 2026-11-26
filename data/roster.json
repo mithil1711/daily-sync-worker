@@ -481,8 +481,8 @@
     "name": "StealthBlack",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T21:07:41+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-26T22:15:09+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -492,7 +492,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T21:07:41+05:30"
+    "last_login_counted_at": "2026-11-26T22:15:09+05:30"
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
@@ -676,8 +676,8 @@
     "name": "Asta",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T18:55:28+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-26T22:00:49+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -686,7 +686,8 @@
     "fame": 550,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T22:00:49+05:30"
   },
   "#2UQR8LV9Y": {
     "name": "raz",
@@ -741,8 +742,8 @@
     "name": "DexTer15",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T19:31:20+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-26T22:09:38+05:30",
+    "login_count": 5,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -752,14 +753,14 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T19:31:20+05:30"
+    "last_login_counted_at": "2026-11-26T22:09:38+05:30"
   },
   "#VRC8LUV2G": {
     "name": "khushal",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T15:48:22+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-26T22:07:23+05:30",
+    "login_count": 2,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -768,7 +769,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-26T22:07:23+05:30"
   },
   "#V8CPJJV8C": {
     "name": "Wavyroast",
