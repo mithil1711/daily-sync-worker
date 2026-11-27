@@ -527,7 +527,12 @@ def post_end_of_war_verdict(roster, socials):
     for tag, info in roster.items():
         p_data = participants.get(tag, {"fame": 0, "decksUsed": 0})
         actual_medals = p_data.get("fame", 0)
-        decks_used = p_data.get("decksUsed", 0)
+        raw_api_decks = p_data.get("decksUsed", 0)
+        training_decks = info.get("training_decks")
+        if training_decks is not None:
+            decks_used = max(0, raw_api_decks - training_decks)
+        else:
+            decks_used = min(info.get("decks_used", 0), raw_api_decks)
         joined_at = parse_cr_time(info.get("joined_at"))
 
         avail_days = 0
@@ -733,6 +738,11 @@ def main():
     # 1. Check for War Day / War End Transition
     curr_period_idx = race_resp.get("periodIndex")
     curr_period_type = race_resp.get("periodType")
+    curr_war_day_num = (
+        max(1, min(4, (curr_period_idx % 7) - 2))
+        if (curr_period_type in WAR_PERIOD_TYPES and curr_period_idx is not None)
+        else 0
+    )
     prev_period_idx = war_state.get("period_index")
     prev_period_type = war_state.get("period_type")
 
@@ -747,6 +757,8 @@ def main():
                         store[tag]["decks_prev_days"] = 0
                         store[tag]["prev_day_decks"] = 0
                         store[tag]["prev_day_logins"] = 0
+                        store[tag]["decks_used"] = 0
+                        store[tag]["training_decks"] = 0
             else:
                 for store in (roster, departed):
                     for tag in store:
@@ -764,11 +776,13 @@ def main():
                     store[tag]["decks_prev_days"] = 0
                     store[tag]["prev_day_decks"] = 0
                     store[tag]["prev_day_logins"] = 0
+                    store[tag]["decks_used"] = 0
 
         for store in (roster, departed):
             for tag in store:
                 store[tag]["login_count"] = 0
                 store[tag]["last_login_counted_at"] = None
+                store[tag]["decks_today"] = 0
         war_state["day_start_ist"] = now_ist_str
 
     war_state["period_index"] = curr_period_idx
@@ -778,12 +792,14 @@ def main():
     else:
         war_state.pop("day_start_utc", None)
 
-    # 2. Map live war stats (War Days / Colosseum only)
+    # 2. Map live war stats
     decks_today_map = {}
+    api_decks_used_map = {}
     fame_map = {}
     boat_attacks_map = {}
-    if curr_period_type in WAR_PERIOD_TYPES:
-        for p in race_resp.get("clan", {}).get("participants", []):
+    for p in race_resp.get("clan", {}).get("participants", []):
+        api_decks_used_map[p["tag"]] = p.get("decksUsed", 0)
+        if curr_period_type in WAR_PERIOD_TYPES:
             decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
             fame_map[p["tag"]] = p.get("fame", 0)
             boat_attacks_map[p["tag"]] = p.get("boatAttacks", 0)
@@ -806,6 +822,8 @@ def main():
 
     for tag, m in current_members.items():
         curr_last_seen_ist = to_ist_iso(m.get("lastSeen"))
+        today_decks = decks_today_map.get(tag, 0)
+        api_decks_used = api_decks_used_map.get(tag, 0)
 
         if tag not in roster:
             if tag in departed:
@@ -816,11 +834,22 @@ def main():
                 restored["role"] = m["role"]
                 if curr_last_seen_ist:
                     restored["last_seen"] = curr_last_seen_ist
-                today_decks = decks_today_map.get(tag, 0)
                 prev_decks = restored.get("decks_prev_days", 0) if curr_period_type in WAR_PERIOD_TYPES else 0
                 restored["decks_prev_days"] = prev_decks
                 restored["decks_today"] = today_decks
-                restored["decks_used"] = prev_decks + today_decks
+                if curr_period_type == "training":
+                    restored["training_decks"] = api_decks_used
+                    restored["decks_used"] = 0
+                elif curr_period_type in WAR_PERIOD_TYPES:
+                    if curr_war_day_num == 1:
+                        restored["training_decks"] = max(0, api_decks_used - today_decks)
+                    t_decks = restored.get("training_decks")
+                    if t_decks is not None:
+                        restored["decks_used"] = max(0, api_decks_used - t_decks)
+                    else:
+                        restored["decks_used"] = prev_decks + today_decks
+                else:
+                    restored["decks_used"] = prev_decks + today_decks
                 restored["fame"] = fame_map.get(tag, 0)
                 restored["boat_attacks"] = boat_attacks_map.get(tag, 0)
                 roster[tag] = restored
@@ -836,7 +865,23 @@ def main():
                 else:
                     init_status = "Pending"
 
-                today_decks = decks_today_map.get(tag, 0)
+                init_training_decks = None
+                if curr_period_type == "training":
+                    init_training_decks = api_decks_used
+                    init_decks_used = 0
+                elif curr_period_type in WAR_PERIOD_TYPES:
+                    if curr_war_day_num == 1:
+                        init_training_decks = max(0, api_decks_used - today_decks)
+                    elif not first_run:
+                        init_training_decks = 0
+                    init_decks_used = (
+                        max(0, api_decks_used - init_training_decks)
+                        if init_training_decks is not None
+                        else today_decks
+                    )
+                else:
+                    init_decks_used = today_decks
+
                 roster[tag] = {
                     "name": m["name"],
                     "role": m["role"],
@@ -848,7 +893,8 @@ def main():
                     "prev_day_decks": 0,
                     "prev_day_logins": 0,
                     "decks_today": today_decks,
-                    "decks_used": today_decks,
+                    "decks_used": init_decks_used,
+                    "training_decks": init_training_decks,
                     "fame": fame_map.get(tag, 0),
                     "boat_attacks": boat_attacks_map.get(tag, 0),
                     "status": init_status,
@@ -878,11 +924,22 @@ def main():
                 roster[tag]["last_seen"] = curr_last_seen_ist
             roster[tag]["name"] = m["name"]
             roster[tag]["role"] = m["role"]
-            today_decks = decks_today_map.get(tag, 0)
             prev_decks = roster[tag].get("decks_prev_days", 0) if curr_period_type in WAR_PERIOD_TYPES else 0
             roster[tag]["decks_prev_days"] = prev_decks
             roster[tag]["decks_today"] = today_decks
-            roster[tag]["decks_used"] = prev_decks + today_decks
+            if curr_period_type == "training":
+                roster[tag]["training_decks"] = api_decks_used
+                roster[tag]["decks_used"] = 0
+            elif curr_period_type in WAR_PERIOD_TYPES:
+                if curr_war_day_num == 1:
+                    roster[tag]["training_decks"] = max(0, api_decks_used - today_decks)
+                t_decks = roster[tag].get("training_decks")
+                if t_decks is not None:
+                    roster[tag]["decks_used"] = max(0, api_decks_used - t_decks)
+                else:
+                    roster[tag]["decks_used"] = prev_decks + today_decks
+            else:
+                roster[tag]["decks_used"] = prev_decks + today_decks
             roster[tag]["fame"] = fame_map.get(tag, 0)
             roster[tag]["boat_attacks"] = boat_attacks_map.get(tag, 0)
 
@@ -893,8 +950,7 @@ def main():
     # 6. On-demand live mid-day war report (/report)
     if args.report:
         if curr_period_type in WAR_PERIOD_TYPES:
-            war_day_num = max(1, min(4, (curr_period_idx % 7) - 2))
-            post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=True)
+            post_daily_eod_report(curr_war_day_num, roster, war_state, socials, is_live=True)
         else:
             send_discord_embed(
                 title="ℹ️ Live War Report Unavailable",
