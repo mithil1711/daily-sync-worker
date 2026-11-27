@@ -10,7 +10,7 @@ import requests
 # CONFIGURATION (Loaded from GitHub Secrets & Variables)
 # ==========================================
 API_TOKEN = os.environ["CR_API_TOKEN"]
-WEBHOOK_URL = os.environ["DISCORD_WEBHOOK_URL"]
+WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 CLAN_TAG = os.environ["CLAN_TAG"].strip().upper()
 if not CLAN_TAG.startswith("#"):
     CLAN_TAG = "#" + CLAN_TAG
@@ -77,11 +77,15 @@ def parse_cr_time(ts_str):
     """Parse Supercell UTC timestamp or saved ISO string and return an IST datetime."""
     if not ts_str:
         return None
-    if "-" in ts_str:  # Already saved in ISO format
-        return datetime.fromisoformat(ts_str).astimezone(IST)
-    # Supercell API always returns UTC; convert immediately to IST
-    dt_utc = datetime.strptime(ts_str[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
-    return dt_utc.astimezone(IST)
+    try:
+        if "-" in ts_str:  # Already saved in ISO format
+            return datetime.fromisoformat(ts_str).astimezone(IST)
+        # Supercell API always returns UTC; convert immediately to IST
+        dt_utc = datetime.strptime(ts_str[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+        return dt_utc.astimezone(IST)
+    except ValueError as exc:
+        print(f"[TIME PARSE ERROR] Invalid timestamp '{ts_str}': {exc}")
+        return None
 
 
 def to_ist_iso(ts_str):
@@ -112,21 +116,28 @@ def split_description(description, max_len=3800):
     chunks = []
     current = []
     curr_len = 0
-    for line in description.split("\n"):
-        line_len = len(line) + 1
-        if current and curr_len + line_len > max_len:
-            chunks.append("\n".join(current))
-            current = [line]
-            curr_len = line_len
-        else:
-            current.append(line)
-            curr_len += line_len
+    for raw_line in description.split("\n"):
+        # Hard-wrap any single line that exceeds max_len
+        sub_lines = [raw_line[i:i + max_len] for i in range(0, len(raw_line), max_len)] or [""]
+        for line in sub_lines:
+            line_len = len(line) + 1
+            if current and curr_len + line_len > max_len:
+                chunks.append("\n".join(current))
+                current = [line]
+                curr_len = line_len
+            else:
+                current.append(line)
+                curr_len += line_len
     if current:
         chunks.append("\n".join(current))
     return chunks
 
 
 def send_discord_embed(title, description, color, fields=None, url=None, ping=True):
+    if not WEBHOOK_URL:
+        print(f"[DISCORD ERROR] DISCORD_WEBHOOK_URL is not set. Skipped embed: {title}")
+        return
+
     chunks = split_description(description, max_len=3800)
     total = len(chunks)
 
@@ -258,8 +269,9 @@ def fmt_kick_score(m):
     return f"**{m['score']} medals**"
 
 
-def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_action="joined"):
-    if len(roster) < 50:
+def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_action="joined", live_member_count=None):
+    effective_count = live_member_count if live_member_count is not None else len(roster)
+    if effective_count < 50:
         return
 
     is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES
@@ -375,6 +387,8 @@ def get_last_completed_war_window():
         return None, None, None, None
     latest = log["items"][0]
     war_end = parse_cr_time(latest["createdDate"])
+    if not war_end:
+        return None, None, None, None
     war_start = war_end - timedelta(days=4)
     return war_start, war_end, latest["seasonId"], latest["sectionIndex"]
 
@@ -385,7 +399,9 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
     clean_tag = tag.replace("#", "")
     rapi_url = f"https://royaleapi.com/player/{clean_tag}"
 
-    battles = api_get(f"/players/{encode_tag(tag)}/battlelog") or []
+    battles = api_get(f"/players/{encode_tag(tag)}/battlelog")
+    if battles is None:
+        return "Pending", None, True
 
     war_window_clans = set()
     for b in battles:
@@ -413,7 +429,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
             color=0x95A5A6,
             url=rapi_url,
         )
-        return "Pending", None
+        return "Pending", None, False
 
     total_fame = 0
     total_decks = 0
@@ -421,12 +437,15 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
 
     for c_tag in war_window_clans:
         rlog = api_get(f"/clans/{encode_tag(c_tag)}/riverracelog?limit=3")
+        if rlog is None:
+            # Transient API failure on previous clan's war log: defer and retry instead of grading at 0
+            return "Pending", None, True
+
         matched_war = None
-        if rlog and rlog.get("items"):
-            for item in rlog["items"]:
-                if item["seasonId"] == target_season and item["sectionIndex"] == target_section:
-                    matched_war = item
-                    break
+        for item in rlog.get("items", []):
+            if item["seasonId"] == target_season and item["sectionIndex"] == target_section:
+                matched_war = item
+                break
 
         if not matched_war:
             clan_notes.append(f"`{c_tag}` (did not participate in war)")
@@ -457,7 +476,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
         description=desc,
         color=color,
     )
-    return status, total_fame
+    return status, total_fame, False
 
 
 # ==========================================
@@ -744,9 +763,23 @@ def handle_manual_score(player_tag, score):
             if len(live_tags) < 50:
                 return
             live_roster = {t: info for t, info in roster.items() if t in live_tags}
-            post_hold_kick_suggestion(live_roster, war_state, socials, name, trigger_action="was updated via `/score`")
+            post_hold_kick_suggestion(
+                live_roster,
+                war_state,
+                socials,
+                name,
+                trigger_action="was updated via `/score`",
+                live_member_count=len(live_tags),
+            )
         elif len(roster) >= 50:
-            post_hold_kick_suggestion(roster, war_state, socials, name, trigger_action="was updated via `/score`")
+            post_hold_kick_suggestion(
+                roster,
+                war_state,
+                socials,
+                name,
+                trigger_action="was updated via `/score`",
+                live_member_count=len(roster),
+            )
 
 
 # ==========================================
@@ -768,11 +801,16 @@ def handle_vet_applicant(player_tag):
 
     war_start, war_end, target_season, target_section = get_last_completed_war_window()
     if not war_start:
-        print("Failed to fetch clan riverracelog for war window.")
+        send_discord_embed(
+            title="⚠️ Applicant Vetting Unavailable",
+            description=f"Temporary API error while fetching war window for `{tag}`. Please retry `/vet` in a minute.",
+            color=0xE67E22,
+            ping=False,
+        )
         return
 
     # Reuse the exact same vetting logic (does not modify roster.json)
-    vet_new_joiner(
+    _, _, retry_needed = vet_new_joiner(
         {"tag": player["tag"], "name": f"[Applicant] {player['name']}"},
         war_start,
         war_end,
@@ -780,6 +818,13 @@ def handle_vet_applicant(player_tag):
         target_section,
         is_applicant=True,
     )
+    if retry_needed:
+        send_discord_embed(
+            title=f"⚠️ Applicant Vetting Interrupted: {player['name']}",
+            description=f"Temporary API error while fetching battle/war history for `{player['tag']}`. Please retry `/vet` in a minute.",
+            color=0xE67E22,
+            ping=False,
+        )
 
 
 # ==========================================
@@ -959,7 +1004,10 @@ def main():
         if war_start is None:
             war_start, war_end, target_season, target_section = get_last_completed_war_window()
         if war_start:
-            status, score = vet_new_joiner(member, war_start, war_end, target_season, target_section)
+            status, score, retry_needed = vet_new_joiner(member, war_start, war_end, target_season, target_section)
+            if retry_needed:
+                roster[tag]["needs_vetting"] = True
+                return
             roster[tag]["status"] = status
             roster[tag]["last_war_score"] = score
             roster[tag].pop("needs_vetting", None)
@@ -1003,9 +1051,7 @@ def main():
                 roster[tag] = restored
 
                 restored_status = restored.get("status")
-                if restored.get("needs_vetting"):
-                    try_vet_member(tag, m)
-                elif restored_status == "Red":
+                if restored_status == "Red":
                     badge = get_social_badge(tag, socials)[0]
                     left_dt = parse_cr_time(prev_left_at)
                     left_str = fmt_ist_date(left_dt) if left_dt else "Recently"
@@ -1021,6 +1067,8 @@ def main():
                         ),
                         color=0xE74C3C,
                     )
+                if restored.get("needs_vetting"):
+                    try_vet_member(tag, m)
                 elif restored_status == "Pending":
                     badge = get_social_badge(tag, socials)[0]
                     rapi_url = f"https://royaleapi.com/player/{tag.replace('#', '')}"
