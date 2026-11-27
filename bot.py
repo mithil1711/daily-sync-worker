@@ -581,6 +581,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
         title=f"{title_prefix} War Day {war_day_num} — Skipped War Battles",
         description=desc,
         color=0x3498DB,
+        ping=not is_live,
     )
 
 
@@ -626,7 +627,7 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         # Joined after War Day 4's 45-minute cutoff: skip grading & preserve vetted status
         if avail_days == 0:
             skipped_late.append(
-                f"• **{info['name']}** ({format_role(role)}) {badge} — joined after Day 4 cutoff (kept `{info.get('status', 'Pending')}`)"
+                f"• **{info['name']}** ({format_role(role)}) {badge} (`{tag}`) — joined after Day 4 cutoff (kept `{info.get('status', 'Pending')}`)"
             )
             continue
 
@@ -665,7 +666,7 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         el = e["elongated"]
         score_str = f"{e['actual']}→**{el}**" if e["avail_days"] < 4 else f"**{el}**"
         day_str = f" [{e['avail_days']}/4d]" if e["avail_days"] < 4 else ""
-        line = f"• **{e['name']}** ({format_role(role)}) {e['badge']} — {score_str} ({e['decks']} decks){day_str}"
+        line = f"• **{e['name']}** ({format_role(role)}) {e['badge']} (`{tag}`) — {score_str} ({e['decks']} decks){day_str}"
 
         roster[tag]["last_war_score"] = el
 
@@ -701,16 +702,22 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
                 safes.append(line)
 
     eow_note = "*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
-    if kicks:
-        send_discord_embed(f"🔴 End of War — KICK ({len(kicks)})", eow_note + "\n".join(kicks), 0xE74C3C)
-    if demotes:
-        send_discord_embed(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", eow_note + "\n".join(demotes), 0xF1C40F)
-    if holds:
-        send_discord_embed(f"🟠 End of War — HOLD ({len(holds)})", eow_note + "\n".join(holds), 0xE67E22)
-    if promotes:
-        send_discord_embed(f"⬆️ End of War — PROMOTE TO ELDER ({len(promotes)})", eow_note + "\n".join(promotes), 0x3498DB)
-    if safes:
-        send_discord_embed(f"🟢 End of War — SAFE ({len(safes)})", eow_note + "\n".join(safes), 0x2ECC71)
+    pinged = False
+
+    def post_eow_section(title, lines, color, actionable=True):
+        nonlocal pinged
+        if not lines:
+            return
+        should_ping = actionable and not pinged
+        send_discord_embed(title, eow_note + "\n".join(lines), color, ping=should_ping)
+        if should_ping:
+            pinged = True
+
+    post_eow_section(f"🔴 End of War — KICK ({len(kicks)})", kicks, 0xE74C3C)
+    post_eow_section(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", demotes, 0xF1C40F)
+    post_eow_section(f"🟠 End of War — HOLD ({len(holds)})", holds, 0xE67E22)
+    post_eow_section(f"⬆️ End of War — PROMOTE TO ELDER ({len(promotes)})", promotes, 0x3498DB)
+    post_eow_section(f"🟢 End of War — SAFE ({len(safes)})", safes, 0x2ECC71, actionable=False)
     if skipped_late:
         send_discord_embed(
             f"⏳ End of War — Joined Too Late to Grade ({len(skipped_late)})",
@@ -736,6 +743,15 @@ def handle_manual_score(player_tag, score):
 
     if tag not in roster:
         print(f"[ERROR] Player {tag} is not currently in roster.json.")
+        send_discord_embed(
+            title="❌ Player Not Found in Roster",
+            description=(
+                f"Could not record score for `{tag}` because they are not currently in `roster.json`.\n"
+                f"Check for a tag typo (e.g. `0` vs `O`), or wait for the next scheduled poll if they just joined."
+            ),
+            color=0xE74C3C,
+            ping=False,
+        )
         return
 
     status, verdict, color = classify_score(score)
@@ -931,7 +947,7 @@ def main():
                     title="⚠️ End-of-War Verdict Expired",
                     description=(
                         f"Supercell's war log was never available before Battle Day 1 began, so last week's automated EOW report was skipped.\n"
-                        f"👉 **[Check Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                        f"👉 **[Check Clan War Analytics on RoyaleAPI]({clan_rapi_url})**"
                     ),
                     color=0xE67E22,
                     url=clan_rapi_url,
@@ -958,7 +974,7 @@ def main():
                 title="⚠️ End-of-War Verdict Expired (48h)",
                 description=(
                     f"Supercell's `/riverracelog` remained unavailable or stale for over {EOW_FRESHNESS_HOURS} hours, so automated EOW grading was skipped.\n"
-                    f"👉 **[Check Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                    f"👉 **[Check Clan War Analytics on RoyaleAPI]({clan_rapi_url})**"
                 ),
                 color=0xE67E22,
                 url=clan_rapi_url,
@@ -974,7 +990,7 @@ def main():
                     title="⏳ End-of-War Verdict Delayed",
                     description=(
                         f"Waiting on Supercell's API to publish this week's `/riverracelog`. The bot will keep retrying automatically (up to {EOW_FRESHNESS_HOURS}h).\n"
-                        f"👉 **[View Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                        f"👉 **[View Clan War Analytics on RoyaleAPI]({clan_rapi_url})**"
                     ),
                     color=0x95A5A6,
                     url=clan_rapi_url,
