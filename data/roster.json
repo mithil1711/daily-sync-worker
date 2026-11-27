@@ -258,8 +258,8 @@
     "name": "abhijeet empire",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T09:47:02+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-28T00:29:59+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -269,7 +269,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-28T00:29:59+05:30"
   },
   "#QPRG99PJ8": {
     "name": "Ash",
