@@ -54,8 +54,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:11:43+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-27T20:59:22+05:30",
+    "login_count": 5,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Orange",
@@ -65,7 +65,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 17,
-    "last_login_counted_at": "2026-11-27T20:11:43+05:30"
+    "last_login_counted_at": "2026-11-27T20:59:22+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -173,8 +173,8 @@
     "name": "<c4>mithil",
     "role": "leader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:00:16+05:30",
-    "login_count": 5,
+    "last_seen": "2026-11-27T21:00:23+05:30",
+    "login_count": 6,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -184,7 +184,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 18,
-    "last_login_counted_at": "2026-11-27T20:00:16+05:30"
+    "last_login_counted_at": "2026-11-27T21:00:23+05:30"
   },
   "#Q22R0VV9L": {
     "name": "Bezalel10",
@@ -292,8 +292,8 @@
     "name": "Param2646",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T19:26:26+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T20:57:02+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -303,7 +303,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T20:57:02+05:30"
   },
   "#LCYVGYRY": {
     "name": "Undead",
@@ -479,8 +479,8 @@
     "name": "ALPHA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T05:57:59+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T20:57:32+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -490,7 +490,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T20:57:32+05:30"
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
@@ -581,18 +581,18 @@
     "name": "Abhijeet",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:37:38+05:30",
-    "login_count": 1,
-    "decks_today": 1,
-    "decks_used": 5,
+    "last_seen": "2026-11-27T20:56:19+05:30",
+    "login_count": 2,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Orange",
     "last_war_score": 950,
     "decks_prev_days": 4,
-    "fame": 600,
+    "fame": 1000,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-27T20:37:38+05:30"
+    "last_login_counted_at": "2026-11-27T20:56:19+05:30"
   },
   "#20UGJC2Y9P": {
     "name": "Arpudham",
