@@ -21,7 +21,7 @@ SAFE_THRESHOLD = int(os.environ.get("SAFE_THRESHOLD", 1800))
 ELDER_SAFE_THRESHOLD = int(os.environ.get("ELDER_SAFE_THRESHOLD", 2400))
 BUFFER_MINUTES = 45
 LOGIN_COOLDOWN_MINUTES = 14
-EOW_FRESHNESS_HOURS = 12
+EOW_FRESHNESS_HOURS = 48
 WAR_PERIOD_TYPES = ("warDay", "colosseum")
 
 BASE_URL = "https://proxy.royaleapi.dev/v1"
@@ -52,12 +52,20 @@ def save_json(path, data):
         json.dump(data, f, indent=2)
 
 
-def api_get(endpoint):
+def api_get(endpoint, retries=2):
     url = f"{BASE_URL}{endpoint}"
-    resp = requests.get(url, headers=HEADERS, timeout=20)
-    if resp.status_code == 200:
-        return resp.json()
-    print(f"[API ERROR] {resp.status_code} on {endpoint}: {resp.text[:150]}")
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=20)
+            if resp.status_code == 200:
+                return resp.json()
+            print(f"[API ERROR] {resp.status_code} on {endpoint} (attempt {attempt}/{retries}): {resp.text[:150]}")
+            if resp.status_code not in (429, 500, 502, 503, 504):
+                return None
+        except (requests.RequestException, ValueError) as exc:
+            print(f"[API NETWORK ERROR] on {endpoint} (attempt {attempt}/{retries}): {exc}")
+        if attempt < retries:
+            time.sleep(2 * attempt)
     return None
 
 
@@ -149,18 +157,26 @@ def send_discord_embed(title, description, color, fields=None, url=None, ping=Tr
             "allowed_mentions": allowed_mentions,
         }
 
-        resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
-        if resp.status_code == 429:
-            retry_after = 2.0
+        for attempt in range(1, 4):
             try:
-                retry_after = float(resp.json().get("retry_after", 2.0))
-            except Exception:
-                pass
-            time.sleep(retry_after + 0.5)
-            resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
-
-        if resp.status_code not in (200, 204):
-            print(f"[DISCORD ERROR] {resp.status_code}: {resp.text}")
+                resp = requests.post(WEBHOOK_URL, json=payload, timeout=15)
+                if resp.status_code in (200, 204):
+                    break
+                if resp.status_code == 429:
+                    retry_after = 2.0
+                    try:
+                        retry_after = float(resp.json().get("retry_after", 2.0))
+                    except Exception:
+                        pass
+                    time.sleep(min(retry_after, 15.0) + 0.5)
+                    continue
+                print(f"[DISCORD ERROR] {resp.status_code} (attempt {attempt}/3): {resp.text[:150]}")
+                if resp.status_code < 500:
+                    break
+            except requests.RequestException as exc:
+                print(f"[DISCORD NETWORK ERROR] (attempt {attempt}/3): {exc}")
+            if attempt < 3:
+                time.sleep(2 * attempt)
 
         time.sleep(1)
 
@@ -191,6 +207,16 @@ def classify_score(score):
     return "Green", "🟢 ACCEPT", 0x2ECC71
 
 
+def purge_departed_before(departed, cutoff_dt):
+    """Remove departed entries who left before cutoff_dt so pre-EOW leavers are re-vetted on rejoin."""
+    if not cutoff_dt:
+        return
+    for tag in list(departed.keys()):
+        left_dt = parse_cr_time(departed[tag].get("left_at"))
+        if left_dt and left_dt < cutoff_dt:
+            del departed[tag]
+
+
 # ==========================================
 # 50/50 HOLD-LIST KICK SUGGESTION
 # ==========================================
@@ -209,6 +235,7 @@ def build_kick_candidates(roster, socials, target_status):
         candidates.append({
             "tag": tag,
             "name": info["name"],
+            "role": format_role(info.get("role", "member")),
             "score": last_score,
             "bonus": bonus,
             "eff_score": eff_score,
@@ -231,7 +258,7 @@ def fmt_kick_score(m):
     return f"**{m['score']} medals**"
 
 
-def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
+def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_action="joined"):
     if len(roster) < 50:
         return
 
@@ -239,67 +266,69 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
     curr_period_idx = war_state.get("period_index")
     war_day_num = max(1, min(4, (curr_period_idx % 7) - 2)) if (is_battle_day and curr_period_idx is not None) else 0
 
-    red_members = build_kick_candidates(roster, socials, "Red")
-
+    # Gate 50/50 kick list behind Pending Review: ask admins to /score unvetted players first
     pending_members = [
         {
             "tag": tag,
             "name": info["name"],
+            "role": format_role(info.get("role", "member")),
             "badge": get_social_badge(tag, socials)[0],
             "url": f"https://royaleapi.com/player/{tag.replace('#', '')}",
+            "needs_vetting": bool(info.get("needs_vetting")),
         }
         for tag, info in roster.items()
         if info.get("status") == "Pending"
     ]
-    pending_section = ""
     if pending_members:
-        pending_lines = [
-            f"• **{m['name']}** {m['badge']} (`{m['tag']}`) — [RoyaleAPI]({m['url']})"
-            for m in pending_members
-        ]
-        pending_section = (
-            "**⚪ Pending Review (Unvetted):**\n"
-            + "\n".join(pending_lines)
-            + "\n*(Check RoyaleAPI and run `/score` in Discord to classify these players.)*"
-        )
-
-    # Battle Days (1-4): skip Hold/Orange kicks completely; only flag Red or Pending Review
-    if is_battle_day:
-        if not red_members and not pending_members:
-            return
-        sections = []
-        if red_members:
-            red_lines = [
-                f"{i}. **{m['name']}** {m['badge']} — {fmt_kick_score(m)} (`{m['tag']}`)"
-                for i, m in enumerate(red_members, start=1)
-            ]
-            sections.append("**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines))
-        if pending_section:
-            sections.append(pending_section)
-        rec_line = (
-            f"**Recommended Kick:** 👉 **{red_members[0]['name']}** (`{red_members[0]['tag']}`)\n\n"
-            if red_members
-            else "\n"
-        )
+        pending_lines = []
+        for m in pending_members:
+            if m["needs_vetting"]:
+                action_note = "⏳ *Auto-vetting queued for next poll*"
+            else:
+                action_note = f"[RoyaleAPI]({m['url']}) — `/score tag:{m['tag']} medals:<score>`"
+            pending_lines.append(
+                f"• **{m['name']}** ({m['role']}) {m['badge']} (`{m['tag']}`) — {action_note}"
+            )
         desc = (
-            f"Clan reached **50/50** after **{trigger_name}** joined (Battle Day {war_day_num} — Hold kicks skipped).\n"
-            f"{rec_line}"
-            + "\n\n".join(sections)
+            f"Clan is at **50/50** after **{trigger_name}** {trigger_action}.\n"
+            f"Classify the unvetted **Pending** player(s) first — once none remain, the 50/50 kick list will post automatically if still needed.\n\n"
+            f"**⚪ Pending Review ({len(pending_members)}):**\n"
+            + "\n".join(pending_lines)
         )
         send_discord_embed(
-            title=f"⚖️ 50/50 Battle Day {war_day_num} — Red / Pending Review",
+            title="⚪ 50/50 Reached — Pending Players Need /score First",
             description=desc,
-            color=0xE74C3C if red_members else 0x95A5A6,
+            color=0x95A5A6,
         )
         return
 
-    # Training Days: Red + Hold/Orange + Pending Review (both sorted with +50/+100 social protection)
+    red_members = build_kick_candidates(roster, socials, "Red")
+
+    # Battle Days (1-4): skip Hold/Orange kicks completely; only flag Red
+    if is_battle_day:
+        if not red_members:
+            return
+        red_lines = [
+            f"{i}. **{m['name']}** ({m['role']}) {m['badge']} — {fmt_kick_score(m)} (`{m['tag']}`)"
+            for i, m in enumerate(red_members, start=1)
+        ]
+        desc = (
+            f"Clan is at **50/50** after **{trigger_name}** {trigger_action} (Battle Day {war_day_num} — Hold kicks skipped).\n"
+            f"**Recommended Kick:** 👉 **{red_members[0]['name']}** (`{red_members[0]['tag']}`)\n\n"
+            f"**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines)
+        )
+        send_discord_embed(
+            title=f"⚖️ 50/50 Battle Day {war_day_num} — Unkicked Red Review",
+            description=desc,
+            color=0xE74C3C,
+        )
+        return
+
+    # Training Days: Red (Kick First) + Orange (Hold List), both sorted with +50/+100 social protection
     hold_members = build_kick_candidates(roster, socials, "Orange")
 
     if not red_members and not hold_members:
-        desc = f"Triggered by **{trigger_name}**. No Red or eligible Orange (Hold) members to kick."
-        if pending_section:
-            desc += "\n\n" + pending_section
+        desc = f"Triggered after **{trigger_name}** {trigger_action}. No Red or eligible Orange (Hold) members to kick."
         send_discord_embed(
             title="✅ Clan at 50/50 — Hold List Empty",
             description=desc,
@@ -310,25 +339,22 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name):
     sections = []
     if red_members:
         red_lines = [
-            f"{i}. **{m['name']}** {m['badge']} — {fmt_kick_score(m)} (`{m['tag']}`)"
+            f"{i}. **{m['name']}** ({m['role']}) {m['badge']} — {fmt_kick_score(m)} (`{m['tag']}`)"
             for i, m in enumerate(red_members, start=1)
         ]
         sections.append("**🔴 Unkicked Red Members (Kick First):**\n" + "\n".join(red_lines))
 
     if hold_members:
         lines = [
-            f"{i}. **{m['name']}** {m['badge']} — {fmt_kick_score(m)}"
+            f"{i}. **{m['name']}** ({m['role']}) {m['badge']} — {fmt_kick_score(m)} (`{m['tag']}`)"
             for i, m in enumerate(hold_members, start=1)
         ]
         sections.append("**🟠 Hold List Priority:**\n" + "\n".join(lines))
 
-    if pending_section:
-        sections.append(pending_section)
-
     mode_label = "Lowest Medals + Social Priority (+50 IG / +100 DC) → Newest"
     top_pick = red_members[0] if red_members else hold_members[0]
     desc = (
-        f"Clan reached **50/50** after **{trigger_name}** joined.\n"
+        f"Clan is at **50/50** after **{trigger_name}** {trigger_action}.\n"
         f"**Sorting Rule:** {mode_label}\n"
         f"**Recommended Kick (to maintain 49/50):** 👉 **{top_pick['name']}** (`{top_pick['tag']}`)\n\n"
         + "\n\n".join(sections)
@@ -353,7 +379,7 @@ def get_last_completed_war_window():
     return war_start, war_end, latest["seasonId"], latest["sectionIndex"]
 
 
-def vet_new_joiner(member, war_start, war_end, target_season, target_section):
+def vet_new_joiner(member, war_start, war_end, target_season, target_section, is_applicant=False):
     tag = member["tag"]
     name = member["name"]
     clean_tag = tag.replace("#", "")
@@ -370,14 +396,19 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
                 war_window_clans.add(clan_info["tag"])
 
     if not war_window_clans:
+        footer_note = (
+            "*(Check RoyaleAPI before accepting.)*"
+            if is_applicant
+            else f"*(If you keep them, run `/score tag:{tag} medals:<score>` in Discord.)*"
+        )
         desc = (
             f"**Player:** {name} (`{tag}`)\n"
             f"**Status:** No clan battles found in last war window.\n"
             f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})**\n"
-            f"*(If you keep them, run `/score tag:{tag} medals:<score>` in Discord.)*"
+            f"{footer_note}"
         )
         send_discord_embed(
-            title=f"🔎 New Joiner: {name} (Check RoyaleAPI)",
+            title=f"🔎 {'Applicant' if is_applicant else 'New Joiner'}: {name} (Check RoyaleAPI)",
             description=desc,
             color=0x95A5A6,
             url=rapi_url,
@@ -422,7 +453,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section):
         f"**Clans Checked:**\n• " + "\n• ".join(clan_notes)
     )
     send_discord_embed(
-        title=f"New Joiner Vetting: {name} — {verdict}",
+        title=f"{'Applicant' if is_applicant else 'New Joiner'} Vetting: {name} — {verdict}",
         description=desc,
         color=color,
     )
@@ -447,11 +478,6 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
         if decks >= 4:
             continue
 
-        logins = info.get("login_count", 0)
-        last_seen = parse_cr_time(info.get("last_seen"))
-        logged_in_today = logins > 0 or (last_seen and day_start and last_seen >= day_start)
-
-        current_medals = info.get("fame", 0)
         joined_dt = parse_cr_time(info.get("joined_at"))
         avail_days = war_day_num
         if war_week_start and joined_dt:
@@ -460,8 +486,15 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
                 cutoff = war_week_start + timedelta(days=d) - timedelta(minutes=BUFFER_MINUTES)
                 if joined_dt <= cutoff:
                     avail_days += 1
-            avail_days = max(1, avail_days)
+            # Joined after today's 45-minute cutoff: skip EOD shaming
+            if avail_days == 0:
+                continue
 
+        logins = info.get("login_count", 0)
+        last_seen = parse_cr_time(info.get("last_seen"))
+        logged_in_today = logins > 0 or (last_seen and day_start and last_seen >= day_start)
+
+        current_medals = info.get("fame", 0)
         elongated_medals = round(current_medals * (war_day_num / avail_days))
         if avail_days < war_day_num:
             now_str = f"{current_medals}→**{elongated_medals}** [{avail_days}/{war_day_num}d]"
@@ -540,13 +573,13 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
     rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
     if not rlog or not rlog.get("items"):
         print("[EOW DEFERRED] Failed to fetch riverracelog; will retry on next run.")
-        return False
+        return None
 
     latest = rlog["items"][0]
     war_end = parse_cr_time(latest.get("createdDate"))
     if not war_end or (now_ist - war_end) > timedelta(hours=EOW_FRESHNESS_HOURS):
         print(f"[EOW DEFERRED] Stale riverracelog (createdDate={latest.get('createdDate')}); will retry on next run.")
-        return False
+        return None
 
     war_start = war_end - timedelta(days=4)
 
@@ -565,12 +598,15 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         role = info.get("role", "member")
         joined_at = parse_cr_time(info.get("joined_at"))
 
-        avail_days = 0
-        for d in range(1, 5):
-            day_end = war_start + timedelta(days=d)
-            cutoff = day_end - timedelta(minutes=BUFFER_MINUTES)
-            if joined_at and joined_at <= cutoff:
-                avail_days += 1
+        if joined_at is None:
+            avail_days = 4
+        else:
+            avail_days = 0
+            for d in range(1, 5):
+                day_end = war_start + timedelta(days=d)
+                cutoff = day_end - timedelta(minutes=BUFFER_MINUTES)
+                if joined_at <= cutoff:
+                    avail_days += 1
 
         # Joined after War Day 4's 45-minute cutoff: skip grading & preserve vetted status
         if avail_days == 0:
@@ -627,7 +663,7 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
             if el < KICK_THRESHOLD:
                 roster[tag]["status"] = "Red"
                 kicks.append(line)
-            elif el >= ELDER_SAFE_THRESHOLD or (e["decks"] >= 16 and el >= SAFE_THRESHOLD):
+            elif el >= ELDER_SAFE_THRESHOLD or (e["decks"] >= e["avail_days"] * 4 and el >= SAFE_THRESHOLD):
                 roster[tag]["status"] = "Green"
                 safes.append(line)
             else:
@@ -668,7 +704,7 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
             ping=False,
         )
 
-    return True
+    return war_end
 
 
 # ==========================================
@@ -690,6 +726,7 @@ def handle_manual_score(player_tag, score):
     status, verdict, color = classify_score(score)
     roster[tag]["last_war_score"] = score
     roster[tag]["status"] = status
+    roster[tag].pop("needs_vetting", None)
     save_json(ROSTER_FILE, roster)
 
     name = roster[tag]["name"]
@@ -699,8 +736,17 @@ def handle_manual_score(player_tag, score):
         color=color,
     )
 
-    if status in ("Orange", "Green") and len(roster) >= 50:
-        post_hold_kick_suggestion(roster, war_state, socials, name)
+    if status in ("Orange", "Green"):
+        # Verify live clan size before firing 50/50 suggestion (fallback to local roster if API fails)
+        members_resp = api_get(f"/clans/{encode_tag(CLAN_TAG)}/members")
+        if members_resp and members_resp.get("items"):
+            live_tags = {m["tag"] for m in members_resp["items"]}
+            if len(live_tags) < 50:
+                return
+            live_roster = {t: info for t, info in roster.items() if t in live_tags}
+            post_hold_kick_suggestion(live_roster, war_state, socials, name, trigger_action="was updated via `/score`")
+        elif len(roster) >= 50:
+            post_hold_kick_suggestion(roster, war_state, socials, name, trigger_action="was updated via `/score`")
 
 
 # ==========================================
@@ -732,6 +778,7 @@ def handle_vet_applicant(player_tag):
         war_end,
         target_season,
         target_section,
+        is_applicant=True,
     )
 
 
@@ -770,6 +817,12 @@ def main():
     current_members = {m["tag"]: m for m in members_resp.get("items", [])}
     first_run = len(roster) == 0
 
+    # Sync latest names & roles for existing members before Step 1 (EOD/EOW) runs
+    for tag, m in current_members.items():
+        if tag in roster:
+            roster[tag]["name"] = m["name"]
+            roster[tag]["role"] = m["role"]
+
     last_war_scores = {}
     if first_run:
         rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
@@ -805,8 +858,10 @@ def main():
                     for tag, info in roster.items()
                 }
                 eow_attempted_this_run = True
-                if post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot):
+                eow_war_end = post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot)
+                if eow_war_end:
                     war_state.pop("pending_eow", None)
+                    purge_departed_before(departed, eow_war_end)
                 else:
                     war_state["pending_eow"] = {
                         "created_at": now_ist_str,
@@ -850,10 +905,13 @@ def main():
     if not eow_attempted_this_run and war_state.get("pending_eow"):
         pending = war_state["pending_eow"]
         pending_dt = parse_cr_time(pending.get("created_at"))
-        if curr_period_type != "training" or (pending_dt and (now_ist - pending_dt) > timedelta(hours=24)):
+        if curr_period_type != "training" or (pending_dt and (now_ist - pending_dt) > timedelta(hours=EOW_FRESHNESS_HOURS)):
             war_state.pop("pending_eow", None)
-        elif post_end_of_war_verdict(roster, socials, now_ist, pending.get("deck_snapshot")):
-            war_state.pop("pending_eow", None)
+        else:
+            eow_war_end = post_end_of_war_verdict(roster, socials, now_ist, pending.get("deck_snapshot"))
+            if eow_war_end:
+                war_state.pop("pending_eow", None)
+                purge_departed_before(departed, eow_war_end)
 
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
@@ -861,6 +919,8 @@ def main():
         war_state["day_start_ist"] = war_state.pop("day_start_utc", now_ist_str)
     else:
         war_state.pop("day_start_utc", None)
+
+    day_start = parse_cr_time(war_state.get("day_start_ist"))
 
     # 2. Map live war stats
     decks_today_map = {}
@@ -889,6 +949,24 @@ def main():
     # 4. Detect New Joiners / Re-joiners & Update Roster / Login Counts
     war_start, war_end, target_season, target_section = (None, None, None, None)
     qualifying_joiners = []
+    eow_pending = bool(war_state.get("pending_eow"))
+
+    def try_vet_member(tag, member):
+        nonlocal war_start, war_end, target_season, target_section
+        if eow_pending:
+            roster[tag]["needs_vetting"] = True
+            return
+        if war_start is None:
+            war_start, war_end, target_season, target_section = get_last_completed_war_window()
+        if war_start:
+            status, score = vet_new_joiner(member, war_start, war_end, target_season, target_section)
+            roster[tag]["status"] = status
+            roster[tag]["last_war_score"] = score
+            roster[tag].pop("needs_vetting", None)
+            if status in ("Orange", "Green"):
+                qualifying_joiners.append(member["name"])
+        else:
+            roster[tag]["needs_vetting"] = True
 
     for tag, m in current_members.items():
         curr_last_seen_ist = to_ist_iso(m.get("lastSeen"))
@@ -899,7 +977,7 @@ def main():
             if tag in departed:
                 # Re-joiner within 7 days: restore original joined_at, status, and war stats
                 restored = departed.pop(tag)
-                restored.pop("left_at", None)
+                prev_left_at = restored.pop("left_at", None)
                 restored["name"] = m["name"]
                 restored["role"] = m["role"]
                 if curr_last_seen_ist:
@@ -923,7 +1001,40 @@ def main():
                 restored["fame"] = fame_map.get(tag, 0)
                 restored["boat_attacks"] = boat_attacks_map.get(tag, 0)
                 roster[tag] = restored
-                if restored.get("status") in ("Orange", "Green"):
+
+                restored_status = restored.get("status")
+                if restored.get("needs_vetting"):
+                    try_vet_member(tag, m)
+                elif restored_status == "Red":
+                    badge = get_social_badge(tag, socials)[0]
+                    left_dt = parse_cr_time(prev_left_at)
+                    left_str = fmt_ist_date(left_dt) if left_dt else "Recently"
+                    prev_score = restored.get("last_war_score")
+                    score_str = f"**{prev_score} medals**" if prev_score is not None else "Unknown"
+                    send_discord_embed(
+                        title=f"🚨 Red / Kicked Player Rejoined: {m['name']}",
+                        description=(
+                            f"**Player:** {m['name']} ({format_role(m['role'])}) {badge} (`{tag}`)\n"
+                            f"**Previous War Score:** {score_str}\n"
+                            f"**Left Clan:** {left_str}\n"
+                            f"*(Restored as `Red` from 7-day archive.)*"
+                        ),
+                        color=0xE74C3C,
+                    )
+                elif restored_status == "Pending":
+                    badge = get_social_badge(tag, socials)[0]
+                    rapi_url = f"https://royaleapi.com/player/{tag.replace('#', '')}"
+                    send_discord_embed(
+                        title=f"🔎 Pending Player Rejoined: {m['name']}",
+                        description=(
+                            f"**Player:** {m['name']} ({format_role(m['role'])}) {badge} (`{tag}`)\n"
+                            f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})**\n"
+                            f"*(Still unvetted — run `/score tag:{tag} medals:<score>` in Discord.)*"
+                        ),
+                        color=0x95A5A6,
+                        url=rapi_url,
+                    )
+                elif restored_status in ("Orange", "Green"):
                     qualifying_joiners.append(m["name"])
             else:
                 init_score = last_war_scores.get(tag) if first_run else None
@@ -971,26 +1082,21 @@ def main():
                     "last_war_score": init_score,
                 }
                 if not first_run:
-                    if war_start is None:
-                        war_start, war_end, target_season, target_section = get_last_completed_war_window()
-                    if war_start:
-                        status, score = vet_new_joiner(m, war_start, war_end, target_season, target_section)
-                        roster[tag]["status"] = status
-                        roster[tag]["last_war_score"] = score
-                        if status in ("Orange", "Green"):
-                            qualifying_joiners.append(m["name"])
+                    try_vet_member(tag, m)
         else:
             curr_dt = parse_cr_time(curr_last_seen_ist)
             prev_dt = parse_cr_time(roster[tag].get("last_seen"))
             if curr_dt and (prev_dt is None or curr_dt > prev_dt):
-                is_first_login_today = roster[tag].get("login_count", 0) == 0
-                counted_dt = parse_cr_time(roster[tag].get("last_login_counted_at")) or prev_dt
-                cooldown_elapsed = counted_dt is None or (curr_dt - counted_dt) >= timedelta(minutes=LOGIN_COOLDOWN_MINUTES)
-                if is_first_login_today or cooldown_elapsed:
-                    roster[tag]["login_count"] = roster[tag].get("login_count", 0) + 1
-                    roster[tag]["last_login_counted_at"] = curr_last_seen_ist
-                elif not roster[tag].get("last_login_counted_at") and roster[tag].get("last_seen"):
-                    roster[tag]["last_login_counted_at"] = roster[tag]["last_seen"]
+                # Only count logins that occurred at or after today's reset
+                if not day_start or curr_dt >= day_start:
+                    is_first_login_today = roster[tag].get("login_count", 0) == 0
+                    counted_dt = parse_cr_time(roster[tag].get("last_login_counted_at")) or prev_dt
+                    cooldown_elapsed = counted_dt is None or (curr_dt - counted_dt) >= timedelta(minutes=LOGIN_COOLDOWN_MINUTES)
+                    if is_first_login_today or cooldown_elapsed:
+                        roster[tag]["login_count"] = roster[tag].get("login_count", 0) + 1
+                        roster[tag]["last_login_counted_at"] = curr_last_seen_ist
+                    elif not roster[tag].get("last_login_counted_at") and roster[tag].get("last_seen"):
+                        roster[tag]["last_login_counted_at"] = roster[tag]["last_seen"]
                 roster[tag]["last_seen"] = curr_last_seen_ist
             roster[tag]["name"] = m["name"]
             roster[tag]["role"] = m["role"]
@@ -1012,6 +1118,10 @@ def main():
                 roster[tag]["decks_used"] = prev_decks + today_decks
             roster[tag]["fame"] = fame_map.get(tag, 0)
             roster[tag]["boat_attacks"] = boat_attacks_map.get(tag, 0)
+
+            # Retry deferred vetting if a previous poll failed or waited on Monday EOW
+            if roster[tag].get("needs_vetting"):
+                try_vet_member(tag, m)
 
     # 5. Trigger 50/50 Hold-List Kick Suggestion if any Orange/Green joiner brought clan to 50/50
     if qualifying_joiners and len(roster) >= 50:
