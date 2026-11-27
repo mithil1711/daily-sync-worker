@@ -326,18 +326,18 @@
     "name": "DAHIWADA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T16:29:35+05:30",
-    "login_count": 0,
-    "decks_today": 0,
-    "decks_used": 4,
+    "last_seen": "2026-11-27T18:04:37+05:30",
+    "login_count": 1,
+    "decks_today": 2,
+    "decks_used": 6,
     "status": "Green",
     "last_war_score": 2400,
     "decks_prev_days": 4,
-    "fame": 500,
+    "fame": 900,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 1,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T18:04:37+05:30"
   },
   "#QPUGV0PPY": {
     "name": "Lara croft",
@@ -564,8 +564,8 @@
     "name": "mr bean",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T16:44:27+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T18:01:04+05:30",
+    "login_count": 2,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -575,7 +575,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 14,
-    "last_login_counted_at": "2026-11-27T16:44:27+05:30"
+    "last_login_counted_at": "2026-11-27T18:01:04+05:30"
   },
   "#GP8JUG": {
     "name": "Abhijeet",
@@ -700,8 +700,8 @@
     "name": "Asta",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T17:39:25+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T18:02:42+05:30",
+    "login_count": 2,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -711,7 +711,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": "2026-11-27T17:39:25+05:30"
+    "last_login_counted_at": "2026-11-27T18:02:42+05:30"
   },
   "#2UQR8LV9Y": {
     "name": "raz",
