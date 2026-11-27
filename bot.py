@@ -887,7 +887,7 @@ def main():
     prev_period_idx = war_state.get("period_index")
     prev_period_type = war_state.get("period_type")
     eow_attempted_this_run = False
-    clan_rapi_url = f"https://royaleapi.com/clan/{CLAN_TAG.replace('#', '')}/war/log"
+    clan_rapi_url = f"https://royaleapi.com/clan/{CLAN_TAG.replace('#', '')}/war/analytics"
 
     if prev_period_idx is not None and curr_period_idx != prev_period_idx:
         if prev_period_type in WAR_PERIOD_TYPES:
