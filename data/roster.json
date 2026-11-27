@@ -422,7 +422,7 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T08:30:25+05:30",
+    "last_seen": "2026-11-27T08:32:56+05:30",
     "login_count": 7,
     "decks_today": 2,
     "decks_used": 2,
@@ -735,8 +735,8 @@
     "name": "Sotica",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-25T19:07:50+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T08:31:30+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Orange",
@@ -745,7 +745,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T08:31:30+05:30"
   },
   "#VJYPYJ288": {
     "name": "DexTer15",
