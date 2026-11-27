@@ -87,18 +87,18 @@
     "name": "ROHIT",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T13:52:01+05:30",
-    "login_count": 1,
-    "decks_today": 2,
-    "decks_used": 2,
+    "last_seen": "2026-11-27T14:09:18+05:30",
+    "login_count": 2,
+    "decks_today": 4,
+    "decks_used": 4,
     "status": "Green",
     "last_war_score": 2600,
     "decks_prev_days": 0,
-    "fame": 500,
+    "fame": 800,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T13:52:01+05:30"
+    "last_login_counted_at": "2026-11-27T14:09:18+05:30"
   },
   "#28VCP8GLJ": {
     "name": "mystical mystry",
@@ -172,7 +172,7 @@
     "name": "<c4>mithil",
     "role": "leader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T13:57:53+05:30",
+    "last_seen": "2026-11-27T14:09:57+05:30",
     "login_count": 17,
     "decks_today": 4,
     "decks_used": 4,
@@ -223,8 +223,8 @@
     "name": "John Wick",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T11:08:08+05:30",
-    "login_count": 5,
+    "last_seen": "2026-11-27T14:11:14+05:30",
+    "login_count": 6,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -234,7 +234,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T11:08:08+05:30"
+    "last_login_counted_at": "2026-11-27T14:11:14+05:30"
   },
   "#PRVRU8V8": {
     "name": "Power_house",
@@ -426,18 +426,18 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T12:57:10+05:30",
-    "login_count": 9,
-    "decks_today": 3,
-    "decks_used": 3,
+    "last_seen": "2026-11-27T14:08:12+05:30",
+    "login_count": 10,
+    "decks_today": 4,
+    "decks_used": 4,
     "status": "Orange",
     "last_war_score": 1600,
     "decks_prev_days": 0,
-    "fame": 300,
+    "fame": 400,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T12:57:10+05:30"
+    "last_login_counted_at": "2026-11-27T14:08:12+05:30"
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
@@ -743,8 +743,8 @@
     "name": "Sotica",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T13:00:52+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T14:01:00+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Orange",
@@ -754,7 +754,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T13:00:52+05:30"
+    "last_login_counted_at": "2026-11-27T14:01:00+05:30"
   },
   "#VJYPYJ288": {
     "name": "DexTer15",
@@ -777,8 +777,8 @@
     "name": "khushal",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T10:07:58+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-27T14:11:38+05:30",
+    "login_count": 5,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -788,7 +788,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T10:07:58+05:30"
+    "last_login_counted_at": "2026-11-27T14:11:38+05:30"
   },
   "#V8CPJJV8C": {
     "name": "Wavyroast",
