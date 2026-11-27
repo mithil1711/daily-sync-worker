@@ -117,7 +117,6 @@ def split_description(description, max_len=3800):
     current = []
     curr_len = 0
     for raw_line in description.split("\n"):
-        # Hard-wrap any single line that exceeds max_len
         sub_lines = [raw_line[i:i + max_len] for i in range(0, len(raw_line), max_len)] or [""]
         for line in sub_lines:
             line_len = len(line) + 1
@@ -133,7 +132,7 @@ def split_description(description, max_len=3800):
     return chunks
 
 
-def send_discord_embed(title, description, color, fields=None, url=None, ping=True):
+def send_discord_embed(title, description, color, url=None, ping=True):
     if not WEBHOOK_URL:
         print(f"[DISCORD ERROR] DISCORD_WEBHOOK_URL is not set. Skipped embed: {title}")
         return
@@ -151,8 +150,6 @@ def send_discord_embed(title, description, color, fields=None, url=None, ping=Tr
         }
         if url and idx == 1:
             embed["url"] = url
-        if fields and idx == 1:
-            embed["fields"] = fields[:25]
 
         # Ping admins only on the first chunk to avoid duplicate notifications
         if ping and idx == 1 and ADMIN_ROLE_ID:
@@ -483,8 +480,7 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
 # MODULE B: DAILY EOD & END-OF-WAR REPORTS
 # ==========================================
 def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False):
-    day_start_str = war_state.get("day_start_ist") or war_state.get("day_start_utc")
-    day_start = parse_cr_time(day_start_str)
+    day_start = parse_cr_time(war_state.get("day_start_ist"))
     war_week_start = parse_cr_time(war_state.get("war_week_start_ist"))
     if not war_week_start and day_start:
         war_week_start = day_start - timedelta(days=war_day_num - 1)
@@ -564,7 +560,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
 
         if logged_in_offenders:
             active_lines = [
-                f"• **{o['name']}** {o['badge']} — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
+                f"• **{o['name']}** {o['badge']} (`{o['tag']}`) — **{o['logins']} logins** (Last: {o['last_seen_str']}) | "
                 f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
                 for o in logged_in_offenders
             ]
@@ -572,7 +568,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
 
         if inactive_offenders:
             inactive_lines = [
-                f"• **{o['name']}** {o['badge']} — Last seen: {o['last_seen_date_str']} | "
+                f"• **{o['name']}** {o['badge']} (`{o['tag']}`) — Last seen: {o['last_seen_date_str']} | "
                 f"Skipped **{o['skipped']}** ({o['decks']}/4) | Now: {o['now_str']} | Prev: **{o['prev_medals_str']}**"
                 for o in inactive_offenders
             ]
@@ -915,15 +911,11 @@ def main():
                 for store in (roster, departed):
                     for tag in store:
                         store[tag]["decks_prev_days"] = 0
-                        store[tag]["prev_day_decks"] = 0
-                        store[tag]["prev_day_logins"] = 0
                         store[tag]["decks_used"] = 0
                         store[tag]["training_decks"] = 0
             else:
                 for store in (roster, departed):
                     for tag in store:
-                        store[tag]["prev_day_decks"] = store[tag].get("decks_today", 0)
-                        store[tag]["prev_day_logins"] = store[tag].get("login_count", 0)
                         store[tag]["decks_prev_days"] = (
                             store[tag].get("decks_prev_days", 0)
                             + store[tag].get("decks_today", 0)
@@ -935,8 +927,6 @@ def main():
             for store in (roster, departed):
                 for tag in store:
                     store[tag]["decks_prev_days"] = 0
-                    store[tag]["prev_day_decks"] = 0
-                    store[tag]["prev_day_logins"] = 0
                     store[tag]["decks_used"] = 0
 
         for store in (roster, departed):
@@ -961,9 +951,7 @@ def main():
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
     if "day_start_ist" not in war_state:
-        war_state["day_start_ist"] = war_state.pop("day_start_utc", now_ist_str)
-    else:
-        war_state.pop("day_start_utc", None)
+        war_state["day_start_ist"] = now_ist_str
 
     day_start = parse_cr_time(war_state.get("day_start_ist"))
 
@@ -971,13 +959,11 @@ def main():
     decks_today_map = {}
     api_decks_used_map = {}
     fame_map = {}
-    boat_attacks_map = {}
     for p in race_resp.get("clan", {}).get("participants", []):
         api_decks_used_map[p["tag"]] = p.get("decksUsed", 0)
         if curr_period_type in WAR_PERIOD_TYPES:
             decks_today_map[p["tag"]] = p.get("decksUsedToday", 0)
             fame_map[p["tag"]] = p.get("fame", 0)
-            boat_attacks_map[p["tag"]] = p.get("boatAttacks", 0)
 
     # 3. Archive players who left (7-day grace period) and remove from active roster
     for tag in list(roster.keys()):
@@ -1047,7 +1033,6 @@ def main():
                 else:
                     restored["decks_used"] = prev_decks + today_decks
                 restored["fame"] = fame_map.get(tag, 0)
-                restored["boat_attacks"] = boat_attacks_map.get(tag, 0)
                 roster[tag] = restored
 
                 restored_status = restored.get("status")
@@ -1119,13 +1104,10 @@ def main():
                     "login_count": 0,
                     "last_login_counted_at": None,
                     "decks_prev_days": 0,
-                    "prev_day_decks": 0,
-                    "prev_day_logins": 0,
                     "decks_today": today_decks,
                     "decks_used": init_decks_used,
                     "training_decks": init_training_decks,
                     "fame": fame_map.get(tag, 0),
-                    "boat_attacks": boat_attacks_map.get(tag, 0),
                     "status": init_status,
                     "last_war_score": init_score,
                 }
@@ -1146,8 +1128,6 @@ def main():
                     elif not roster[tag].get("last_login_counted_at") and roster[tag].get("last_seen"):
                         roster[tag]["last_login_counted_at"] = roster[tag]["last_seen"]
                 roster[tag]["last_seen"] = curr_last_seen_ist
-            roster[tag]["name"] = m["name"]
-            roster[tag]["role"] = m["role"]
             prev_decks = roster[tag].get("decks_prev_days", 0) if curr_period_type in WAR_PERIOD_TYPES else 0
             roster[tag]["decks_prev_days"] = prev_decks
             roster[tag]["decks_today"] = today_decks
@@ -1165,7 +1145,6 @@ def main():
             else:
                 roster[tag]["decks_used"] = prev_decks + today_decks
             roster[tag]["fame"] = fame_map.get(tag, 0)
-            roster[tag]["boat_attacks"] = boat_attacks_map.get(tag, 0)
 
             # Retry deferred vetting if a previous poll failed or waited on Monday EOW
             if roster[tag].get("needs_vetting"):
