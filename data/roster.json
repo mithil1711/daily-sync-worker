@@ -626,8 +626,8 @@
     "name": "ash",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T15:03:21+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T14:26:05+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -636,7 +636,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T14:26:05+05:30"
   },
   "#VYQQR9R8J": {
     "name": "John F rubun",
