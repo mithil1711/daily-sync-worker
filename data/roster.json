@@ -307,8 +307,8 @@
     "name": "Undead",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T23:50:43+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T13:12:43+05:30",
+    "login_count": 2,
     "decks_today": 1,
     "decks_used": 1,
     "status": "Green",
@@ -318,7 +318,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-26T23:50:43+05:30"
+    "last_login_counted_at": "2026-11-27T13:12:43+05:30"
   },
   "#CV8LQY20G": {
     "name": "DAHIWADA",
@@ -738,18 +738,18 @@
     "name": "Sotica",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T08:31:30+05:30",
-    "login_count": 1,
-    "decks_today": 0,
-    "decks_used": 0,
+    "last_seen": "2026-11-27T13:00:52+05:30",
+    "login_count": 2,
+    "decks_today": 4,
+    "decks_used": 4,
     "status": "Orange",
     "last_war_score": 1400,
     "decks_prev_days": 0,
-    "fame": 0,
+    "fame": 600,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T08:31:30+05:30"
+    "last_login_counted_at": "2026-11-27T13:00:52+05:30"
   },
   "#VJYPYJ288": {
     "name": "DexTer15",
