@@ -496,8 +496,8 @@
     "name": "StealthBlack",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T22:11:29+05:30",
-    "login_count": 5,
+    "last_seen": "2026-11-27T22:42:24+05:30",
+    "login_count": 6,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -507,7 +507,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 11,
-    "last_login_counted_at": "2026-11-27T22:11:29+05:30"
+    "last_login_counted_at": "2026-11-27T22:42:24+05:30"
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
@@ -564,8 +564,8 @@
     "name": "mr bean",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T21:35:27+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-27T22:33:04+05:30",
+    "login_count": 5,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -575,7 +575,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 14,
-    "last_login_counted_at": "2026-11-27T21:35:27+05:30"
+    "last_login_counted_at": "2026-11-27T22:33:04+05:30"
   },
   "#GP8JUG": {
     "name": "Abhijeet",
@@ -617,12 +617,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-27T22:28:51+05:30",
     "login_count": 5,
-    "decks_today": 0,
-    "decks_used": 4,
+    "decks_today": 3,
+    "decks_used": 7,
     "status": "Green",
     "last_war_score": 1800,
     "decks_prev_days": 4,
-    "fame": 500,
+    "fame": 950,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 7,
