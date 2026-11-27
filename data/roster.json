@@ -171,8 +171,8 @@
     "name": "<c4>mithil",
     "role": "leader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T12:33:42+05:30",
-    "login_count": 15,
+    "last_seen": "2026-11-27T12:48:38+05:30",
+    "login_count": 16,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -182,7 +182,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T12:23:53+05:30"
+    "last_login_counted_at": "2026-11-27T12:48:38+05:30"
   },
   "#Q22R0VV9L": {
     "name": "Bezalel10",
@@ -422,18 +422,18 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T09:57:01+05:30",
-    "login_count": 8,
-    "decks_today": 2,
-    "decks_used": 2,
+    "last_seen": "2026-11-27T12:57:10+05:30",
+    "login_count": 9,
+    "decks_today": 3,
+    "decks_used": 3,
     "status": "Orange",
     "last_war_score": 1600,
     "decks_prev_days": 0,
-    "fame": 200,
+    "fame": 300,
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T09:57:01+05:30"
+    "last_login_counted_at": "2026-11-27T12:57:10+05:30"
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
@@ -587,8 +587,8 @@
     "name": "Arpudham",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T12:18:12+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T12:48:27+05:30",
+    "login_count": 2,
     "decks_today": 2,
     "decks_used": 2,
     "status": "Orange",
@@ -598,7 +598,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T12:18:12+05:30"
+    "last_login_counted_at": "2026-11-27T12:48:27+05:30"
   },
   "#URULYPP0C": {
     "name": "ITACHI",
