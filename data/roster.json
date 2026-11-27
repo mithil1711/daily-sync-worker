@@ -71,8 +71,8 @@
     "name": "king karan",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T14:47:17+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T19:12:55+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Orange",
@@ -82,7 +82,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T19:12:55+05:30"
   },
   "#8GCYJUVV9": {
     "name": "ROHIT",
@@ -226,12 +226,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-27T18:47:55+05:30",
     "login_count": 1,
-    "decks_today": 0,
-    "decks_used": 4,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Green",
     "last_war_score": 2450,
     "decks_prev_days": 4,
-    "fame": 800,
+    "fame": 1600,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 6,
@@ -428,8 +428,8 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T17:20:56+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T19:02:54+05:30",
+    "login_count": 3,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Orange",
@@ -439,7 +439,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 10,
-    "last_login_counted_at": "2026-11-27T17:20:56+05:30"
+    "last_login_counted_at": "2026-11-27T19:02:54+05:30"
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
@@ -513,8 +513,8 @@
     "name": "PHANToM",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T19:13:15+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T19:14:47+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Orange",
@@ -524,7 +524,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 1,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T19:14:47+05:30"
   },
   "#8GJUU98JC": {
     "name": "Striker",
