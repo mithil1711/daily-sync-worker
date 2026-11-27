@@ -209,12 +209,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-27T19:21:24+05:30",
     "login_count": 1,
-    "decks_today": 2,
-    "decks_used": 6,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Orange",
     "last_war_score": 900,
     "decks_prev_days": 4,
-    "fame": 800,
+    "fame": 1200,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 1,
@@ -564,8 +564,8 @@
     "name": "mr bean",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T18:01:04+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T19:36:39+05:30",
+    "login_count": 3,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -575,7 +575,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 14,
-    "last_login_counted_at": "2026-11-27T18:01:04+05:30"
+    "last_login_counted_at": "2026-11-27T19:36:39+05:30"
   },
   "#GP8JUG": {
     "name": "Abhijeet",
@@ -598,8 +598,8 @@
     "name": "Arpudham",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T17:45:04+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T19:44:46+05:30",
+    "login_count": 3,
     "decks_today": 0,
     "decks_used": 2,
     "status": "Orange",
@@ -609,7 +609,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 2,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-27T17:45:04+05:30"
+    "last_login_counted_at": "2026-11-27T19:44:46+05:30"
   },
   "#URULYPP0C": {
     "name": "ITACHI",
@@ -632,8 +632,8 @@
     "name": "ash",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T14:26:05+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T19:30:35+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -643,7 +643,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 1,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T19:30:35+05:30"
   },
   "#VYQQR9R8J": {
     "name": "John F rubun",
@@ -785,8 +785,8 @@
     "name": "khushal",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T17:48:57+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T19:35:19+05:30",
+    "login_count": 2,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -796,7 +796,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": "2026-11-27T17:39:38+05:30"
+    "last_login_counted_at": "2026-11-27T19:35:19+05:30"
   },
   "#V8CPJJV8C": {
     "name": "Wavyroast",
@@ -819,18 +819,18 @@
     "name": "Omkar",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T19:21:04+05:30",
-    "login_count": 1,
-    "decks_today": 0,
-    "decks_used": 4,
+    "last_seen": "2026-11-27T19:36:39+05:30",
+    "login_count": 2,
+    "decks_today": 2,
+    "decks_used": 6,
     "status": "Orange",
     "last_war_score": 1600,
     "decks_prev_days": 4,
-    "fame": 800,
+    "fame": 1200,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": "2026-11-27T19:21:04+05:30"
+    "last_login_counted_at": "2026-11-27T19:36:39+05:30"
   },
   "#CCQJ2L888": {
     "name": "devansh",
