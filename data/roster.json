@@ -54,8 +54,8 @@
     "name": "Paper KEY",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T07:28:20+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T17:19:08+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Orange",
@@ -65,7 +65,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 17,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T17:19:08+05:30"
   },
   "#9P0VVQ9JR": {
     "name": "king karan",
@@ -428,8 +428,8 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T16:50:05+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T17:20:56+05:30",
+    "login_count": 2,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Orange",
@@ -439,7 +439,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 10,
-    "last_login_counted_at": "2026-11-27T16:50:05+05:30"
+    "last_login_counted_at": "2026-11-27T17:20:56+05:30"
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
