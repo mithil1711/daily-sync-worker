@@ -292,8 +292,8 @@
     "name": "Param2646",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:57:02+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-27T23:15:20+05:30",
+    "login_count": 2,
     "decks_today": 1,
     "decks_used": 5,
     "status": "Green",
@@ -303,7 +303,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": "2026-11-27T20:57:02+05:30"
+    "last_login_counted_at": "2026-11-27T23:15:20+05:30"
   },
   "#LCYVGYRY": {
     "name": "Undead",
@@ -836,8 +836,8 @@
     "name": "devansh",
     "role": "member",
     "joined_at": "2026-11-26T00:15:20+05:30",
-    "last_seen": "2026-11-27T08:23:33+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T23:05:33+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -847,6 +847,6 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-27T23:05:33+05:30"
   }
 }
