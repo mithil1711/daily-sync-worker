@@ -668,8 +668,8 @@
     "name": "Pappu",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T08:06:23+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-27T08:50:39+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -679,7 +679,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T08:06:23+05:30"
+    "last_login_counted_at": "2026-11-27T08:50:39+05:30"
   },
   "#VC9VQUGY0": {
     "name": "Asta",
