@@ -552,8 +552,8 @@
     "name": "mr bean",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T02:59:58+05:30",
-    "login_count": 7,
+    "last_seen": "2026-11-27T05:28:59+05:30",
+    "login_count": 8,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -563,7 +563,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T02:59:58+05:30"
+    "last_login_counted_at": "2026-11-27T05:28:59+05:30"
   },
   "#GP8JUG": {
     "name": "Abhijeet",
