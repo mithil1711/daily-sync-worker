@@ -224,8 +224,8 @@
     "name": "John Wick",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T18:47:55+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-28T01:53:49+05:30",
+    "login_count": 2,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -235,7 +235,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 6,
-    "last_login_counted_at": "2026-11-27T18:47:55+05:30"
+    "last_login_counted_at": "2026-11-28T01:53:49+05:30"
   },
   "#PRVRU8V8": {
     "name": "Power_house",
@@ -496,8 +496,8 @@
     "name": "StealthBlack",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T01:26:26+05:30",
-    "login_count": 7,
+    "last_seen": "2026-11-28T01:53:37+05:30",
+    "login_count": 8,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -507,7 +507,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 11,
-    "last_login_counted_at": "2026-11-28T01:26:26+05:30"
+    "last_login_counted_at": "2026-11-28T01:53:37+05:30"
   },
   "#C9Y8CY2JY": {
     "name": "PHANToM",
