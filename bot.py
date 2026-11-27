@@ -742,6 +742,8 @@ def handle_manual_score(player_tag, score):
     roster[tag]["last_war_score"] = score
     roster[tag]["status"] = status
     roster[tag].pop("needs_vetting", None)
+    roster[tag].pop("vetting_queued_at", None)
+    roster[tag].pop("vetting_delay_alerted", None)
     save_json(ROSTER_FILE, roster)
 
     name = roster[tag]["name"]
@@ -885,6 +887,7 @@ def main():
     prev_period_idx = war_state.get("period_index")
     prev_period_type = war_state.get("period_type")
     eow_attempted_this_run = False
+    clan_rapi_url = f"https://royaleapi.com/clan/{CLAN_TAG.replace('#', '')}/war/log"
 
     if prev_period_idx is not None and curr_period_idx != prev_period_idx:
         if prev_period_type in WAR_PERIOD_TYPES:
@@ -907,6 +910,7 @@ def main():
                     war_state["pending_eow"] = {
                         "created_at": now_ist_str,
                         "deck_snapshot": deck_snapshot,
+                        "delay_alerted": False,
                     }
                 for store in (roster, departed):
                     for tag in store:
@@ -922,8 +926,17 @@ def main():
                         )
         elif curr_period_type in WAR_PERIOD_TYPES:
             # Transition from Training -> Battle Day 1
+            if war_state.pop("pending_eow", None):
+                send_discord_embed(
+                    title="⚠️ End-of-War Verdict Expired",
+                    description=(
+                        f"Supercell's war log was never available before Battle Day 1 began, so last week's automated EOW report was skipped.\n"
+                        f"👉 **[Check Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                    ),
+                    color=0xE67E22,
+                    url=clan_rapi_url,
+                )
             war_state["war_week_start_ist"] = now_ist_str
-            war_state.pop("pending_eow", None)
             for store in (roster, departed):
                 for tag in store:
                     store[tag]["decks_prev_days"] = 0
@@ -941,12 +954,33 @@ def main():
         pending = war_state["pending_eow"]
         pending_dt = parse_cr_time(pending.get("created_at"))
         if curr_period_type != "training" or (pending_dt and (now_ist - pending_dt) > timedelta(hours=EOW_FRESHNESS_HOURS)):
+            send_discord_embed(
+                title="⚠️ End-of-War Verdict Expired (48h)",
+                description=(
+                    f"Supercell's `/riverracelog` remained unavailable or stale for over {EOW_FRESHNESS_HOURS} hours, so automated EOW grading was skipped.\n"
+                    f"👉 **[Check Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                ),
+                color=0xE67E22,
+                url=clan_rapi_url,
+            )
             war_state.pop("pending_eow", None)
         else:
             eow_war_end = post_end_of_war_verdict(roster, socials, now_ist, pending.get("deck_snapshot"))
             if eow_war_end:
                 war_state.pop("pending_eow", None)
                 purge_departed_before(departed, eow_war_end)
+            elif not pending.get("delay_alerted") and pending_dt and (now_ist - pending_dt) >= timedelta(hours=1):
+                send_discord_embed(
+                    title="⏳ End-of-War Verdict Delayed",
+                    description=(
+                        f"Waiting on Supercell's API to publish this week's `/riverracelog`. The bot will keep retrying automatically (up to {EOW_FRESHNESS_HOURS}h).\n"
+                        f"👉 **[View Clan War Log on RoyaleAPI]({clan_rapi_url})**"
+                    ),
+                    color=0x95A5A6,
+                    url=clan_rapi_url,
+                    ping=False,
+                )
+                pending["delay_alerted"] = True
 
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
@@ -982,25 +1016,48 @@ def main():
     qualifying_joiners = []
     eow_pending = bool(war_state.get("pending_eow"))
 
+    def queue_vetting_retry(tag, member):
+        roster[tag]["needs_vetting"] = True
+        if "vetting_queued_at" not in roster[tag]:
+            roster[tag]["vetting_queued_at"] = now_ist_str
+        if not roster[tag].get("vetting_delay_alerted"):
+            queued_dt = parse_cr_time(roster[tag].get("vetting_queued_at"))
+            if queued_dt and (now_ist - queued_dt) >= timedelta(hours=1):
+                rapi_url = f"https://royaleapi.com/player/{tag.replace('#', '')}"
+                send_discord_embed(
+                    title=f"⏳ Auto-Vetting Delayed: {member['name']}",
+                    description=(
+                        f"**Player:** {member['name']} (`{tag}`)\n"
+                        f"Auto-vetting has been delayed over 1 hour due to Supercell API / pending EOW. The bot will keep retrying automatically.\n"
+                        f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})** or run `/score tag:{tag} medals:<score>` manually."
+                    ),
+                    color=0x95A5A6,
+                    url=rapi_url,
+                    ping=False,
+                )
+                roster[tag]["vetting_delay_alerted"] = True
+
     def try_vet_member(tag, member):
         nonlocal war_start, war_end, target_season, target_section
         if eow_pending:
-            roster[tag]["needs_vetting"] = True
+            queue_vetting_retry(tag, member)
             return
         if war_start is None:
             war_start, war_end, target_season, target_section = get_last_completed_war_window()
         if war_start:
             status, score, retry_needed = vet_new_joiner(member, war_start, war_end, target_season, target_section)
             if retry_needed:
-                roster[tag]["needs_vetting"] = True
+                queue_vetting_retry(tag, member)
                 return
             roster[tag]["status"] = status
             roster[tag]["last_war_score"] = score
             roster[tag].pop("needs_vetting", None)
+            roster[tag].pop("vetting_queued_at", None)
+            roster[tag].pop("vetting_delay_alerted", None)
             if status in ("Orange", "Green"):
                 qualifying_joiners.append(member["name"])
         else:
-            roster[tag]["needs_vetting"] = True
+            queue_vetting_retry(tag, member)
 
     for tag, m in current_members.items():
         curr_last_seen_ist = to_ist_iso(m.get("lastSeen"))
