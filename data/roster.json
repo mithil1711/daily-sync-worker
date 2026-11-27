@@ -187,8 +187,8 @@
     "name": "Bezalel10",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-26T00:44:00+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-27T05:54:31+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -197,7 +197,8 @@
     "fame": 0,
     "boat_attacks": 0,
     "prev_day_decks": 0,
-    "prev_day_logins": 0
+    "prev_day_logins": 0,
+    "last_login_counted_at": "2026-11-27T05:54:31+05:30"
   },
   "#UC808YU9G": {
     "name": "\uc2e4\ubc84\ubc1c\ub80c\ud0c0\uc778",
@@ -470,8 +471,8 @@
     "name": "ALPHA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T00:21:16+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T05:57:59+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 4,
     "status": "Green",
@@ -481,7 +482,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T00:21:16+05:30"
+    "last_login_counted_at": "2026-11-27T05:57:59+05:30"
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
@@ -552,8 +553,8 @@
     "name": "mr bean",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T05:28:59+05:30",
-    "login_count": 8,
+    "last_seen": "2026-11-27T06:00:05+05:30",
+    "login_count": 9,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -563,7 +564,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T05:28:59+05:30"
+    "last_login_counted_at": "2026-11-27T06:00:05+05:30"
   },
   "#GP8JUG": {
     "name": "Abhijeet",
