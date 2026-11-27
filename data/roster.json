@@ -222,8 +222,8 @@
     "name": "John Wick",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T02:43:01+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-27T10:22:35+05:30",
+    "login_count": 3,
     "decks_today": 0,
     "decks_used": 0,
     "status": "Green",
@@ -233,7 +233,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 0,
     "prev_day_logins": 0,
-    "last_login_counted_at": "2026-11-27T02:43:01+05:30"
+    "last_login_counted_at": "2026-11-27T10:22:35+05:30"
   },
   "#PRVRU8V8": {
     "name": "Power_house",
