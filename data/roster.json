@@ -122,8 +122,8 @@
     "name": "Super Drago",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T07:47:04+05:30",
-    "login_count": 1,
+    "last_seen": "2026-11-28T08:44:32+05:30",
+    "login_count": 2,
     "decks_today": 3,
     "decks_used": 7,
     "status": "Green",
@@ -133,7 +133,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-28T07:47:04+05:30"
+    "last_login_counted_at": "2026-11-28T08:44:32+05:30"
   },
   "#Q8VQQY9YC": {
     "name": "king of cr",
@@ -411,8 +411,8 @@
     "name": "LEO",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T13:38:59+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-28T08:42:54+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 3,
     "status": "Green",
@@ -422,7 +422,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 3,
     "prev_day_logins": 2,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-28T08:42:54+05:30"
   },
   "#9QRUC0JRP": {
     "name": "sujal",
