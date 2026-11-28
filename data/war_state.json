@@ -1773,10 +1773,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#JQRRCJ0R9": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#2P9U9LJUV": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1802,6 +1798,10 @@
         "clan_name": "Bluescreen"
       },
       "#8PQ8JJJ0J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JQRRCJ0R9": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -2052,17 +2052,17 @@
     {
       "tag": "#8QQG2GG",
       "name": "Bluescreen",
-      "points": 5075
+      "points": 5675
     },
     {
       "tag": "#QVRR8VR2",
       "name": "Indian Warriors",
-      "points": 9050
+      "points": 9450
     },
     {
       "tag": "#Y8UJL0",
       "name": "B@n@n@ Roy@Le",
-      "points": 3400
+      "points": 3500
     },
     {
       "tag": "#YJJJCJP8",
