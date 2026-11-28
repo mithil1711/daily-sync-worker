@@ -29,27 +29,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Pull latest main
         run: git pull --ff-only origin main
-      - name: Update socials.json
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Update socials.json & check Elder eligibility
         env:
+          CR_API_TOKEN: ${{ secrets.CR_API_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          CLAN_TAG: ${{ secrets.CLAN_TAG }}
+          ADMIN_ROLE_ID: ${{ secrets.ADMIN_ROLE_ID }}
+          KICK_THRESHOLD: ${{ vars.KICK_THRESHOLD || '900' }}
+          SAFE_THRESHOLD: ${{ vars.SAFE_THRESHOLD || '1800' }}
+          ELDER_SAFE_THRESHOLD: ${{ vars.ELDER_SAFE_THRESHOLD || '2400' }}
           PLAYER_TAG: ${{ inputs.player_tag }}
           SOCIAL_STATUS: ${{ inputs.status }}
-        run: |
-          python3 -c '
-          import json, os
-          tag = os.environ["PLAYER_TAG"].strip().upper()
-          if not tag.startswith("#"): tag = "#" + tag
-          status = os.environ["SOCIAL_STATUS"]
-          with open("data/socials.json", "r") as f:
-              data = json.load(f)
-          if status == "None":
-              data.pop(tag, None)
-          else:
-              data[tag] = status
-          with open("data/socials.json", "w") as f:
-              json.dump(data, f, indent=2)
-          '
+        run: python3 bot.py --social-tag "$PLAYER_TAG" --social-status "$SOCIAL_STATUS"
+
       - name: Commit change
         env:
           PLAYER_TAG: ${{ inputs.player_tag }}
