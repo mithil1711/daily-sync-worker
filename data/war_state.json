@@ -1753,10 +1753,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#8PQ8JJJ0J": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#28PPCQJ9G": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1805,6 +1801,10 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
+      "#8PQ8JJJ0J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
       "#RJV9J9929": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1837,10 +1837,6 @@
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
-      "#2R2UGQJV2": {
-        "clan_tag": "#Y8UJL0",
-        "clan_name": "B@n@n@ Roy@Le"
-      },
       "#8GYUCV0V": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
@@ -1858,6 +1854,10 @@
         "clan_name": "B@n@n@ Roy@Le"
       },
       "#RPYP9Y0J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#2R2UGQJV2": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
@@ -2047,5 +2047,32 @@
       }
     }
   },
-  "section_index": 3
+  "section_index": 3,
+  "daily_standings": [
+    {
+      "tag": "#8QQG2GG",
+      "name": "Bluescreen",
+      "points": 2300
+    },
+    {
+      "tag": "#QVRR8VR2",
+      "name": "Indian Warriors",
+      "points": 4550
+    },
+    {
+      "tag": "#Y8UJL0",
+      "name": "B@n@n@ Roy@Le",
+      "points": 2200
+    },
+    {
+      "tag": "#YJJJCJP8",
+      "name": "CHICKEN DINNER!",
+      "points": 1800
+    },
+    {
+      "tag": "#R2L9VL0C",
+      "name": "Bolivia6to",
+      "points": 200
+    }
+  ]
 }
