@@ -23,6 +23,7 @@ BUFFER_MINUTES = 45
 LOGIN_COOLDOWN_MINUTES = 14
 EOW_FRESHNESS_HOURS = 48
 WAR_PERIOD_TYPES = ("warDay", "colosseum")
+WAR_BATTLE_TYPES = ("riverRacePvP", "riverRaceDuel", "riverRaceDuelColosseum", "boatBattle")
 
 BASE_URL = "https://proxy.royaleapi.dev/v1"
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}", "Accept": "application/json"}
@@ -226,6 +227,138 @@ def purge_departed_before(departed, cutoff_dt):
 
 
 # ==========================================
+# OPPONENT SPY CACHE & TODAY'S DECK CHECK
+# ==========================================
+def refresh_opponent_spy_cache(race_resp, war_state):
+    """Cache 10-week opponent riverracelog players once per week + live current-week participants."""
+    clans = race_resp.get("clans", [])
+    opponents = {
+        c["tag"]: c.get("name", c["tag"])
+        for c in clans
+        if c.get("tag") and c["tag"] != CLAN_TAG
+    }
+    if not opponents:
+        return
+
+    section_idx = race_resp.get("sectionIndex")
+    week_key = f"{section_idx}|{'|'.join(sorted(opponents.keys()))}"
+    cache = war_state.get("opponent_spy_cache") or {}
+
+    # Refresh 10-week riverracelog cache once per war week (or if a previous fetch was incomplete)
+    if cache.get("week_key") != week_key or cache.get("incomplete"):
+        hist_players = {}
+        incomplete = False
+        for opp_tag, opp_name in opponents.items():
+            rlog = api_get(f"/clans/{encode_tag(opp_tag)}/riverracelog?limit=10")
+            if rlog is None:
+                incomplete = True
+                continue
+            for weeks_ago, item in enumerate(rlog.get("items", []), start=1):
+                for standing in item.get("standings", []):
+                    if standing.get("clan", {}).get("tag") != opp_tag:
+                        continue
+                    for p in standing["clan"].get("participants", []):
+                        if p.get("decksUsed", 0) > 0 or p.get("fame", 0) > 0:
+                            p_tag = p["tag"]
+                            existing = hist_players.get(p_tag)
+                            if not existing or weeks_ago < existing["weeks_ago"]:
+                                hist_players[p_tag] = {
+                                    "clan_tag": opp_tag,
+                                    "clan_name": opp_name,
+                                    "weeks_ago": weeks_ago,
+                                }
+                    break
+
+        cache = {
+            "week_key": week_key,
+            "incomplete": incomplete,
+            "opponents": opponents,
+            "players": hist_players,
+            "current_week_players": {},
+        }
+
+    # Always refresh live current-week opponent participants from /currentriverrace (0 extra API calls)
+    curr_week_players = {}
+    for c in clans:
+        opp_tag = c.get("tag")
+        if not opp_tag or opp_tag == CLAN_TAG:
+            continue
+        opp_name = c.get("name", opp_tag)
+        for p in c.get("participants", []):
+            if p.get("decksUsed", 0) > 0 or p.get("fame", 0) > 0:
+                curr_week_players[p["tag"]] = {
+                    "clan_tag": opp_tag,
+                    "clan_name": opp_name,
+                }
+
+    cache["opponents"] = opponents
+    cache["current_week_players"] = curr_week_players
+    war_state["opponent_spy_cache"] = cache
+
+
+def check_today_war_decks_elsewhere(battles, war_state):
+    """Return count of war decks used in another clan since today's Battle Day reset."""
+    if not war_state or war_state.get("period_type") not in WAR_PERIOD_TYPES:
+        return 0
+    day_start = parse_cr_time(war_state.get("day_start_ist"))
+    if not day_start:
+        return 0
+
+    decks_used = 0
+    for b in battles:
+        if b.get("type") not in WAR_BATTLE_TYPES:
+            continue
+        bt = parse_cr_time(b.get("battleTime"))
+        if not bt or bt < day_start:
+            continue
+        team_info = b.get("team", [{}])[0]
+        clan_tag = (team_info.get("clan") or {}).get("tag")
+        if clan_tag == CLAN_TAG:
+            continue
+        cards = team_info.get("cards") or []
+        decks_used += max(1, len(cards) // 8)
+    return min(4, decks_used)
+
+
+def check_opponent_spy(tag, battles, war_state):
+    """Check if player matches any active opponent via battlelog, current week, or 10-week cache."""
+    cache = (war_state or {}).get("opponent_spy_cache") or {}
+    opponents = cache.get("opponents") or {}
+    if not opponents:
+        return []
+
+    alerts = []
+    # 1. Recent battles in /battlelog wearing an opponent clan tag
+    seen_battlelog_opps = set()
+    for b in battles:
+        clan_info = (b.get("team", [{}])[0].get("clan") or {})
+        c_tag = clan_info.get("tag")
+        if c_tag in opponents and c_tag not in seen_battlelog_opps:
+            seen_battlelog_opps.add(c_tag)
+            alerts.append(
+                f"🚨 **SPY ALERT:** Recently battled for opponent **{opponents[c_tag]}** (`{c_tag}`) in battlelog!"
+            )
+
+    # 2. Live current-week opponent participants
+    curr_match = (cache.get("current_week_players") or {}).get(tag)
+    if curr_match and curr_match["clan_tag"] not in seen_battlelog_opps:
+        alerts.append(
+            f"🚨 **SPY ALERT:** Battled for opponent **{curr_match['clan_name']}** (`{curr_match['clan_tag']}`) in the **current war week**!"
+        )
+
+    # 3. Past 10 weeks riverracelog cache
+    hist_match = (cache.get("players") or {}).get(tag)
+    if hist_match:
+        wk = hist_match["weeks_ago"]
+        wk_label = "1 week ago" if wk == 1 else f"{wk} weeks ago"
+        alerts.append(
+            f"🚨 **SPY ALERT:** Played for opponent **{hist_match['clan_name']}** (`{hist_match['clan_tag']}`) **{wk_label}**!"
+        )
+
+    return alerts
+
+
+# ==========================================
 # 50/50 HOLD-LIST KICK SUGGESTION
 # ==========================================
 def build_kick_candidates(roster, socials, target_status):
@@ -390,7 +523,7 @@ def get_last_completed_war_window():
     return war_start, war_end, latest["seasonId"], latest["sectionIndex"]
 
 
-def vet_new_joiner(member, war_start, war_end, target_season, target_section, is_applicant=False):
+def vet_new_joiner(member, war_start, war_end, target_season, target_section, war_state=None, is_applicant=False):
     tag = member["tag"]
     name = member["name"]
     clean_tag = tag.replace("#", "")
@@ -399,6 +532,17 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
     battles = api_get(f"/players/{encode_tag(tag)}/battlelog")
     if battles is None:
         return "Pending", None, True
+
+    # Zero-extra-API-call safety checks: Today's Deck Check + Opponent Spy Check
+    warning_lines = []
+    decks_elsewhere = check_today_war_decks_elsewhere(battles, war_state)
+    if decks_elsewhere > 0:
+        warning_lines.append(
+            f"⚠️ **War Deck Alert:** Already used **{decks_elsewhere}/4** war deck(s) in another clan today!"
+        )
+    spy_alerts = check_opponent_spy(tag, battles, war_state)
+    warning_lines.extend(spy_alerts)
+    warning_block = ("\n".join(warning_lines) + "\n\n") if warning_lines else ""
 
     war_window_clans = set()
     for b in battles:
@@ -415,15 +559,17 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
             else f"*(If you keep them, run `/score tag:{tag} medals:<score>` in Discord.)*"
         )
         desc = (
+            f"{warning_block}"
             f"**Player:** {name} (`{tag}`)\n"
             f"**Status:** No clan battles found in last war window.\n"
             f"👉 **[Check RoyaleAPI CW2 History]({rapi_url})**\n"
             f"{footer_note}"
         )
+        spy_prefix = "🚨 SPY | " if spy_alerts else ""
         send_discord_embed(
-            title=f"🔎 {'Applicant' if is_applicant else 'New Joiner'}: {name} (Check RoyaleAPI)",
+            title=f"{spy_prefix}🔎 {'Applicant' if is_applicant else 'New Joiner'}: {name} (Check RoyaleAPI)",
             description=desc,
-            color=0x95A5A6,
+            color=0xE74C3C if spy_alerts else 0x95A5A6,
             url=rapi_url,
         )
         return "Pending", None, False
@@ -462,14 +608,18 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, is
             clan_notes.append(f"`{c_tag}`: 0 medals (left mid-war or 0 attacks)")
 
     status, verdict, color = classify_score(total_fame)
+    if spy_alerts:
+        color = 0xE74C3C
 
     desc = (
+        f"{warning_block}"
         f"**Player:** {name} (`{tag}`) | **Verdict:** {verdict}\n"
         f"**Last War Cumulative Score:** **{total_fame} medals** ({total_decks} decks)\n"
         f"**Clans Checked:**\n• " + "\n• ".join(clan_notes)
     )
+    spy_prefix = "🚨 SPY | " if spy_alerts else ""
     send_discord_embed(
-        title=f"{'Applicant' if is_applicant else 'New Joiner'} Vetting: {name} — {verdict}",
+        title=f"{spy_prefix}{'Applicant' if is_applicant else 'New Joiner'} Vetting: {name} — {verdict}",
         description=desc,
         color=color,
     )
@@ -823,6 +973,8 @@ def handle_vet_applicant(player_tag):
         )
         return
 
+    war_state = load_json(WAR_STATE_FILE, {})
+
     # Reuse the exact same vetting logic (does not modify roster.json)
     _, _, retry_needed = vet_new_joiner(
         {"tag": player["tag"], "name": f"[Applicant] {player['name']}"},
@@ -830,6 +982,7 @@ def handle_vet_applicant(player_tag):
         war_end,
         target_season,
         target_section,
+        war_state=war_state,
         is_applicant=True,
     )
     if retry_needed:
@@ -1003,6 +1156,9 @@ def main():
     if "day_start_ist" not in war_state:
         war_state["day_start_ist"] = now_ist_str
 
+    # Refresh 10-week + current-week opponent spy cache before vetting newcomers
+    refresh_opponent_spy_cache(race_resp, war_state)
+
     day_start = parse_cr_time(war_state.get("day_start_ist"))
 
     # 2. Map live war stats
@@ -1061,7 +1217,14 @@ def main():
         if war_start is None:
             war_start, war_end, target_season, target_section = get_last_completed_war_window()
         if war_start:
-            status, score, retry_needed = vet_new_joiner(member, war_start, war_end, target_season, target_section)
+            status, score, retry_needed = vet_new_joiner(
+                member,
+                war_start,
+                war_end,
+                target_season,
+                target_section,
+                war_state=war_state,
+            )
             if retry_needed:
                 queue_vetting_retry(tag, member)
                 return
