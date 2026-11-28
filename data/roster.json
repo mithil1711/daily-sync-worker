@@ -683,8 +683,8 @@
     "name": "Pappu",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T14:52:09+05:30",
-    "login_count": 5,
+    "last_seen": "2026-11-28T15:07:47+05:30",
+    "login_count": 6,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -694,7 +694,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 6,
-    "last_login_counted_at": "2026-11-28T14:41:05+05:30"
+    "last_login_counted_at": "2026-11-28T15:07:47+05:30"
   },
   "#VC9VQUGY0": {
     "name": "Asta",
@@ -802,8 +802,8 @@
     "name": "Wavyroast",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T14:53:28+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-28T15:08:25+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Orange",
@@ -813,7 +813,7 @@
     "boat_attacks": 3,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-28T14:53:28+05:30"
+    "last_login_counted_at": "2026-11-28T15:08:25+05:30"
   },
   "#PQPGR2P8": {
     "name": "Omkar",
