@@ -1753,10 +1753,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#PJPYRLV8": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#PCYJUJ0R": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1801,6 +1797,10 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
+      "#PJPYRLV8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
       "#RJV9J9929": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1818,10 +1818,6 @@
         "clan_name": "B@n@n@ Roy@Le"
       },
       "#200U8G28C0": {
-        "clan_tag": "#Y8UJL0",
-        "clan_name": "B@n@n@ Roy@Le"
-      },
-      "#Y9VPJQCG": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
@@ -1874,6 +1870,10 @@
         "clan_name": "B@n@n@ Roy@Le"
       },
       "#2LU992VCJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#Y9VPJQCG": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
@@ -1945,11 +1945,11 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#2RJVJ9L2": {
+      "#2CRGQGRYG": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#2CRGQGRYG": {
+      "#2RJVJ9L2": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
@@ -2052,7 +2052,7 @@
     {
       "tag": "#8QQG2GG",
       "name": "Bluescreen",
-      "points": 6275
+      "points": 6975
     },
     {
       "tag": "#QVRR8VR2",
@@ -2062,12 +2062,12 @@
     {
       "tag": "#Y8UJL0",
       "name": "B@n@n@ Roy@Le",
-      "points": 4400
+      "points": 4900
     },
     {
       "tag": "#YJJJCJP8",
       "name": "CHICKEN DINNER!",
-      "points": 4600
+      "points": 4800
     },
     {
       "tag": "#R2L9VL0C",
