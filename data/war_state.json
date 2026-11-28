@@ -1749,10 +1749,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#V8JV98GQV": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#20VC0VP0PJ": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1770,6 +1766,10 @@
         "clan_name": "Bluescreen"
       },
       "#YU0YUJY0G": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#V8JV98GQV": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1849,15 +1849,15 @@
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
-      "#VLC0RVYJ0": {
-        "clan_tag": "#Y8UJL0",
-        "clan_name": "B@n@n@ Roy@Le"
-      },
       "#PV298LJVG": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
       "#R90R2VP9P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VLC0RVYJ0": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
@@ -1909,11 +1909,11 @@
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
-      "#PJ0G08J2J": {
+      "#P0V88PJLU": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
-      "#P0V88PJLU": {
+      "#PJ0G08J2J": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
@@ -2052,7 +2052,7 @@
     {
       "tag": "#8QQG2GG",
       "name": "Bluescreen",
-      "points": 6075
+      "points": 6275
     },
     {
       "tag": "#QVRR8VR2",
@@ -2062,7 +2062,7 @@
     {
       "tag": "#Y8UJL0",
       "name": "B@n@n@ Roy@Le",
-      "points": 4000
+      "points": 4400
     },
     {
       "tag": "#YJJJCJP8",
