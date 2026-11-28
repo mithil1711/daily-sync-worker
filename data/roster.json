@@ -241,8 +241,8 @@
     "name": "Power_house",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:01:22+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-28T08:28:21+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -252,7 +252,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 4,
-    "last_login_counted_at": "2026-11-27T20:01:22+05:30"
+    "last_login_counted_at": "2026-11-28T08:28:21+05:30"
   },
   "#VJCJQLGV9": {
     "name": "abhijeet empire",
@@ -479,8 +479,8 @@
     "name": "ALPHA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T00:37:41+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-28T08:26:14+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -490,7 +490,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": "2026-11-28T00:37:41+05:30"
+    "last_login_counted_at": "2026-11-28T08:26:14+05:30"
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
