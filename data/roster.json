@@ -37,8 +37,8 @@
     "name": "Wini",
     "role": "coLeader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T09:44:12+05:30",
-    "login_count": 6,
+    "last_seen": "2026-11-28T10:34:29+05:30",
+    "login_count": 7,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -48,7 +48,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 4,
-    "last_login_counted_at": "2026-11-28T09:44:12+05:30"
+    "last_login_counted_at": "2026-11-28T10:34:29+05:30"
   },
   "#YQ09C8U": {
     "name": "Paper KEY",
@@ -651,12 +651,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-28T10:26:15+05:30",
     "login_count": 1,
-    "decks_today": 0,
-    "decks_used": 4,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Green",
     "last_war_score": 2300,
     "decks_prev_days": 4,
-    "fame": 500,
+    "fame": 900,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
@@ -819,8 +819,8 @@
     "name": "Omkar",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T00:02:23+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-28T10:43:12+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Orange",
@@ -830,7 +830,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": "2026-11-28T00:02:23+05:30"
+    "last_login_counted_at": "2026-11-28T10:43:12+05:30"
   },
   "#CCQJ2L888": {
     "name": "devansh",
