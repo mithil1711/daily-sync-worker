@@ -1645,10 +1645,6 @@
       }
     },
     "current_week_players": {
-      "#UCJ2QRJG": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#99G0Q80CL": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1666,6 +1662,10 @@
         "clan_name": "Bluescreen"
       },
       "#QL2QGLCQV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#UCJ2QRJG": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1753,10 +1753,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#29GGJP00C": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#20VC0VP0PJ": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1782,6 +1778,10 @@
         "clan_name": "Bluescreen"
       },
       "#2P9U9LJUV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#29GGJP00C": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1941,15 +1941,15 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#28UURLQLC": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#2JLQJRLY": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
       "#2RJVJ9L2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#28UURLQLC": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
@@ -2052,12 +2052,12 @@
     {
       "tag": "#8QQG2GG",
       "name": "Bluescreen",
-      "points": 4550
+      "points": 5075
     },
     {
       "tag": "#QVRR8VR2",
       "name": "Indian Warriors",
-      "points": 7450
+      "points": 8450
     },
     {
       "tag": "#Y8UJL0",
@@ -2067,7 +2067,7 @@
     {
       "tag": "#YJJJCJP8",
       "name": "CHICKEN DINNER!",
-      "points": 3300
+      "points": 3500
     },
     {
       "tag": "#R2L9VL0C",
