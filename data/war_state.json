@@ -1645,10 +1645,6 @@
       }
     },
     "current_week_players": {
-      "#VRRQP28VG": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#UCJ2QRJG": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1657,15 +1653,15 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
+      "#VRRQP28VG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
       "#UQ2CCCU08": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
       "#V28R09QVU": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
-      "#QG0L9YV0P": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1713,7 +1709,7 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#JY9QR8GJL": {
+      "#QG0L9YV0P": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1726,6 +1722,10 @@
         "clan_name": "Bluescreen"
       },
       "#JG99P88JV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JY9QR8GJL": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1929,10 +1929,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#2029PCUYPQ": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#29RYUP2Q": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -1965,10 +1961,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#P0PRYV82G": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#20LQG90LU9": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -1982,6 +1974,14 @@
         "clan_name": "CHICKEN DINNER!"
       },
       "#29LPGLJ2J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#2029PCUYPQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#P0PRYV82G": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
