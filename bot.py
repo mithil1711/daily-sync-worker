@@ -24,6 +24,12 @@ LOGIN_COOLDOWN_MINUTES = 14
 EOW_FRESHNESS_HOURS = 48
 WAR_PERIOD_TYPES = ("warDay", "colosseum")
 WAR_BATTLE_TYPES = ("riverRacePvP", "riverRaceDuel", "riverRaceDuelColosseum", "boatBattle")
+VALID_SOCIAL_STATUSES = {
+    "none": "None",
+    "discord": "Discord",
+    "instagram": "Instagram",
+    "both": "Both",
+}
 
 BASE_URL = "https://proxy.royaleapi.dev/v1"
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}", "Accept": "application/json"}
@@ -819,6 +825,7 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         line = f"• **{e['name']}** ({format_role(role)}) {e['badge']} (`{tag}`) — {score_str} ({e['decks']} decks){day_str}"
 
         roster[tag]["last_war_score"] = el
+        roster[tag]["last_war_actual_score"] = e["actual"]
 
         if role == "leader":
             roster[tag]["status"] = "Green"
@@ -947,6 +954,79 @@ def handle_manual_score(player_tag, score):
 
 
 # ==========================================
+# SOCIAL STATUS UPDATE + ELDER ELIGIBILITY CHECK
+# ==========================================
+def handle_social_update(player_tag, social_status):
+    tag = player_tag.strip().upper()
+    if not tag.startswith("#"):
+        tag = "#" + tag
+
+    normalized_status = VALID_SOCIAL_STATUSES.get(social_status.strip().lower())
+    if not normalized_status:
+        send_discord_embed(
+            title="❌ Invalid Social Status",
+            description=(
+                f"Invalid status `{social_status}` for `{tag}`.\n"
+                f"Allowed values: `None`, `Discord`, `Instagram`, `Both`."
+            ),
+            color=0xE74C3C,
+            ping=False,
+        )
+        return
+
+    socials = load_json(SOCIALS_FILE, {})
+    roster = load_json(ROSTER_FILE, {})
+
+    socials[tag] = normalized_status
+    save_json(SOCIALS_FILE, socials)
+
+    badge, in_social = get_social_badge(tag, socials)
+    info = roster.get(tag)
+
+    if not info:
+        send_discord_embed(
+            title=f"✅ Social Status Updated: {tag} {badge}",
+            description=(
+                f"**Player:** `{tag}`\n"
+                f"**Social Status:** **{normalized_status}** {badge}\n"
+                f"*(Not currently in `roster.json`; status saved and will apply automatically once synced.)*"
+            ),
+            color=0x2ECC71,
+            ping=False,
+        )
+        return
+
+    name = info["name"]
+    role = info.get("role", "member")
+    actual_score = info.get("last_war_actual_score")
+
+    if in_social and role == "member" and actual_score is not None and actual_score >= ELDER_SAFE_THRESHOLD:
+        send_discord_embed(
+            title=f"⬆️ Eligible for Elder Promotion: {name}",
+            description=(
+                f"**Player:** {name} ({format_role(role)}) {badge} (`{tag}`)\n"
+                f"**Social Status Updated:** **{normalized_status}** {badge}\n"
+                f"**Last Completed War (Actual):** **{actual_score} medals** (≥ {ELDER_SAFE_THRESHOLD})\n"
+                f"👉 Meets all requirements — ready to promote to **Elder** in-game!"
+            ),
+            color=0x3498DB,
+            ping=True,
+        )
+    else:
+        bonus, _ = get_social_priority(tag, socials)
+        bonus_note = f" (+{bonus} 50/50 Hold priority active)" if bonus > 0 else ""
+        send_discord_embed(
+            title=f"✅ Social Status Updated: {name} {badge}",
+            description=(
+                f"**Player:** {name} ({format_role(role)}) (`{tag}`)\n"
+                f"**Social Status:** **{normalized_status}** {badge}{bonus_note}"
+            ),
+            color=0x2ECC71,
+            ping=False,
+        )
+
+
+# ==========================================
 # ON-DEMAND APPLICANT VETTING (PRE-JOIN)
 # ==========================================
 def handle_vet_applicant(player_tag):
@@ -1001,12 +1081,18 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--manual-tag", type=str, help="Player tag for manual RoyaleAPI score")
     parser.add_argument("--manual-score", type=int, help="Last war medals for manual entry")
+    parser.add_argument("--social-tag", type=str, help="Player tag for social status update")
+    parser.add_argument("--social-status", type=str, help="Social status: None, Discord, Instagram, Both")
     parser.add_argument("--vet-tag", type=str, help="Vet a Discord applicant before they join")
     parser.add_argument("--report", action="store_true", help="Send a live mid-day war report")
     args = parser.parse_args()
 
     if args.vet_tag is not None:
         handle_vet_applicant(args.vet_tag)
+        return
+
+    if args.social_tag is not None and args.social_status is not None:
+        handle_social_update(args.social_tag, args.social_status)
         return
 
     if args.manual_tag is not None and args.manual_score is not None:
@@ -1346,6 +1432,7 @@ def main():
                     "fame": fame_map.get(tag, 0),
                     "status": init_status,
                     "last_war_score": init_score,
+                    "last_war_actual_score": init_score if first_run else None,
                 }
                 if not first_run:
                     try_vet_member(tag, m)
