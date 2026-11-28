@@ -1709,10 +1709,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#28PPCQJ9G": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#JY9QR8GJL": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1730,6 +1726,10 @@
         "clan_name": "Bluescreen"
       },
       "#JG99P88JV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#28PPCQJ9G": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -2042,5 +2042,6 @@
         "clan_name": "CHICKEN DINNER!"
       }
     }
-  }
+  },
+  "section_index": 3
 }
