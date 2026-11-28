@@ -210,7 +210,7 @@ def send_discord_embed(title, description, color, url=None, ping=True):
         time.sleep(1)
 
 
-def send_clan_setting_reminder(setting_mode, reason):
+def send_clan_setting_reminder(setting_mode, reason, ping=True):
     """Ping @Admin to toggle clan settings between Invite Only and Open."""
     if setting_mode == "Invite Only":
         title = "🔒 Clan Setting Reminder: Switch to Invite Only"
@@ -223,7 +223,7 @@ def send_clan_setting_reminder(setting_mode, reason):
         title=title,
         description=reason,
         color=color,
-        ping=True,
+        ping=ping,
     )
 
 
@@ -868,7 +868,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
         title=f"{title_prefix} War Day {war_day_num} — Skipped War Battles",
         description=desc,
         color=0x3498DB,
-        ping=not is_live,
+        ping=not is_live and not skip_mid_war_kicks and war_day_num < 4,
     )
 
 def _grade_and_post_eow(roster, socials, participants, war_end, total_war_days=4, deck_snapshot=None):
@@ -1366,6 +1366,7 @@ def main():
                     send_clan_setting_reminder(
                         "Open",
                         "War Week has ended! Switch clan settings back to **Open** for Training Day recruiting.",
+                        ping=(eow_war_end is None),
                     )
                 for store in (roster, departed):
                     for tag in store:
@@ -1472,6 +1473,7 @@ def main():
         send_clan_setting_reminder(
             "Open",
             "The clan crossed **10,000 Movement Points** on Battle Day 3! Switch clan settings back to **Open** for recruiting (Day 4 is now treated as Training Day 0).",
+            ping=False,
         )
 
     # Refresh 10-week + current-week opponent spy cache before vetting newcomers
