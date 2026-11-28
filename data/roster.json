@@ -88,8 +88,8 @@
     "name": "ROHIT",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T07:19:00+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-28T09:57:29+05:30",
+    "login_count": 5,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -99,7 +99,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-28T07:19:00+05:30"
+    "last_login_counted_at": "2026-11-28T09:57:29+05:30"
   },
   "#28VCP8GLJ": {
     "name": "mystical mystry",
@@ -411,18 +411,18 @@
     "name": "LEO",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T08:42:54+05:30",
-    "login_count": 1,
-    "decks_today": 2,
-    "decks_used": 5,
+    "last_seen": "2026-11-28T09:51:11+05:30",
+    "login_count": 2,
+    "decks_today": 3,
+    "decks_used": 6,
     "status": "Green",
     "last_war_score": 2500,
     "decks_prev_days": 3,
-    "fame": 1100,
+    "fame": 1200,
     "boat_attacks": 0,
     "prev_day_decks": 3,
     "prev_day_logins": 2,
-    "last_login_counted_at": "2026-11-28T08:42:54+05:30"
+    "last_login_counted_at": "2026-11-28T09:51:11+05:30"
   },
   "#9QRUC0JRP": {
     "name": "sujal",
