@@ -37,8 +37,8 @@
     "name": "Wini",
     "role": "coLeader",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T09:20:29+05:30",
-    "login_count": 5,
+    "last_seen": "2026-11-28T09:44:12+05:30",
+    "login_count": 6,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -48,7 +48,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 4,
-    "last_login_counted_at": "2026-11-28T09:20:29+05:30"
+    "last_login_counted_at": "2026-11-28T09:44:12+05:30"
   },
   "#YQ09C8U": {
     "name": "Paper KEY",
@@ -158,12 +158,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-28T09:27:25+05:30",
     "login_count": 4,
-    "decks_today": 3,
-    "decks_used": 7,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Green",
     "last_war_score": 2400,
     "decks_prev_days": 4,
-    "fame": 1100,
+    "fame": 1300,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 15,
@@ -700,8 +700,8 @@
     "name": "Asta",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T02:36:44+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-28T09:32:32+05:30",
+    "login_count": 5,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -711,7 +711,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": "2026-11-28T02:36:44+05:30"
+    "last_login_counted_at": "2026-11-28T09:32:32+05:30"
   },
   "#2UQR8LV9Y": {
     "name": "raz",
