@@ -669,7 +669,60 @@ def vet_new_joiner(member, war_start, war_end, target_season, target_section, wa
 # ==========================================
 # MODULE B: DAILY EOD & END-OF-WAR REPORTS
 # ==========================================
-def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False):
+MID_WAR_SAFE_LEAD = 2500
+COLOSSEUM_SAFE_LEAD = 4000
+SLACKER_MIN_LOGINS = 5
+
+
+def get_mid_war_kick_status(war_state):
+    """Evaluate mid-war kick status from saved daily clan standings."""
+    standings = war_state.get("daily_standings") or []
+    period_type = war_state.get("period_type")
+    if not standings:
+        return None
+
+    ranked = sorted(standings, key=lambda x: x.get("points", 0), reverse=True)
+    our_rank = None
+    our_points = 0
+    for idx, c in enumerate(ranked, start=1):
+        if c.get("tag") == CLAN_TAG:
+            our_rank = idx
+            our_points = c.get("points", 0)
+            break
+
+    if our_rank is None:
+        return None
+
+    is_colosseum = period_type == "colosseum"
+    safe_lead = COLOSSEUM_SAFE_LEAD if is_colosseum else MID_WAR_SAFE_LEAD
+
+    if our_rank == 1:
+        second_points = ranked[1].get("points", 0) if len(ranked) > 1 else 0
+        lead = our_points - second_points
+        if lead >= safe_lead:
+            return {
+                "active": False,
+                "kick_count": 0,
+                "banner": f"🛡️ **Mid-War Kicks: PAUSED** — Rank **#1** (+{lead:,} lead ≥ {safe_lead:,} safe buffer)",
+            }
+        kick_count = 4 if is_colosseum else 3
+        label = "Colosseum" if is_colosseum else "Battle Day"
+        return {
+            "active": True,
+            "kick_count": kick_count,
+            "banner": f"🚨 **Mid-War Kicks: ACTIVE** — Rank **#1** (+{lead:,} lead < {safe_lead:,} {label} buffer) → **Kick top {kick_count}**",
+        }
+
+    first_points = ranked[0].get("points", 0)
+    deficit = first_points - our_points
+    return {
+        "active": True,
+        "kick_count": 4,
+        "banner": f"🚨 **Mid-War Kicks: ACTIVE** — Rank **#{our_rank}** (-{deficit:,} behind 1st) → **Kick top 4**",
+    }
+
+
+def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False, skip_mid_war_kicks=False):
     day_start = parse_cr_time(war_state.get("day_start_ist"))
     war_week_start = parse_cr_time(war_state.get("war_week_start_ist"))
     if not war_week_start and day_start:
@@ -677,6 +730,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
 
     logged_in_offenders = []
     inactive_offenders = []
+    kick_pool = []
 
     for tag, info in roster.items():
         decks = info.get("decks_today", 0)
@@ -709,10 +763,14 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
         raw_prev = info.get("last_war_score")
         prev_medals_sort = raw_prev if raw_prev is not None else 0
         prev_medals_str = str(raw_prev) if raw_prev is not None else "N/A"
+        # Proxy prev score for unvetted joiners using current daily pace so they aren't unfairly targeted
+        prev_eff = raw_prev if raw_prev is not None else round(elongated_medals * (4 / war_day_num))
+        combined_score = prev_eff + elongated_medals
 
         entry = {
             "name": info["name"],
             "tag": tag,
+            "role": info.get("role", "member"),
             "decks": decks,
             "skipped": 4 - decks,
             "logins": logins,
@@ -720,6 +778,7 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
             "now_str": now_str,
             "prev_medals_sort": prev_medals_sort,
             "prev_medals_str": prev_medals_str,
+            "combined_score": combined_score,
             "last_seen_str": fmt_ist(last_seen) if last_seen else "Unknown",
             "last_seen_date_str": fmt_ist_date(last_seen) if last_seen else "Unknown",
             "badge": get_social_badge(tag, socials)[0],
@@ -729,6 +788,9 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
             logged_in_offenders.append(entry)
         else:
             inactive_offenders.append(entry)
+
+        if entry["role"] != "leader":
+            kick_pool.append(entry)
 
     logged_in_offenders.sort(key=lambda x: (
         x["decks"],
@@ -745,8 +807,43 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
     if not logged_in_offenders and not inactive_offenders:
         desc = "Everyone has completed all 4/4 war battles! 🎉"
     else:
+        sections = []
+
+        # Show Mid-War Kick Status & 3-Tier Kick Order on Days 1–3 (Day 4 EOD is immediately followed by EOW)
+        if not skip_mid_war_kicks and (war_day_num < 4 or is_live):
+            kick_status = get_mid_war_kick_status(war_state)
+            if kick_status:
+                sections.append(kick_status["banner"])
+                if kick_status["active"] and kick_pool:
+                    tier1 = sorted(
+                        [p for p in kick_pool if p["decks"] == 0 and p["logins"] >= SLACKER_MIN_LOGINS],
+                        key=lambda x: (-x["logins"], x["combined_score"]),
+                    )
+                    tier2 = sorted(
+                        [p for p in kick_pool if p["decks"] == 0 and p["logins"] < SLACKER_MIN_LOGINS],
+                        key=lambda x: (x["combined_score"], -x["logins"]),
+                    )
+                    tier3 = sorted(
+                        [p for p in kick_pool if p["decks"] > 0],
+                        key=lambda x: (x["decks"], x["combined_score"], -x["logins"]),
+                    )
+                    ordered_kicks = (tier1 + tier2 + tier3)[:kick_status["kick_count"]]
+                    kick_lines = []
+                    for i, k in enumerate(ordered_kicks, start=1):
+                        reason_tag = (
+                            f"Slacker: 0/4 & {k['logins']} logins"
+                            if (k["decks"] == 0 and k["logins"] >= SLACKER_MIN_LOGINS)
+                            else f"{k['decks']}/4 | Prev+Now: **{k['combined_score']}**"
+                        )
+                        kick_lines.append(
+                            f"{i}. **{k['name']}** {k['badge']} (`{k['tag']}`) — {reason_tag}"
+                        )
+                    sections.append(
+                        f"**🎯 Suggested Mid-War Kicks (Top {len(ordered_kicks)}):**\n" + "\n".join(kick_lines)
+                    )
+
         legend = "*Sorted by: Decks Used ↑ → Logins ↓ → Current War Medals (`Now`, projected for late joiners) ↑ → Last War Medals (`Prev`) ↑*"
-        sections = [legend]
+        sections.append(legend)
 
         if logged_in_offenders:
             active_lines = [
@@ -773,7 +870,6 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
         color=0x3498DB,
         ping=not is_live,
     )
-
 
 def _grade_and_post_eow(roster, socials, participants, war_end, total_war_days=4, deck_snapshot=None):
     war_start = war_end - timedelta(days=total_war_days)
@@ -1234,7 +1330,18 @@ def main():
                 and prev_period_type == "warDay"
             )
             if not early_finished_this_war:
-                post_daily_eod_report(war_day_num, roster, war_state, socials)
+                is_day3_early_finish_now = (
+                    curr_period_type == "warDay"
+                    and curr_war_day_num == 4
+                    and clan_finish_time is not None
+                )
+                post_daily_eod_report(
+                    war_day_num,
+                    roster,
+                    war_state,
+                    socials,
+                    skip_mid_war_kicks=is_day3_early_finish_now,
+                )
 
             if curr_period_type == "training":
                 if not early_finished_this_war:
@@ -1373,6 +1480,16 @@ def main():
     day_start = parse_cr_time(war_state.get("day_start_ist"))
 
     # 2. Map live war stats
+    if curr_period_type in WAR_PERIOD_TYPES:
+        war_state["daily_standings"] = [
+            {
+                "tag": c.get("tag"),
+                "name": c.get("name", c.get("tag")),
+                "points": c.get("fame", 0) if curr_period_type == "colosseum" else c.get("periodPoints", 0),
+            }
+            for c in race_resp.get("clans", [])
+            if c.get("tag")
+        ]
     decks_today_map = {}
     api_decks_used_map = {}
     fame_map = {}
