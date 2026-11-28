@@ -2,5 +2,2037 @@
   "period_index": 25,
   "period_type": "warDay",
   "day_start_ist": "2026-11-27T15:20:19+05:30",
-  "war_week_start_ist": "2026-11-26T15:20:23+05:30"
+  "war_week_start_ist": "2026-11-26T15:20:23+05:30",
+  "opponent_spy_cache": {
+    "week_key": "3|#8QQG2GG|#R2L9VL0C|#Y8UJL0|#YJJJCJP8",
+    "incomplete": false,
+    "opponents": {
+      "#8QQG2GG": "Bluescreen",
+      "#Y8UJL0": "B@n@n@ Roy@Le",
+      "#YJJJCJP8": "CHICKEN DINNER!",
+      "#R2L9VL0C": "Bolivia6to"
+    },
+    "players": {
+      "#VRRQP28VG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JPPQJ2L2J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#CU9RP009J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#8C2U0PJQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#V28R09QVU": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#VR8JLCYYQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#V8JV98GQV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#UCJ2QRJG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#J90YPLL2Q": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#2Q8GCQ0YQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#CUY0Q9G0V": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#8PQ8JJJ0J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#RYVU02CCR": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#20VVC8JCG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#PCYJUJ0R": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#PQJC2PPJ9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#LRR2UPQJY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#QG0L9YV0P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JG99P88JV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#VLYULRQPQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#99G0Q80CL": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#29GGJP00C": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#QL2QGLCQV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JY9QR8GJL": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#9GQL2Q9UY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#PG8GGLGV9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#VQV98VLUJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#20VC0VP0PJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JR2R088QU": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#UQ2CCCU08": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#VJPV89Q9P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#2LL28UR82": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JCURR002R": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#89YJURYJY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#YU0YUJY0G": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#RJV9J9929": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#YVJ2Y9U0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#92PJP8V8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#JQRRCJ0R9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#2P9U9LJUV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#28PPCQJ9G": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#2CCYRPL2": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#PJPYRLV8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 1
+      },
+      "#208QPRLP00": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 2
+      },
+      "#PJUP2CGRC": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 2
+      },
+      "#VG8RYR9U9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 2
+      },
+      "#U29YVP9GL": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 2
+      },
+      "#VJCG8VL9Q": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 2
+      },
+      "#G9URJGP9V": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 4
+      },
+      "#20G2UPLQGC": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 4
+      },
+      "#29PYL0L9P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 5
+      },
+      "#JPYPPL9QJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 5
+      },
+      "#U9QV99QVY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 5
+      },
+      "#9CVGPRPR0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 5
+      },
+      "#CUL0GYYUC": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 6
+      },
+      "#JU2L9YJ9P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 6
+      },
+      "#UJV00G00L": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 7
+      },
+      "#2J8UPUJ8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 7
+      },
+      "#PR9VPC0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 7
+      },
+      "#99Q0QQGPJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 8
+      },
+      "#LPUYY2J8J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 8
+      },
+      "#V0JUVU0U0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 9
+      },
+      "#QPGYVPP2L": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 9
+      },
+      "#GVYRYVQ8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 10
+      },
+      "#RQL2G2LL9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen",
+        "weeks_ago": 10
+      },
+      "#RGVU29QQ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#9UY0GC2G": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#2JVQGVRQ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#8GYUCV0V": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#RPYP9Y0J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#8Q9PYLPUV": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VYY80GVL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#2R2UGQJV2": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#88P0J8YJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#2LU992VCJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VCULVYLLR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VJCJ8220U": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#9U28JVG9": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#C0GP09VRC": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#8R92CGQPR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#P0V88PJLU": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#YJ2UYQRP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#9VU2LGULR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#200U8G28C0": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#R90R2VP9P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#PY29Q2YVG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#PV298LJVG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#2QGCYLJV8": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VR0009VG8": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#PJ0G08J2J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#28QJPUCPP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#Y9VPJQCG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#P0VVURV9J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#UCJG9VGLY": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#QQ8CPUQG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VLC0RVYJ0": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#VP0PR0V0Y": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 1
+      },
+      "#YGYP09JJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#P9UP0PG88": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#RPV9G2JC": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#URUU82U80": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#GV0VJ9998": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#PPPGU9G9P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 2
+      },
+      "#88Y8RL0P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 3
+      },
+      "#PPV92RL09": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 3
+      },
+      "#CG80RLGJ0": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 4
+      },
+      "#V9JGUCRRG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 4
+      },
+      "#200YQU20PJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 4
+      },
+      "#98LLRQ8YJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 4
+      },
+      "#CVCQRGU8P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 4
+      },
+      "#YYV9JVQQR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 5
+      },
+      "#VJ90YP2L8": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 5
+      },
+      "#V2QGQUGC": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 5
+      },
+      "#YY8UJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 5
+      },
+      "#V0YR0GLJ8": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 6
+      },
+      "#VJGCGCR9U": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 6
+      },
+      "#20PQRPJYPJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 6
+      },
+      "#9L2U98L9Y": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 6
+      },
+      "#JR2292UYP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 7
+      },
+      "#2Y0U8GJRY": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 7
+      },
+      "#U88QUY2LL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 7
+      },
+      "#R8G8UQ0U": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 8
+      },
+      "#VYQR0GJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 8
+      },
+      "#JVJC8UVL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#8QUCV0JJ2": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#GJLPQ2LGL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#VR2G098UG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#VGVR9G2YR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#LCQL8R2PL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 9
+      },
+      "#2CVUP9RR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 10
+      },
+      "#L9U9PUR80": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 10
+      },
+      "#PP9P8YP0J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 10
+      },
+      "#2JRCVPVC9": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 10
+      },
+      "#P9YLJ0RC9": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le",
+        "weeks_ago": 10
+      },
+      "#220J99L0JL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#VQ2RGRC0J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#GGQV2U8VJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#Y8LRPGP2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#20Q0CPGYPL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#9PL8R98UC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#9RVLRLR8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#29RYUP2Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#VQY9GJR9V": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#8RRGY2P9Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#G9JUC9GUY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#8QQ82RGU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#2RJVJ9L2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#YU9Y9PLU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#2JLQJRLY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#P0PRYV82G": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#PL8GCJVUV": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#V8V0QCYCL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#20L2GCJV2L": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#P8PGGQVUC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#8JUJ9G9V": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#2029PCUYPQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#RQ2QPPU8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#JYPQGPJRY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#29LPGLJ2J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#PL9Q98VJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#2CRGQGRYG": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#28UURLQLC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#20LQG90LU9": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#CLU082YL8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#8YC02YUU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 1
+      },
+      "#QG8RYUCYL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 2
+      },
+      "#J8RRJ2GG2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 4
+      },
+      "#20CP82R0LJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 4
+      },
+      "#RCQLU2LGJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 4
+      },
+      "#V09PY8CY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 4
+      },
+      "#PUGYYYL0": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 4
+      },
+      "#9VUQ2PRCL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#VRQRGL09C": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#80PQRQGYQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#2U200Y909": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#CVGCQP0UG": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#8PLVYYJJQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#LCULYUCV": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 5
+      },
+      "#202Y28VY9Y": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 6
+      },
+      "#UU9CV08QR": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 7
+      },
+      "#J9Q2U8UJR": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 7
+      },
+      "#VVRGQCCCP": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 7
+      },
+      "#QJGU2UJLQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 7
+      },
+      "#VJ22GLJRL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 7
+      },
+      "#PL98PPU9Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#RRGLL0GVC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#P92QYQJ8R": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#2QGCRY22C": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#20GPJUQ9L0": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#PPGYGG9PU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#J2PYC2CR8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#R0J0UGR99": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 8
+      },
+      "#UVV9YRJY9": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 9
+      },
+      "#9Y8UYYGL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 9
+      },
+      "#CC98JC99C": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 9
+      },
+      "#VG99QYPV2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#V2JPC9PUL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#9QYQVGCPC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#CQPC8CJY9": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#2R0CQ88P": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#U82CLGY9J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#20222VV0LL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#200LVPUPL8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#PU898LRV0": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#V8VJVQRY8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#200GLCP90Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#Y2PRY29QR": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!",
+        "weeks_ago": 10
+      },
+      "#VV9QL8LL9": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#2P99Y0Q8J": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#L80RLC8LQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#809P2LQ2Q": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#QYP0C2QVC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#9P8JC8L8C": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#CRGVPGRLC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#9QU80GVP8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#90998RCUV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#99VCPL2LV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#CQJGGY08": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#U8PJU09LG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#JPC2YYQPY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 1
+      },
+      "#2P9UQ8JPV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#8UU289R0U": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#CUC88U222": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#PRPU8YLG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#J080V8YGQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#V9R0RYVPV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#U2JJRL92V": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#CUCRC0J9L": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#299G229UQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#JPRG9L0QP": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#202G9J0JVV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#G20P9UYG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#9UJRC8UGG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#URVP22088": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#VL20GRY0J": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#89URLL2PL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#8LRJPLC9L": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#2LC9VPJQ8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#V2YY8JPRQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#LCJ9LQVL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#JL9LPGUL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#PCV8G088": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#GPPQ0QLYR": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#VUQPYUG0": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#9G290J2LG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#90CPJ2V0": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#980CGC9V9": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#JUQ82JYCG": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 2
+      },
+      "#GJ9CR20Q": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#8GC928G80": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#VGLRP998L": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#99CVQRRJC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#YCLGPLQ2R": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#QVYCVY929": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 3
+      },
+      "#YGCGV88RC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#9CUUCGQPL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#UVYL0P2QU": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#LURQ2RVYC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#VRJY90VUJ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#YPR8CJ2LV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#RRYG8PLV2": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#V0GQG8R9P": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#JQPPCCYVL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#UP8JUL0UV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#UJGRGGR2R": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#20VLRR82P": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#U992L8QUV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 4
+      },
+      "#98VR2VVUR": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#828JQ2U28": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#CY8QV0LR2": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#2VPV0LY2U": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#U2UL0RLYL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#980Y9GJC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#89GLLV88U": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#VVY2UP28Y": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#JYUYV908U": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#8VCCPJCYR": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#2L88UU9PQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#9GVRLR2GR": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 5
+      },
+      "#2QJUQYQP9": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 6
+      },
+      "#82UVCQL9": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 6
+      },
+      "#JC8YU0Y9Y": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 6
+      },
+      "#CR9G8LVLC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 6
+      },
+      "#2L2PV9YY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 6
+      },
+      "#9P8PU2RUQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#UQP82Q0VY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#URJ92JLU0": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#2000C890P0": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#2LRGU298Y": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#20YRJ8QCP": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#CGU8QYQ0J": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#200RRCUQQY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 7
+      },
+      "#JPP29V0C8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#2PU9PGQ22": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#UY288V2L8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#JLUR998G": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#8GQVUC0P2": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#2J8PVCQ8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#2PVVJ920Q": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#V9RCJ298U": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#ULYP8Y9PY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#PGU0UC9PY": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#8GV0LLG2J": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#ULLUU2GQC": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#PPP0QVRLQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 8
+      },
+      "#UYVQQQ20R": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#V00GPU2P": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#8U82JCLCU": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#8YL890P9": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#9R08C902Y": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#YYY2LP0PV": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#VUC0C8PP8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#JVUYCJGYR": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#G880Q9LQU": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 9
+      },
+      "#8G8R9RY8G": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#V8P02CLJ8": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#JUP0LRRQJ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#RQPLU999Q": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#PP8VUJ0LL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#UQ2VC9YPU": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#VGCQU9GYP": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#VCLQPV98G": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#2Y9Y0220C": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#28PYV2VLP": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#90YGRGGGL": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      },
+      "#9URLRJ9CQ": {
+        "clan_tag": "#R2L9VL0C",
+        "clan_name": "Bolivia6to",
+        "weeks_ago": 10
+      }
+    },
+    "current_week_players": {
+      "#VRRQP28VG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#UCJ2QRJG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#99G0Q80CL": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#UQ2CCCU08": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JCURR002R": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#V28R09QVU": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#QG0L9YV0P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#20LPLY8U0L": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#VLYULRQPQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#20VVC8JCG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#9GQL2Q9UY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#J90YPLL2Q": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#VR8JLCYYQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#PQJC2PPJ9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#29GGJP00C": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#2CCYRPL2": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#28PPCQJ9G": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JY9QR8GJL": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#CUY0Q9G0V": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#PG8GGLGV9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#LRR2UPQJY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JG99P88JV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#VQV98VLUJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#VJPV89Q9P": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#92PJP8V8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#2Q8GCQ0YQ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JR2R088QU": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#RYVU02CCR": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#V8JV98GQV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#2LL28UR82": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#8PQ8JJJ0J": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#20VC0VP0PJ": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#PJPYRLV8": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#PCYJUJ0R": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#89YJURYJY": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#YU0YUJY0G": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#JQRRCJ0R9": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#2P9U9LJUV": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#RJV9J9929": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#YVJ2Y9U0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#88P0J8YJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#8GYUCV0V": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#UCJG9VGLY": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VLC0RVYJ0": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#Y9VPJQCG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VCULVYLLR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#8R92CGQPR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#C0GP09VRC": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#2R2UGQJV2": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VJCJ8220U": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#QQ8CPUQG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#YJ2UYQRP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VYY80GVL": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#RPYP9Y0J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#PV298LJVG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#R90R2VP9P": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#9VU2LGULR": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VR0009VG8": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#PY29Q2YVG": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#2LU992VCJ": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#P0V88PJLU": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#P0VVURV9J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#28QJPUCPP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#PJ0G08J2J": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#VP0PR0V0Y": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#9U28JVG9": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
+      "#PL8GCJVUV": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#VQY9GJR9V": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#8QQ82RGU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#2029PCUYPQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#P0PRYV82G": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#29RYUP2Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#GGQV2U8VJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#YU9Y9PLU": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#8RRGY2P9Q": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#20LQG90LU9": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#VUU9Y0G8J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#28UURLQLC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#2JLQJRLY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#2RJVJ9L2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#2CRGQGRYG": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#G9JUC9GUY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#P8PGGQVUC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#29LPGLJ2J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#20Q0CPGYPL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#9PL8R98UC": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#RQ2QPPU8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#9CPV8UVGQ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#9RVLRLR8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#20L2GCJV2L": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#CLU082YL8": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#Y8LRPGP2": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#V8V0QCYCL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#PL9Q98VJ": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#VQ2RGRC0J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#8JUJ9G9V": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#JYPQGPJRY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      }
+    }
+  }
 }
