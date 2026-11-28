@@ -428,7 +428,7 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T19:55:02+05:30",
+    "last_seen": "2026-11-28T20:06:24+05:30",
     "login_count": 6,
     "decks_today": 0,
     "decks_used": 8,
@@ -445,18 +445,18 @@
     "name": "gxp",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T20:05:56+05:30",
-    "login_count": 0,
-    "decks_today": 0,
-    "decks_used": 8,
+    "last_seen": "2026-11-28T20:02:54+05:30",
+    "login_count": 1,
+    "decks_today": 2,
+    "decks_used": 10,
     "status": "Green",
     "last_war_score": 2600,
     "decks_prev_days": 8,
-    "fame": 1500,
+    "fame": 1700,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-28T20:02:54+05:30"
   },
   "#2GJ2G2UL8": {
     "name": "Mohit",
@@ -615,8 +615,8 @@
     "name": "ITACHI",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T19:19:23+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-28T20:07:07+05:30",
+    "login_count": 4,
     "decks_today": 2,
     "decks_used": 9,
     "status": "Green",
@@ -626,7 +626,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 7,
-    "last_login_counted_at": "2026-11-28T19:19:23+05:30"
+    "last_login_counted_at": "2026-11-28T20:07:07+05:30"
   },
   "#200CQJ8V": {
     "name": "ash",
