@@ -1677,10 +1677,6 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#29GGJP00C": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#2CCYRPL2": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1753,15 +1749,11 @@
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#VJPV89Q9P": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#20VVC8JCG": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
-      "#2LL28UR82": {
+      "#29GGJP00C": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1798,6 +1790,14 @@
         "clan_name": "Bluescreen"
       },
       "#YVJ2Y9U0": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#2LL28UR82": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#VJPV89Q9P": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1965,10 +1965,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#G9JUC9GUY": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#P8PGGQVUC": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -2029,6 +2025,10 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
+      "#G9JUC9GUY": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
       "#V8V0QCYCL": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -2037,11 +2037,11 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#CLU082YL8": {
+      "#PL9Q98VJ": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#PL9Q98VJ": {
+      "#CLU082YL8": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       }
@@ -2052,12 +2052,12 @@
     {
       "tag": "#8QQG2GG",
       "name": "Bluescreen",
-      "points": 3200
+      "points": 4550
     },
     {
       "tag": "#QVRR8VR2",
       "name": "Indian Warriors",
-      "points": 6150
+      "points": 7450
     },
     {
       "tag": "#Y8UJL0",
@@ -2067,7 +2067,7 @@
     {
       "tag": "#YJJJCJP8",
       "name": "CHICKEN DINNER!",
-      "points": 2400
+      "points": 3300
     },
     {
       "tag": "#R2L9VL0C",
