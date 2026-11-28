@@ -260,12 +260,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-28T17:38:09+05:30",
     "login_count": 1,
-    "decks_today": 3,
-    "decks_used": 7,
+    "decks_today": 4,
+    "decks_used": 8,
     "status": "Green",
     "last_war_score": 2800,
     "decks_prev_days": 4,
-    "fame": 1250,
+    "fame": 1450,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
@@ -700,8 +700,8 @@
     "name": "Asta",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T17:43:17+05:30",
-    "login_count": 4,
+    "last_seen": "2026-11-28T18:06:35+05:30",
+    "login_count": 5,
     "decks_today": 0,
     "decks_used": 8,
     "status": "Green",
@@ -711,7 +711,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": "2026-11-28T17:43:17+05:30"
+    "last_login_counted_at": "2026-11-28T18:06:35+05:30"
   },
   "#2UQR8LV9Y": {
     "name": "raz",
@@ -836,8 +836,8 @@
     "name": "devansh",
     "role": "member",
     "joined_at": "2026-11-26T00:15:20+05:30",
-    "last_seen": "2026-11-28T11:07:21+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-28T18:07:30+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 8,
     "status": "Green",
@@ -847,6 +847,6 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 5,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-28T18:07:30+05:30"
   }
 }
