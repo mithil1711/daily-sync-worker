@@ -1645,10 +1645,6 @@
       }
     },
     "current_week_players": {
-      "#QL2QGLCQV": {
-        "clan_tag": "#8QQG2GG",
-        "clan_name": "Bluescreen"
-      },
       "#VRRQP28VG": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
@@ -1682,6 +1678,10 @@
         "clan_name": "Bluescreen"
       },
       "#20VVC8JCG": {
+        "clan_tag": "#8QQG2GG",
+        "clan_name": "Bluescreen"
+      },
+      "#QL2QGLCQV": {
         "clan_tag": "#8QQG2GG",
         "clan_name": "Bluescreen"
       },
@@ -1949,10 +1949,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#20LQG90LU9": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#VUU9Y0G8J": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -1970,6 +1966,10 @@
         "clan_name": "CHICKEN DINNER!"
       },
       "#2CRGQGRYG": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#20LQG90LU9": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
