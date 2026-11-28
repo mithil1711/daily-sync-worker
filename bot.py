@@ -117,6 +117,20 @@ def format_role(role):
     }.get(role, role.capitalize())
 
 
+def is_early_war_finished(war_state):
+    """Return True if the current normal warDay week already finished early on Day 3."""
+    if not war_state:
+        return False
+    early_sec = war_state.get("early_eow_section")
+    curr_sec = war_state.get("section_index")
+    return (
+        early_sec is not None
+        and curr_sec is not None
+        and early_sec == curr_sec
+        and war_state.get("period_type") == "warDay"
+    )
+
+
 def split_description(description, max_len=3800):
     if len(description) <= max_len:
         return [description]
@@ -196,6 +210,23 @@ def send_discord_embed(title, description, color, url=None, ping=True):
         time.sleep(1)
 
 
+def send_clan_setting_reminder(setting_mode, reason):
+    """Ping @Admin to toggle clan settings between Invite Only and Open."""
+    if setting_mode == "Invite Only":
+        title = "🔒 Clan Setting Reminder: Switch to Invite Only"
+        color = 0xE67E22
+    else:
+        title = "🔓 Clan Setting Reminder: Switch to Open"
+        color = 0x2ECC71
+
+    send_discord_embed(
+        title=title,
+        description=reason,
+        color=color,
+        ping=True,
+    )
+
+
 def get_social_badge(tag, socials):
     status = socials.get(tag, "None")
     mapping = {"Discord": "[DC]", "Instagram": "[IG]", "Both": "[DC+IG]", "None": "[None]"}
@@ -214,10 +245,10 @@ def get_social_priority(tag, socials):
     return 0, 0
 
 
-def classify_score(score):
-    if score < KICK_THRESHOLD:
+def classify_score(score, kick_thresh=KICK_THRESHOLD, safe_thresh=SAFE_THRESHOLD):
+    if score < kick_thresh:
         return "Red", "🔴 KICK", 0xE74C3C
-    elif score < SAFE_THRESHOLD:
+    elif score < safe_thresh:
         return "Orange", "🟠 HOLD", 0xE67E22
     return "Green", "🟢 ACCEPT", 0x2ECC71
 
@@ -305,6 +336,8 @@ def refresh_opponent_spy_cache(race_resp, war_state):
 def check_today_war_decks_elsewhere(battles, war_state):
     """Return count of war decks used in another clan since today's Battle Day reset."""
     if not war_state or war_state.get("period_type") not in WAR_PERIOD_TYPES:
+        return 0
+    if is_early_war_finished(war_state):
         return 0
     day_start = parse_cr_time(war_state.get("day_start_ist"))
     if not day_start:
@@ -410,7 +443,8 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_
     if effective_count < 50:
         return
 
-    is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES
+    # After a Day 3 early finish, Day 4 is treated as Training Day 0 (flag both Red and Hold/Orange)
+    is_battle_day = war_state.get("period_type") in WAR_PERIOD_TYPES and not is_early_war_finished(war_state)
     curr_period_idx = war_state.get("period_index")
     war_day_num = max(1, min(4, (curr_period_idx % 7) - 2)) if (is_battle_day and curr_period_idx is not None) else 0
 
@@ -452,7 +486,7 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_
 
     red_members = build_kick_candidates(roster, socials, "Red")
 
-    # Battle Days (1-4): skip Hold/Orange kicks completely; only flag Red
+    # Battle Days (1-4, unless early finished): skip Hold/Orange kicks completely; only flag Red
     if is_battle_day:
         if not red_members:
             return
@@ -472,7 +506,7 @@ def post_hold_kick_suggestion(roster, war_state, socials, trigger_name, trigger_
         )
         return
 
-    # Training Days: Red (Kick First) + Orange (Hold List), both sorted with +50/+100 social protection
+    # Training Days (and Day 4 after Day 3 early finish): Red (Kick First) + Orange (Hold List)
     hold_members = build_kick_candidates(roster, socials, "Orange")
 
     if not red_members and not hold_members:
@@ -741,26 +775,11 @@ def post_daily_eod_report(war_day_num, roster, war_state, socials, is_live=False
     )
 
 
-def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
-    rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
-    if not rlog or not rlog.get("items"):
-        print("[EOW DEFERRED] Failed to fetch riverracelog; will retry on next run.")
-        return None
-
-    latest = rlog["items"][0]
-    war_end = parse_cr_time(latest.get("createdDate"))
-    if not war_end or (now_ist - war_end) > timedelta(hours=EOW_FRESHNESS_HOURS):
-        print(f"[EOW DEFERRED] Stale riverracelog (createdDate={latest.get('createdDate')}); will retry on next run.")
-        return None
-
-    war_start = war_end - timedelta(days=4)
-
-    participants = {}
-    for standing in latest.get("standings", []):
-        if standing["clan"]["tag"] == CLAN_TAG:
-            for p in standing["clan"].get("participants", []):
-                participants[p["tag"]] = p
-            break
+def _grade_and_post_eow(roster, socials, participants, war_end, total_war_days=4, deck_snapshot=None):
+    war_start = war_end - timedelta(days=total_war_days)
+    kick_thresh = round(KICK_THRESHOLD * total_war_days / 4)
+    safe_thresh = round(SAFE_THRESHOLD * total_war_days / 4)
+    elder_thresh = round(ELDER_SAFE_THRESHOLD * total_war_days / 4)
 
     evaluated = []
     skipped_late = []
@@ -771,19 +790,19 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         joined_at = parse_cr_time(info.get("joined_at"))
 
         if joined_at is None:
-            avail_days = 4
+            avail_days = total_war_days
         else:
             avail_days = 0
-            for d in range(1, 5):
+            for d in range(1, total_war_days + 1):
                 day_end = war_start + timedelta(days=d)
                 cutoff = day_end - timedelta(minutes=BUFFER_MINUTES)
                 if joined_at <= cutoff:
                     avail_days += 1
 
-        # Joined after War Day 4's 45-minute cutoff: skip grading & preserve vetted status
+        # Joined after final War Day's 45-minute cutoff: skip grading & preserve vetted status
         if avail_days == 0:
             skipped_late.append(
-                f"• **{info['name']}** ({format_role(role)}) {badge} (`{tag}`) — joined after Day 4 cutoff (kept `{info.get('status', 'Pending')}`)"
+                f"• **{info['name']}** ({format_role(role)}) {badge} (`{tag}`) — joined after Day {total_war_days} cutoff (kept `{info.get('status', 'Pending')}`)"
             )
             continue
 
@@ -798,34 +817,38 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         else:
             decks_used = min(snap.get("decks_used", 0), raw_api_decks)
 
-        elongated = round(actual_medals * (4 / avail_days))
+        # Graded score is projected to total_war_days (3 or 4); normalized_4d keeps 50/50 Hold apples-to-apples
+        graded_score = round(actual_medals * (total_war_days / avail_days))
+        normalized_4d = round(actual_medals * (4 / avail_days))
 
         evaluated.append({
             "tag": tag,
             "name": info["name"],
             "role": role,
             "actual": actual_medals,
-            "elongated": elongated,
+            "graded": graded_score,
+            "normalized_4d": normalized_4d,
             "decks": decks_used,
             "avail_days": avail_days,
             "badge": badge,
             "in_social": in_social,
         })
 
-    evaluated.sort(key=lambda x: (x["elongated"], x["actual"], x["decks"]))
+    evaluated.sort(key=lambda x: (x["graded"], x["actual"], x["decks"]))
 
     kicks, demotes, holds, promotes, safes = [], [], [], [], []
 
     for e in evaluated:
         tag = e["tag"]
         role = e["role"]
-        el = e["elongated"]
-        score_str = f"{e['actual']}→**{el}**" if e["avail_days"] < 4 else f"**{el}**"
-        day_str = f" [{e['avail_days']}/4d]" if e["avail_days"] < 4 else ""
+        gr = e["graded"]
+        score_str = f"{e['actual']}→**{gr}**" if e["avail_days"] < total_war_days else f"**{gr}**"
+        day_str = f" [{e['avail_days']}/{total_war_days}d]" if e["avail_days"] < total_war_days else ""
         line = f"• **{e['name']}** ({format_role(role)}) {e['badge']} (`{tag}`) — {score_str} ({e['decks']} decks){day_str}"
 
-        roster[tag]["last_war_score"] = el
+        roster[tag]["last_war_score"] = e["normalized_4d"]
         roster[tag]["last_war_actual_score"] = e["actual"]
+        roster[tag]["last_war_days"] = total_war_days
 
         if role == "leader":
             roster[tag]["status"] = "Green"
@@ -833,32 +856,41 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
             continue
 
         if role == "elder" and not e["in_social"]:
-            if el < KICK_THRESHOLD:
+            if gr < kick_thresh:
                 roster[tag]["status"] = "Red"
                 kicks.append(line)
-            elif el >= ELDER_SAFE_THRESHOLD or (e["decks"] >= e["avail_days"] * 4 and el >= SAFE_THRESHOLD):
+            elif gr >= elder_thresh or (e["decks"] >= e["avail_days"] * 4 and gr >= safe_thresh):
                 roster[tag]["status"] = "Green"
                 safes.append(line)
             else:
-                roster[tag]["status"] = classify_score(el)[0]
+                roster[tag]["status"] = classify_score(gr, kick_thresh, safe_thresh)[0]
                 demotes.append(line)
             continue
 
         # Co-Leader, Social Elder, and Member: strictly raw projected medals at EOW (no social bonus)
-        if el < KICK_THRESHOLD:
+        if gr < kick_thresh:
             roster[tag]["status"] = "Red"
             kicks.append(line)
-        elif el < SAFE_THRESHOLD:
+        elif gr < safe_thresh:
             roster[tag]["status"] = "Orange"
             holds.append(line)
         else:
             roster[tag]["status"] = "Green"
-            if role == "member" and e["in_social"] and e["actual"] >= ELDER_SAFE_THRESHOLD:
+            if role == "member" and e["in_social"] and e["actual"] >= elder_thresh:
                 promotes.append(line)
             else:
                 safes.append(line)
 
-    eow_note = "*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
+    if total_war_days == 3:
+        eow_prefix = "End of War (Day 3 Finish)"
+        eow_note = (
+            f"*Day 3 Early Finish — Scaled thresholds: Kick < {kick_thresh} | Hold < {safe_thresh} | Elder ≥ {elder_thresh}.*\n"
+            f"*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
+        )
+    else:
+        eow_prefix = "End of War"
+        eow_note = "*Format: `Actual→Projected [Days in War]` for late joiners.*\n\n"
+
     pinged = False
 
     def post_eow_section(title, lines, color, actionable=True):
@@ -870,20 +902,64 @@ def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
         if should_ping:
             pinged = True
 
-    post_eow_section(f"🔴 End of War — KICK ({len(kicks)})", kicks, 0xE74C3C)
-    post_eow_section(f"🟡 End of War — DEMOTE TO MEMBER ({len(demotes)})", demotes, 0xF1C40F)
-    post_eow_section(f"🟠 End of War — HOLD ({len(holds)})", holds, 0xE67E22)
-    post_eow_section(f"⬆️ End of War — PROMOTE TO ELDER ({len(promotes)})", promotes, 0x3498DB)
-    post_eow_section(f"🟢 End of War — SAFE ({len(safes)})", safes, 0x2ECC71, actionable=False)
+    post_eow_section(f"🔴 {eow_prefix} — KICK ({len(kicks)})", kicks, 0xE74C3C)
+    post_eow_section(f"🟡 {eow_prefix} — DEMOTE TO MEMBER ({len(demotes)})", demotes, 0xF1C40F)
+    post_eow_section(f"🟠 {eow_prefix} — HOLD ({len(holds)})", holds, 0xE67E22)
+    post_eow_section(f"⬆️ {eow_prefix} — PROMOTE TO ELDER ({len(promotes)})", promotes, 0x3498DB)
+    post_eow_section(f"🟢 {eow_prefix} — SAFE ({len(safes)})", safes, 0x2ECC71, actionable=False)
     if skipped_late:
         send_discord_embed(
-            f"⏳ End of War — Joined Too Late to Grade ({len(skipped_late)})",
+            f"⏳ {eow_prefix} — Joined Too Late to Grade ({len(skipped_late)})",
             "\n".join(skipped_late),
             0x95A5A6,
             ping=False,
         )
 
     return war_end
+
+
+def post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot=None):
+    rlog = api_get(f"/clans/{encode_tag(CLAN_TAG)}/riverracelog?limit=1")
+    if not rlog or not rlog.get("items"):
+        print("[EOW DEFERRED] Failed to fetch riverracelog; will retry on next run.")
+        return None
+
+    latest = rlog["items"][0]
+    war_end = parse_cr_time(latest.get("createdDate"))
+    if not war_end or (now_ist - war_end) > timedelta(hours=EOW_FRESHNESS_HOURS):
+        print(f"[EOW DEFERRED] Stale riverracelog (createdDate={latest.get('createdDate')}); will retry on next run.")
+        return None
+
+    participants = {}
+    for standing in latest.get("standings", []):
+        if standing["clan"]["tag"] == CLAN_TAG:
+            for p in standing["clan"].get("participants", []):
+                participants[p["tag"]] = p
+            break
+
+    return _grade_and_post_eow(
+        roster,
+        socials,
+        participants,
+        war_end,
+        total_war_days=4,
+        deck_snapshot=deck_snapshot,
+    )
+
+
+def post_early_end_of_war_verdict(roster, socials, race_resp, clan_finish_time, deck_snapshot=None):
+    participants = {
+        p["tag"]: p
+        for p in race_resp.get("clan", {}).get("participants", [])
+    }
+    return _grade_and_post_eow(
+        roster,
+        socials,
+        participants,
+        clan_finish_time,
+        total_war_days=3,
+        deck_snapshot=deck_snapshot,
+    )
 
 
 # ==========================================
@@ -999,14 +1075,17 @@ def handle_social_update(player_tag, social_status):
     name = info["name"]
     role = info.get("role", "member")
     actual_score = info.get("last_war_actual_score")
+    last_war_days = info.get("last_war_days", 4)
+    elder_thresh = round(ELDER_SAFE_THRESHOLD * last_war_days / 4)
 
-    if in_social and role == "member" and actual_score is not None and actual_score >= ELDER_SAFE_THRESHOLD:
+    if in_social and role == "member" and actual_score is not None and actual_score >= elder_thresh:
+        day_note = " (3-day finish)" if last_war_days == 3 else ""
         send_discord_embed(
             title=f"⬆️ Eligible for Elder Promotion: {name}",
             description=(
                 f"**Player:** {name} ({format_role(role)}) {badge} (`{tag}`)\n"
                 f"**Social Status Updated:** **{normalized_status}** {badge}\n"
-                f"**Last Completed War (Actual):** **{actual_score} medals** (≥ {ELDER_SAFE_THRESHOLD})\n"
+                f"**Last Completed War (Actual):** **{actual_score} medals** (≥ {elder_thresh}{day_note})\n"
                 f"👉 Meets all requirements — ready to promote to **Elder** in-game!"
             ),
             color=0x3498DB,
@@ -1134,6 +1213,8 @@ def main():
     # 1. Check for War Day / War End Transition
     curr_period_idx = race_resp.get("periodIndex")
     curr_period_type = race_resp.get("periodType")
+    curr_section_idx = race_resp.get("sectionIndex")
+    clan_finish_time = parse_cr_time(race_resp.get("clan", {}).get("finishTime"))
     curr_war_day_num = (
         max(1, min(4, (curr_period_idx % 7) - 2))
         if (curr_period_type in WAR_PERIOD_TYPES and curr_period_idx is not None)
@@ -1147,26 +1228,38 @@ def main():
     if prev_period_idx is not None and curr_period_idx != prev_period_idx:
         if prev_period_type in WAR_PERIOD_TYPES:
             war_day_num = max(1, min(4, (prev_period_idx % 7) - 2))
-            post_daily_eod_report(war_day_num, roster, war_state, socials)
+            early_finished_this_war = (
+                war_state.get("early_eow_section") is not None
+                and war_state.get("early_eow_section") == war_state.get("section_index")
+                and prev_period_type == "warDay"
+            )
+            if not early_finished_this_war:
+                post_daily_eod_report(war_day_num, roster, war_state, socials)
+
             if curr_period_type == "training":
-                deck_snapshot = {
-                    tag: {
-                        "decks_used": info.get("decks_used", 0),
-                        "training_decks": info.get("training_decks"),
+                if not early_finished_this_war:
+                    deck_snapshot = {
+                        tag: {
+                            "decks_used": info.get("decks_used", 0),
+                            "training_decks": info.get("training_decks"),
+                        }
+                        for tag, info in roster.items()
                     }
-                    for tag, info in roster.items()
-                }
-                eow_attempted_this_run = True
-                eow_war_end = post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot)
-                if eow_war_end:
-                    war_state.pop("pending_eow", None)
-                    purge_departed_before(departed, eow_war_end)
-                else:
-                    war_state["pending_eow"] = {
-                        "created_at": now_ist_str,
-                        "deck_snapshot": deck_snapshot,
-                        "delay_alerted": False,
-                    }
+                    eow_attempted_this_run = True
+                    eow_war_end = post_end_of_war_verdict(roster, socials, now_ist, deck_snapshot)
+                    if eow_war_end:
+                        war_state.pop("pending_eow", None)
+                        purge_departed_before(departed, eow_war_end)
+                    else:
+                        war_state["pending_eow"] = {
+                            "created_at": now_ist_str,
+                            "deck_snapshot": deck_snapshot,
+                            "delay_alerted": False,
+                        }
+                    send_clan_setting_reminder(
+                        "Open",
+                        "War Week has ended! Switch clan settings back to **Open** for Training Day recruiting.",
+                    )
                 for store in (roster, departed):
                     for tag in store:
                         store[tag]["decks_prev_days"] = 0
@@ -1181,6 +1274,7 @@ def main():
                         )
         elif curr_period_type in WAR_PERIOD_TYPES:
             # Transition from Training -> Battle Day 1
+            war_state.pop("early_eow_section", None)
             if war_state.pop("pending_eow", None):
                 send_discord_embed(
                     title="⚠️ End-of-War Verdict Expired",
@@ -1196,6 +1290,10 @@ def main():
                 for tag in store:
                     store[tag]["decks_prev_days"] = 0
                     store[tag]["decks_used"] = 0
+            send_clan_setting_reminder(
+                "Invite Only",
+                "Battle Day 1 has started! Switch clan settings to **Invite Only** to block opponent minis and mid-day hoppers.",
+            )
 
         for store in (roster, departed):
             for tag in store:
@@ -1239,8 +1337,35 @@ def main():
 
     war_state["period_index"] = curr_period_idx
     war_state["period_type"] = curr_period_type
+    war_state["section_index"] = curr_section_idx
     if "day_start_ist" not in war_state:
         war_state["day_start_ist"] = now_ist_str
+
+    # 1c. Automatic Day 3 Early Finish (normal warDay only — never colosseum)
+    if (
+        curr_period_type == "warDay"
+        and curr_war_day_num == 4
+        and clan_finish_time is not None
+        and curr_section_idx is not None
+        and war_state.get("early_eow_section") != curr_section_idx
+    ):
+        deck_snapshot = {
+            tag: {
+                "decks_used": info.get("decks_used", 0),
+                "training_decks": info.get("training_decks"),
+            }
+            for tag, info in roster.items()
+        }
+        early_war_end = post_early_end_of_war_verdict(
+            roster, socials, race_resp, clan_finish_time, deck_snapshot
+        )
+        war_state["early_eow_section"] = curr_section_idx
+        war_state.pop("pending_eow", None)
+        purge_departed_before(departed, early_war_end)
+        send_clan_setting_reminder(
+            "Open",
+            "The clan crossed **10,000 Movement Points** on Battle Day 3! Switch clan settings back to **Open** for recruiting (Day 4 is now treated as Training Day 0).",
+        )
 
     # Refresh 10-week + current-week opponent spy cache before vetting newcomers
     refresh_opponent_spy_cache(race_resp, war_state)
@@ -1433,6 +1558,7 @@ def main():
                     "status": init_status,
                     "last_war_score": init_score,
                     "last_war_actual_score": init_score if first_run else None,
+                    "last_war_days": 4,
                 }
                 if not first_run:
                     try_vet_member(tag, m)
@@ -1480,7 +1606,15 @@ def main():
     # 6. On-demand live mid-day war report (/report)
     if args.report:
         if curr_period_type in WAR_PERIOD_TYPES:
-            post_daily_eod_report(curr_war_day_num, roster, war_state, socials, is_live=True)
+            if is_early_war_finished(war_state):
+                send_discord_embed(
+                    title="🏁 War Already Finished (Day 3 Early Finish)",
+                    description="The clan crossed **10,000 Movement Points** on Battle Day 3 and EOW grading has already been completed. Day 4 is treated as a rest/training day.",
+                    color=0x2ECC71,
+                    ping=False,
+                )
+            else:
+                post_daily_eod_report(curr_war_day_num, roster, war_state, socials, is_live=True)
         else:
             send_discord_embed(
                 title="ℹ️ Live War Report Unavailable",
