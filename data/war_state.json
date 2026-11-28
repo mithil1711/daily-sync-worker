@@ -1845,10 +1845,6 @@
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
-      "#YJ2UYQRP": {
-        "clan_tag": "#Y8UJL0",
-        "clan_name": "B@n@n@ Roy@Le"
-      },
       "#VYY80GVL": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
@@ -1901,6 +1897,10 @@
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
       },
+      "#YJ2UYQRP": {
+        "clan_tag": "#Y8UJL0",
+        "clan_name": "B@n@n@ Roy@Le"
+      },
       "#UCJG9VGLY": {
         "clan_tag": "#Y8UJL0",
         "clan_name": "B@n@n@ Roy@Le"
@@ -1949,10 +1949,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#28UURLQLC": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#2CRGQGRYG": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -1969,10 +1965,6 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
-      "#29LPGLJ2J": {
-        "clan_tag": "#YJJJCJP8",
-        "clan_name": "CHICKEN DINNER!"
-      },
       "#2029PCUYPQ": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -1982,6 +1974,10 @@
         "clan_name": "CHICKEN DINNER!"
       },
       "#20Q0CPGYPL": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
+      "#28UURLQLC": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
@@ -2025,6 +2021,10 @@
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
       },
+      "#29LPGLJ2J": {
+        "clan_tag": "#YJJJCJP8",
+        "clan_name": "CHICKEN DINNER!"
+      },
       "#G9JUC9GUY": {
         "clan_tag": "#YJJJCJP8",
         "clan_name": "CHICKEN DINNER!"
@@ -2057,17 +2057,17 @@
     {
       "tag": "#QVRR8VR2",
       "name": "Indian Warriors",
-      "points": 8450
+      "points": 9050
     },
     {
       "tag": "#Y8UJL0",
       "name": "B@n@n@ Roy@Le",
-      "points": 2900
+      "points": 3400
     },
     {
       "tag": "#YJJJCJP8",
       "name": "CHICKEN DINNER!",
-      "points": 3500
+      "points": 4400
     },
     {
       "tag": "#R2L9VL0C",
