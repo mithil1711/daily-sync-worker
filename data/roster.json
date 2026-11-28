@@ -207,8 +207,8 @@
     "name": "\uc2e4\ubc84\ubc1c\ub80c\ud0c0\uc778",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T10:11:18+05:30",
-    "login_count": 2,
+    "last_seen": "2026-11-28T10:30:34+05:30",
+    "login_count": 3,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Orange",
@@ -218,7 +218,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 1,
-    "last_login_counted_at": "2026-11-28T10:11:18+05:30"
+    "last_login_counted_at": "2026-11-28T10:30:34+05:30"
   },
   "#9CQGY809P": {
     "name": "John Wick",
@@ -379,12 +379,12 @@
     "joined_at": "2026-11-25T18:08:10+05:30",
     "last_seen": "2026-11-28T10:14:22+05:30",
     "login_count": 1,
-    "decks_today": 0,
-    "decks_used": 4,
+    "decks_today": 1,
+    "decks_used": 5,
     "status": "Green",
     "last_war_score": 2100,
     "decks_prev_days": 4,
-    "fame": 500,
+    "fame": 700,
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 1,
@@ -428,8 +428,8 @@
     "name": "sujal",
     "role": "member",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T09:10:09+05:30",
-    "login_count": 6,
+    "last_seen": "2026-11-28T10:17:24+05:30",
+    "login_count": 7,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Orange",
@@ -439,7 +439,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 10,
-    "last_login_counted_at": "2026-11-28T09:10:09+05:30"
+    "last_login_counted_at": "2026-11-28T10:17:24+05:30"
   },
   "#LQCGU8QLJ": {
     "name": "gxp",
@@ -479,8 +479,8 @@
     "name": "ALPHA",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-28T08:26:14+05:30",
-    "login_count": 3,
+    "last_seen": "2026-11-28T10:30:27+05:30",
+    "login_count": 4,
     "decks_today": 4,
     "decks_used": 8,
     "status": "Green",
@@ -490,7 +490,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 3,
-    "last_login_counted_at": "2026-11-28T08:26:14+05:30"
+    "last_login_counted_at": "2026-11-28T10:30:27+05:30"
   },
   "#QQUCLPGRC": {
     "name": "StealthBlack",
@@ -649,8 +649,8 @@
     "name": "John F rubun",
     "role": "elder",
     "joined_at": "2026-11-25T18:08:10+05:30",
-    "last_seen": "2026-11-27T06:19:33+05:30",
-    "login_count": 0,
+    "last_seen": "2026-11-28T10:26:15+05:30",
+    "login_count": 1,
     "decks_today": 0,
     "decks_used": 4,
     "status": "Green",
@@ -660,7 +660,7 @@
     "boat_attacks": 0,
     "prev_day_decks": 4,
     "prev_day_logins": 2,
-    "last_login_counted_at": null
+    "last_login_counted_at": "2026-11-28T10:26:15+05:30"
   },
   "#20CUP0YQPQ": {
     "name": "midladdarmaniac",
